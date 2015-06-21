@@ -4,7 +4,7 @@
 
 **Plugable** and versatile **HTTP proxy** for **traffic forward and replay**. Built for [node.js](http://nodejs.org).
 
-`rocky` essentially [acts](how-does-it-works) as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
+`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
 It was mainly designed to assist during a backend migration strategy, using it as your frontend server or integrated in your existent `node.js` backend.
 
 `rocky` can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
