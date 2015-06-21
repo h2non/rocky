@@ -9,8 +9,7 @@ It was mainly designed to assist during a backend migration strategy, using it a
 
 `rocky` can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
 
-It provides built-in features such as connect-style middleware layer, full-featured path routing, request interceptor, standalone HTTP/S server or via connect/express plugin support.
-
+It provides built-in features such as connect-style middleware layer, full-featured path routing, request interceptor, standalone HTTP/S server and connect/express plugin support.
 
 **Still beta**
 
