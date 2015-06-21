@@ -43,7 +43,53 @@ To do
 ## Command-line
 
 ```bash
+Start rocky HTTP proxy server
+Usage: rocky [options]
 
+Options:
+  --help, -h     Show help                                             [boolean]
+  --config, -c   File path to TOML config file                        [required]
+  --port, -p     rocky HTTP server port
+  --forward, -f  Default forward server URL
+  --replay, -r   Define a replay server URL
+  --debug, -d    Enable debug mode                                     [boolean]
+  -v, --version  Show version number                                   [boolean]
+
+Examples:
+  rocky -c rocky.toml \
+  -f http://127.0.0.1:9000 \
+  -r http://127.0.0.1
+```
+
+#### Examples
+
+```
+rocky --config rocky.toml
+```
+
+### Configuration file
+
+**Supported params**
+
+- Default params (top level)
+  - **forward** `string` - Default forward URL
+  - **replay** `array<string>` - Optional replay server URLs
+  - **debug** `boolean` - Enable debug mode. Default `false`
+- Routes defined by path (nested)
+  - **method** `string` - HTTP method for the route. Default to `all`
+  - **forward** `string` - Default forward URL
+  - **replay** `array<string>` - Optional replay server URLs
+
+```toml
+forward = "http://google.com/"
+replay = ["http://duckduckgo.com/"]
+
+[/test]
+method = "all"
+
+[/*]
+method = "GET"
+replay = ["http://local.server:3001"]
 ```
 
 ## Programmatic API

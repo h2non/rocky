@@ -6,7 +6,7 @@ var toml = require('toml')
 var yargs = require('yargs')
 var argv = yargs
   .usage('Start rocky HTTP proxy server\nUsage: $0 [options]')
-  .example('$0 -c config.toml -f http://127.0.0.1:9000 -r http://127.0.0.1', '')
+  .example('$0 -c rocky.toml \\\n -f http://127.0.0.1:9000 \\ \n -r http://127.0.0.1', '')
   .help('help').alias('help', 'h')
   .version(require('../package.json').version)
   .alias('v', 'version')
@@ -35,10 +35,6 @@ var argv = yargs
     }
   })
   .argv
-
-if (!argv.config) {
-  return error('missing required argument: --config')
-}
 
 if (!fs.existsSync(argv.config)) {
   return error('invalid config path:', argv.config)
