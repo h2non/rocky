@@ -1,0 +1,36 @@
+{
+  "name": "rocky",
+  "version": "0.1.0",
+  "description": "HTTP migration microframework",
+  "repository": "h2non/rocky",
+  "author": "Tomas Aparicio",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --timeout 5000 --reporter spec --ui tdd"
+  },
+  "keywords": [
+    "http",
+    "proxy",
+    "http-proxy",
+    "reverse",
+    "migration",
+    "migrate",
+    "replay",
+    "forward",
+    "traffic"
+  ],
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "dependencies": {
+    "http-proxy": "^1.11.1",
+    "lodash": "^3.9.3",
+    "router": "^1.1.1"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "connect": "^3.4.0",
+    "mocha": "^2.2.5",
+    "nock": "^2.6.0"
+  }
+}
