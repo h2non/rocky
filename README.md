@@ -277,7 +277,15 @@ Only present if `listen()` was called starting the built-in server.
 #### Route#forward(url)
 Alias: `target`
 
+Overwrite forward server for the current route.
+
 #### Route#replay(...url)
+
+Overwrite replay servers for the current route.
+
+#### Route#options(options)
+
+Overwrite default proxy [options](#configuration) for the current route.
 
 #### Route#on(event, ...handler)
 
@@ -312,7 +320,7 @@ var config = {
   }
 }
 
-rocky.start(config)
+rocky.create(config)
 ```
 
 ### rocky.httpProxy
