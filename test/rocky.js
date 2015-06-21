@@ -21,7 +21,9 @@ suite('rocky', function () {
   afterEach(function (done) {
     if (replay) replay.close()
     if (server) server.close()
-    if (proxy) proxy.server.close()
+    if (proxy && proxy.server) {
+      proxy.server.close()
+    }
     setTimeout(done, 10)
   })
 
@@ -142,18 +144,16 @@ suite('rocky', function () {
   })
 
   test('connect middleware', function (done) {
-    proxy = rocky()
-      .forward(targetUrl)
-      .replay(replayUrl)
-
-    proxy.post('/test')
-
-    replay = createReplayServer(assertReplay)
+    proxy = rocky().forward(targetUrl)
     server = createTestServer(assert)
+    proxy.get('/test')
+
+    var app = connect()
+      .use(proxy.middleware())
+      .listen(ports.proxy)
 
     supertest(proxyUrl)
-      .post('/test')
-      .send({ hello: 'world' })
+      .get('/test')
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
@@ -162,14 +162,6 @@ suite('rocky', function () {
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
-      expect(req.body).to.match(/hello/)
-    }
-
-    var asserts = 0
-    function assertReplay(req, res) {
-      expect(req.url).to.be.equal('/test')
-      expect(res.statusCode).to.be.equal(204)
-      expect(req.body).to.match(/hello/)
     }
   })
 
