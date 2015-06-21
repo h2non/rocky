@@ -121,10 +121,10 @@ Useful to incercept the status or modify the options on-the-fly
 Supported events:
 
 - **start** `opts, req, res` - Fired when the request forward process starts
-- **forward:error** `err, opts, req, res` - Fired when the forwarded request fails
-- **forward:success** `opts, req, res` - Fired when the forwarded request success
-- **replay:error** `err, opts, req, res` - Fired when the replayed request fails
-- **replay:success** `opts, req, res` - Fired when the replayed request success
+- **forward:error** `err, req, res` - Fired when the forwarded request fails
+- **forward:success** `req, res` - Fired when the forwarded request success
+- **replay:error** `err, req, res` - Fired when the replayed request fails
+- **replay:success** `req, res` - Fired when the replayed request success
 
 ## License
 
