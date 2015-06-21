@@ -2,9 +2,10 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-Plugable and versatile HTTP proxy for traffic forward and replay. Built for [node.js](http://nodejs.org).
+**Plugable** and versatile **HTTP proxy** for **traffic forward and replay**. Built for [node.js](http://nodejs.org).
 
-`rocky` essentially acts as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends. It could be used as a part of your backend migration strategy, using it as your frontend server or integrated in your current `node.js` backend.
+`rocky` essentially [acts](how-does-it-works) as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
+It was mainly designed to assist during a backend migration strategy, using it as your frontend server or integrated in your existent `node.js` backend.
 
 `rocky` can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
 
@@ -39,22 +40,24 @@ npm install -g rocky
 ## How does it works?
 
 ```
-        |==============|
-        | The Internet |
-        |==============|
-              ||||
-        |==============|
-        |     Rocky    |
-        |--------------|
-        |  HTTP Router |
-        |==============|
-           ||      |
-      (1) //        \ (2)
-         //          \
-        //            \
-  /----------\   /----------\    /----------\
-  |  target  |   | replay 1 | -> | replay 2 | (*N)
-  \----------/   \----------/    \----------/
+         |==============|
+         | The Internet |
+         |==============|
+               ||||
+         |==============|
+         |  HTTP server |
+         |--------------|
+         |     Rocky    |
+         |~~~~~~~~~~~~~~|
+         |  HTTP Router |
+         |==============|
+            ||      |
+  (duplex) //        \ (one-way)
+          //          \
+         //            \
+   /----------\   /----------\    /----------\
+   |  target  |   | replay 1 | -> | replay 2 | (*N)
+   \----------/   \----------/    \----------/
 ```
 
 ## Command-line
