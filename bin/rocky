@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+var toml = require('toml')
+
+var yargs = require('yargs')
+var argv = yargs
+  .usage('Start rocky HTTP proxy server\nUsage: $0 [options]')
+  .example('$0 -c config.toml -f http://127.0.0.1:9000 -r http://127.0.0.1', '')
+  .help('help').alias('help', 'h')
+  .version(require('../package.json').version)
+  .alias('v', 'version')
+  .options({
+    config: {
+      alias: 'c',
+      description: 'File path to TOML config file',
+      required: true
+    },
+    port: {
+      alias: 'p',
+      description: 'rocky HTTP server port',
+    },
+    forward: {
+      alias: 'f',
+      description: 'Default forward server URL'
+    },
+    replay: {
+      alias: 'r',
+      description: 'Define a replay server URL'
+    },
+    debug: {
+      alias: 'd',
+      description: 'Enable debug mode',
+      type: 'boolean'
+    }
+  })
+  .argv
+
+if (!argv.config) {
+  return error('missing required argument: --config')
+}
+
+if (!fs.existsSync(argv.config)) {
+  return error('invalid config path:', argv.config)
+}
+
+var config = toml.parse(fs.readFileSync(argv.config))
+
+if (argv.debug || config.debug) {
+  process.env.DEBUG = 'rocky:*'
+}
+
+var proxy = require('..')()
+
+var forward = argv.forward || config.forward
+if (forward) {
+  proxy.forward(forward)
+}
+
+var replays = argv.replay || config.replay
+if (typeof replays === 'string') {
+  replays = [ replays ]
+}
+if (replays) {
+  replays.forEach(function (url) {
+    proxy.replay(url)
+  })
+}
+
+var primaryKeys = ['forward', 'replay', 'debug']
+var routes = Object.keys(config).filter(function (key) {
+  return !~primaryKeys.indexOf(key)
+})
+
+routes.forEach(function (key) {
+  var route = config[key]
+  var method = (route.method || 'all').toLowerCase()
+  var router = proxy.route(key, method)
+
+  if (route.forward) {
+    router.forward(route.forward)
+  }
+
+  var replays = route.replay
+  if (!replays) {
+    return
+  }
+  if (typeof replays === 'string') {
+    replays = [ replays ]
+  }
+  replays.forEach(function (url) {
+    router.replay(url)
+  })
+})
+
+var port = argv.port || config.port || process.env.PORT || 3000
+proxy.listen(+port)
+
+console.log('rocky server listening on port:', port)
+
+function error(msg) {
+  console.error.apply(console, arguments)
+  process.exitCode = 1
+}

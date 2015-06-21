@@ -21,14 +21,14 @@ migrate.get('/users/:id')
 app.use(migrate.middleware())
 app.listen(3000)
 
-// target server
+// Target server
 connect()
   .use(function (res, res) {
     res.end('Hello World!')
   })
   .listen(3001)
 
-// replay server
+// Replay server
 connect()
   .use(function (res, res) {
     console.log('Not found')

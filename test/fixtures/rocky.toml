@@ -1,0 +1,9 @@
+forward = "http://httpbin.org/"
+replay = ["http://google.com/"]
+
+[/test]
+method = "all"
+
+[/*]
+method = "all"
+replay = ["http://duckduckgo.com"]

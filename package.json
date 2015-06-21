@@ -19,13 +19,19 @@
     "forward",
     "traffic"
   ],
+  "bin": {
+    "rocky": "./bin/rocky"
+  },
   "engines": {
     "node": ">= 0.10"
   },
   "dependencies": {
+    "debug": "^2.2.0",
     "http-proxy": "^1.11.1",
     "lodash": "^3.9.3",
-    "router": "^1.1.1"
+    "router": "^1.1.1",
+    "toml": "^2.2.3",
+    "yargs": "^3.12.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",

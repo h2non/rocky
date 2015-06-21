@@ -4,11 +4,11 @@
 
 Plugable HTTP proxy and migration library for [node.js](http://nodejs.org).
 
-`rocky` essentially acts as a reverse HTTP proxy forwaring the traffic to one or multiple backends with optional traffic replay.
+`rocky` essentially acts as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
 
 It provides an elegant and fluent programmatic API with built-in features such as connect-style middleware layer, full-featured routing, request interceptor, traffic replay and works perfectly as standalone HTTP/S server or via connect/express plugin.
 
-**Work in progress**
+**Note**: still beta
 
 ## Features
 
@@ -40,6 +40,12 @@ npm install -g rocky
 To do
 ```
 
+## Command-line
+
+```bash
+
+```
+
 ## Programmatic API
 
 ### rocky([ options ])
@@ -48,6 +54,7 @@ Creates a new rocky instance with the given options.
 You can pass any of the allowed params
 
 #### rocky#forward(url)
+Alias: `target`
 
 Define a default target URL to forward the request
 
@@ -114,6 +121,7 @@ Only present if `listen()` was called starting the built-in server.
 ### Route(path)
 
 #### Route#forward(url)
+Alias: `target`
 
 #### Route#replay(...url)
 

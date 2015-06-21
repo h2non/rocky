@@ -6,6 +6,7 @@ var migrate = rocky()
 migrate
   .forward('http://localhost:3001')
 
+// Configure rocky
 migrate.get('/users/:id')
   .on('start', function (opts) {
     console.log('Start:', opts)
