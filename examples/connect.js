@@ -37,6 +37,7 @@ connect()
   })
   .listen(3002)
 
+// Test request
 http.get('http://localhost:3000/users/pepe', function (res) {
   console.log('Status:', res.statusCode)
 
