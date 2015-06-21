@@ -1,4 +1,5 @@
 const http = require('http')
+const connect = require('connect')
 const supertest = require('supertest')
 const expect = require('chai').expect
 const rocky = require('../')
@@ -107,11 +108,43 @@ suite('rocky', function () {
     }
   })
 
-  test('forward and replay payload data', function (done) {
+  test('forward and replay with payload', function (done) {
     proxy = rocky()
       .forward(targetUrl)
       .replay(replayUrl)
       .listen(ports.proxy)
+
+    proxy.post('/test')
+
+    replay = createReplayServer(assertReplay)
+    server = createTestServer(assert)
+
+    supertest(proxyUrl)
+      .post('/test')
+      .send({ hello: 'world' })
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(req.body).to.match(/hello/)
+    }
+
+    var asserts = 0
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
+      expect(req.body).to.match(/hello/)
+    }
+  })
+
+  test('connect middleware', function (done) {
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay(replayUrl)
 
     proxy.post('/test')
 

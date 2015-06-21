@@ -1,8 +1,11 @@
-forward = "http://httpbin.org/"
-replay = ["http://google.com/"]
+forward = "http://httpbin.org"
+replay = ["http://google.com"]
+hostRewrite = true
+xfwd = true
 
 [/test]
 method = "all"
+forward = "http://requestb.in"
 
 [/*]
 method = "all"

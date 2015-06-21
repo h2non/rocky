@@ -2,23 +2,25 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-Plugable HTTP proxy and migration library for [node.js](http://nodejs.org).
+Plugable and versatile HTTP proxy for traffic forward and replay. Built for [node.js](http://nodejs.org).
 
-`rocky` essentially acts as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
+`rocky` essentially acts as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends. It could be used as a part of your backend migration strategy, using it as your frontend server or integrated in your current `node.js` backend.
 
-It provides an elegant and fluent programmatic API with built-in features such as connect-style middleware layer, full-featured routing, request interceptor, traffic replay and works perfectly as standalone HTTP/S server or via connect/express plugin.
+`rocky` can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
 
-**Note**: still beta
+It provides built-in features such as connect-style middleware layer, full-featured path routing, request interceptor, standalone HTTP/S server or via connect/express plugin support.
+
+**Still beta**
 
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends
-- Works as standalone HTTP/S server
-- Or integrated with connect/express via middleware
-- Path based forwarding and replay
+- Can run as standalone HTTP/S server
+- Compatible with connect/express via middleware
 - Full-featured router (express-like)
 - Routing support based on regexp and wildcards
+- Route specific traffic forward and replay
 - Built-in middleware layer
 - HTTP traffic interceptors via events
 - Fluent and elegant API
@@ -34,10 +36,25 @@ For command-line interface usage, install it as global package:
 npm install -g rocky
 ```
 
-## Usage
+## How does it works?
 
-```js
-To do
+```
+        |==============|
+        | The Internet |
+        |==============|
+              ||||
+        |==============|
+        |     Rocky    |
+        |--------------|
+        |  HTTP Router |
+        |==============|
+           ||      |
+      (1) //        \ (2)
+         //          \
+        //            \
+  /----------\   /----------\    /----------\
+  |  target  |   | replay 1 | -> | replay 2 | (*N)
+  \----------/   \----------/    \----------/
 ```
 
 ## Command-line
@@ -47,13 +64,16 @@ Start rocky HTTP proxy server
 Usage: rocky [options]
 
 Options:
-  --help, -h     Show help                                             [boolean]
-  --config, -c   File path to TOML config file                        [required]
+  --help, -h     Show help                                     [boolean]
+  --config, -c   File path to TOML config file                 [required]
   --port, -p     rocky HTTP server port
   --forward, -f  Default forward server URL
   --replay, -r   Define a replay server URL
-  --debug, -d    Enable debug mode                                     [boolean]
-  -v, --version  Show version number                                   [boolean]
+  --key, -k      Path to SSL key file
+  --cert, -e     Path to SSL certificate file
+  --secure, -s   Enable SSL certification validation
+  --debug, -d    Enable debug mode                             [boolean]
+  -v, --version  Show version number                           [boolean]
 
 Examples:
   rocky -c rocky.toml \
@@ -64,10 +84,10 @@ Examples:
 #### Examples
 
 ```
-rocky --config rocky.toml
+rocky --config rocky.toml --port 8080 --debug
 ```
 
-### Configuration file
+### Configuration
 
 **Supported params**
 
@@ -75,29 +95,104 @@ rocky --config rocky.toml
   - **forward** `string` - Default forward URL
   - **replay** `array<string>` - Optional replay server URLs
   - **debug** `boolean` - Enable debug mode. Default `false`
+  - **secure** `boolen` - Enable SSL certificate validation. Default to `false`
+  - **port** `number` - TCP port to listen. Default to `3000`
+  - **xfwd** `boolean` - Enable/disable x-forward headers
+  - **toProxy** `string` - Passes the absolute URL as the path (useful for proxying to proxies)
+  - **forwardHost** `boolean` - Always forward the target hostname as `Host` header
+  - **hostRewrite** `boolen` rewrites the location hostname on (301/302/307/308) redirects
+- SSL settings
+  - **cert** `string` - Path to SSL certificate file
+  - **key** `string` - Path to SSL key file
 - Routes defined by path (nested)
   - **method** `string` - HTTP method for the route. Default to `all`
   - **forward** `string` - Default forward URL
   - **replay** `array<string>` - Optional replay server URLs
 
+The configuration file must be in [TOML](https://github.com/toml-lang/toml) format
 ```toml
-forward = "http://google.com/"
-replay = ["http://duckduckgo.com/"]
+port = 8080
+forward = "http://google.com"
+replay = ["http://duckduckgo.com"]
 
-[/test]
+[ssl]
+cert = "server.crt"
+key  = "server.key"
+
+[/users/:id]
 method = "all"
+forward = "http://new.server"
+
+[/oauth]
+method = "all"
+forward = "http://auth.server"
 
 [/*]
 method = "GET"
-replay = ["http://local.server:3001"]
+forward = "http://old.server"
 ```
 
 ## Programmatic API
 
+### Usage
+
+Example using [Express](http://expressjs.com/)
+```js
+var rocky = require('rocky')
+var express = require('express')
+
+var proxy = rocky()
+
+// Default proxy config
+proxy
+  .forward('http://new.server')
+  .replay('http://old.server')
+  .replay('http://log.server')
+  .options({ forwardHost: true })
+
+// Configure the routes to forward/replay
+proxy
+  .get('/users/:id')
+
+// Set up the express server
+var app = express()
+
+// Plug in the rocky middleware
+app.use(proxy.middleware())
+
+// Old route (won't be called since it will be intercepted by rocky)
+app.get('/users/:id', function () { /* ... */ })
+```
+
+Example using the built-in HTTP server
+```js
+var rocky = require('rocky')
+
+var proxy = rocky()
+
+// Default proxy config
+proxy
+  .forward('http://new.server')
+  .replay('http://old.server')
+  .options({ forwardHost: true })
+
+// Configure the routes to forward/replay
+proxy
+  .get('/users/:id')
+proxy
+  .get('/search')
+
+proxy.listen(3000)
+```
+
+For more usage case, take a look to the [examples](/examples)
+
 ### rocky([ options ])
 
 Creates a new rocky instance with the given options.
-You can pass any of the allowed params
+
+You can pass any of the allowed params at [configuration](#configuration) level,
+or take a look to the http-proxy [supported options](https://github.com/nodejitsu/node-http-proxy#options)
 
 #### rocky#forward(url)
 Alias: `target`
@@ -108,6 +203,10 @@ Define a default target URL to forward the request
 
 Add a server URL to replay the incoming request
 
+#### rocky#options(options)
+
+Define/overwrite rocky server options
+
 #### rocky#use([ path ], ...middleware)
 
 Use the given middleware function for all http methods on the given path, defaulting to the root path.
@@ -117,6 +216,7 @@ Use the given middleware function for all http methods on the given path, defaul
 Subscribe to a proxy event. See support events [here](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events)
 
 #### rocky#middleware()
+Return: `Function(req, res, next)`
 
 Return a connect/express compatible middleware
 
@@ -127,6 +227,11 @@ Raw HTTP request/response handler.
 #### rocky#listen(port)
 
 Starts a HTTP proxy server in the given port
+
+#### rocky#close([ callback ])
+
+Close the HTTP proxy server, if exists.
+A shortcut to `rocky.server.close(cb)`
 
 #### rocky#all(path)
 Return: `Route`
@@ -178,11 +283,42 @@ Useful to incercept the status or modify the options on-the-fly
 
 Supported events:
 
-- **start** `opts, req, res` - Fired when the request forward process starts
-- **forward:error** `err, req, res` - Fired when the forwarded request fails
-- **forward:success** `req, res` - Fired when the forwarded request success
-- **replay:error** `err, req, res` - Fired when the replayed request fails
-- **replay:success** `req, res` - Fired when the replayed request success
+- **request** `opts, req, res` - Fired when the request forward process starts
+- **error:forward** `err, req, res` - Fired when the forwarded request fails
+- **error:replay** `err, req, res` - Fired when the replayed request fails
+
+### rocky.create(config)
+
+Create a standalone `rocky` server with the given `config` options.
+See the [supported config fields](#configuration)
+
+```js
+var config = {
+  'forward': 'http://google.com',
+  '/search': {
+    method: 'GET',
+    forward: 'http://duckduckgo.com'
+    replay: ['http://bing.com', 'http://yahoo.com']
+  },
+  '/users/:id': {
+    method: 'all'
+  },
+  '/*': {
+    method: 'all',
+    forward: 'http://bing.com'
+  }
+}
+
+rocky.start(config)
+```
+
+### rocky.httpProxy
+
+Accessor for the [http-proxy](https://github.com/nodejitsu/node-http-proxy) API
+
+### rocky.VERSION
+
+Current rocky package semver
 
 ## License
 

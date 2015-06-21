@@ -8,11 +8,11 @@ migrate
 
 // Configure rocky
 migrate.get('/users/:id')
-  .on('start', function (opts) {
-    console.log('Start:', opts)
+  .on('request', function (opts) {
+    console.log('Request:', opts)
   })
   .on('error', function (err) {
-    console.log('Error:', err, opts)
+    console.log('Error:', err)
   })
 
 migrate.listen(3000)

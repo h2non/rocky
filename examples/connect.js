@@ -11,11 +11,11 @@ migrate
 migrate.get('/users/:id')
   .replay('http://localhost:3002')
   .replay('http://localhost:3002')
-  .on('start', function (opts) {
-    console.log('Start:', opts)
+  .on('request', function (opts) {
+    console.log('Request:', opts)
   })
   .on('error', function (err) {
-    console.log('Error:', err, opts)
+    console.log('Error:', err)
   })
 
 app.use(migrate.middleware())
@@ -23,14 +23,14 @@ app.listen(3000)
 
 // Target server
 connect()
-  .use(function (res, res) {
+  .use(function (req, res) {
     res.end('Hello World!')
   })
   .listen(3001)
 
 // Replay server
 connect()
-  .use(function (res, res) {
+  .use(function (req, res) {
     console.log('Not found')
     res.statusCode = 404
     res.end()

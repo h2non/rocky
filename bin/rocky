@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 
-var fs = require('fs')
-var toml = require('toml')
+var fs      = require('fs')
+var toml    = require('toml')
+var assign  = require('lodash').assign
+var version = require('../package.json').version
 
 var yargs = require('yargs')
 var argv = yargs
   .usage('Start rocky HTTP proxy server\nUsage: $0 [options]')
-  .example('$0 -c rocky.toml \\\n -f http://127.0.0.1:9000 \\ \n -r http://127.0.0.1', '')
-  .help('help').alias('help', 'h')
-  .version(require('../package.json').version)
+  .example('$0 -c rocky.toml \\\n -f http://127.0.0.1:9000 \\\n -r http://127.0.0.1', '')
+  .help('help')
+  .alias('help', 'h')
+  .version(version)
   .alias('v', 'version')
   .options({
     config: {
@@ -28,6 +31,19 @@ var argv = yargs
       alias: 'r',
       description: 'Define a replay server URL'
     },
+    key: {
+      alias: 'k',
+      description: 'Path to SSL key file'
+    },
+    cert: {
+      alias: 'e',
+      description: 'Path to SSL certificate file'
+    },
+    secure: {
+      alias: 's',
+      description: 'Enable SSL certification validation',
+      type: 'boolen'
+    },
     debug: {
       alias: 'd',
       description: 'Enable debug mode',
@@ -37,64 +53,25 @@ var argv = yargs
   .argv
 
 if (!fs.existsSync(argv.config)) {
-  return error('invalid config path:', argv.config)
+  console.error('invalid config path:', argv.config)
+  process.exitCode = 1
 }
 
 var config = toml.parse(fs.readFileSync(argv.config))
+var opts = assign({}, argv, config)
 
-if (argv.debug || config.debug) {
+if (opts.cert && opts.key) {
+  opts.ssl = {
+    cert: fs.readFileSync(opts.cert, 'utf8'),
+    key: fs.readFileSync(opts.key, 'utf8')
+  }
+}
+
+if (opts.debug) {
   process.env.DEBUG = 'rocky:*'
 }
 
-var proxy = require('..')()
+opts.port = +opts.port || process.env.PORT || 3000
+require('..').create(opts)
 
-var forward = argv.forward || config.forward
-if (forward) {
-  proxy.forward(forward)
-}
-
-var replays = argv.replay || config.replay
-if (typeof replays === 'string') {
-  replays = [ replays ]
-}
-if (replays) {
-  replays.forEach(function (url) {
-    proxy.replay(url)
-  })
-}
-
-var primaryKeys = ['forward', 'replay', 'debug']
-var routes = Object.keys(config).filter(function (key) {
-  return !~primaryKeys.indexOf(key)
-})
-
-routes.forEach(function (key) {
-  var route = config[key]
-  var method = (route.method || 'all').toLowerCase()
-  var router = proxy.route(key, method)
-
-  if (route.forward) {
-    router.forward(route.forward)
-  }
-
-  var replays = route.replay
-  if (!replays) {
-    return
-  }
-  if (typeof replays === 'string') {
-    replays = [ replays ]
-  }
-  replays.forEach(function (url) {
-    router.replay(url)
-  })
-})
-
-var port = argv.port || config.port || process.env.PORT || 3000
-proxy.listen(+port)
-
-console.log('rocky server listening on port:', port)
-
-function error(msg) {
-  console.error.apply(console, arguments)
-  process.exitCode = 1
-}
+console.log('rocky server listening on port:', opts.port)
