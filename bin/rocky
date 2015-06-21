@@ -55,6 +55,7 @@ var argv = yargs
 if (!fs.existsSync(argv.config)) {
   console.error('invalid config path:', argv.config)
   process.exitCode = 1
+  return
 }
 
 var config = toml.parse(fs.readFileSync(argv.config))
