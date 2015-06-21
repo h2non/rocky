@@ -1,6 +1,8 @@
-# rocky
+# rocky [![Build Status](https://api.travis-ci.org/h2non/rocky.svg?branch=master&style=flat)][travis] [![Code Climate](https://codeclimate.com/github/h2non/rocky/badges/gpa.svg)](https://codeclimate.com/github/h2non/rocky) [![NPM](https://img.shields.io/npm/v/rocky.svg)](https://www.npmjs.org/package/rocky) ![Downloads](https://img.shields.io/npm/dm/rocky.svg)
 
-Extensible and plugable HTTP migration library for [node.js](http://nodejs.org).
+<img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
+
+Plugable HTTP proxy and migration library for [node.js](http://nodejs.org).
 
 `rocky` essentially acts as a reverse HTTP proxy forwaring the traffic to one or multiple backends with optional traffic replay.
 
@@ -10,11 +12,13 @@ It provides an elegant and fluent programmatic API with built-in features such a
 
 ## Features
 
-- Full featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
+- Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends
 - Works as standalone HTTP/S server
 - Or integrated with connect/express via middleware
-- Full-featured path based routing (express based)
+- Path based forwarding and replay
+- Full-featured router (express-like)
+- Routing support based on regexp and wildcards
 - Built-in middleware layer
 - HTTP traffic interceptors via events
 - Fluent and elegant API
