@@ -5,11 +5,9 @@
 **Pluggable** and versatile **HTTP proxy** for **traffic forward and replay**. Built for [node.js](http://nodejs.org).
 
 `rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
-It was mainly designed to assist during a backend migration strategy, using it as your frontend server or integrated in your existent `node.js` backend.
+It can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
 
-`rocky` can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
-
-It provides built-in features such as connect-style middleware layer, full-featured path routing, request interceptor, standalone HTTP/S server and connect/express plugin support.
+`rocky` provides built-in features such as connect-style middleware layer, full-featured path routing, request interceptor, standalone HTTP/S server and connect/express plugin support.
 
 **Still beta**
 
@@ -26,16 +24,13 @@ It provides built-in features such as connect-style middleware layer, full-featu
 - HTTP traffic interceptors via events
 - Fluent and elegant API
 
-## Installation
+## Rationale
 
-```bash
-npm install rocky --save
-```
+Migrating systems if not a trivial thing, and even more complex if we're talking about production systems with high availability. Taking care about consistency and interface contract should be a promise.
 
-For command-line interface usage, install it as global package:
-```bash
-npm install -g rocky
-```
+That's the main reason why I've created `rocky`, was mainly designed to become a part of your backend migration strategy using it as a frontend proxy server or integrated in your existent `node.js` backend.
+
+`rocky` will take care about HTTP routing discerning the proper traffic and forwarding/replaying accordingly to your desired backend.
 
 ## How does it works?
 
@@ -45,7 +40,7 @@ npm install -g rocky
          |==============|
                ||||
          |==============|
-         |  HTTP server |
+         |  HTTP proxy  |
          |--------------|
          |     Rocky    |
          |~~~~~~~~~~~~~~|
@@ -58,6 +53,17 @@ npm install -g rocky
    /----------\   /----------\    /----------\
    |  target  |   | replay 1 | -> | replay 2 | (*N)
    \----------/   \----------/    \----------/
+```
+
+## Installation
+
+```bash
+npm install rocky --save
+```
+
+For command-line interface usage, install it as global package:
+```bash
+npm install -g rocky
 ```
 
 ## Command-line
