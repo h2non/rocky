@@ -2,7 +2,7 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable** and versatile **HTTP proxy** for **traffic forward and replay**. Built for [node.js](http://nodejs.org).
+**Pluggable** and versatile **HTTP/s proxy** for **traffic forward and replay**. Built for [node.js](http://nodejs.org).
 
 `rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
 It can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
@@ -26,11 +26,13 @@ It can be used [programmatically](#programmatic-api) or via its [command-line](#
 
 ## Rationale
 
-Migrating systems if not a trivial thing, and even more complex if we're talking about production systems with high availability. Taking care about consistency and interface contract should be a promise.
+Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems with requires high availability. Taking care about consistency and public interface contract should be a premise in most cases.
 
-That's the main reason why I've created `rocky`, was mainly designed to become a part of your backend migration strategy using it as a frontend proxy server or integrated in your existent `node.js` backend.
+That's the main reason why `rocky` borns: it was mainly designed to become a crucial tool to assist during a backend migration strategy. You could use it as a frontend proxy server or integrated in your existent `node.js` backend.
 
-`rocky` will take care about HTTP routing discerning the proper traffic and forwarding/replaying accordingly to your desired backend.
+`rocky` will take care about HTTP routing discerning the traffic and forwarding/replaying it accordingly to your desired new backend.
+
+You can use it as well for testing/maintance proposals, for instance replaying your traffic from one enviroment to another ones.
 
 ## How does it works?
 
@@ -54,6 +56,14 @@ That's the main reason why I've created `rocky`, was mainly designed to become a
    |  target  |   | replay 1 | -> | replay 2 | (*N)
    \----------/   \----------/    \----------/
 ```
+
+<!--
+#### Example scenario
+
+```
+
+```
+-->
 
 ## Installation
 
