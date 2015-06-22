@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "Pluggable and hackable reverse HTTP proxy gateway for traffic forward and replay",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",

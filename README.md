@@ -2,7 +2,7 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, hackable and middleware-oriented **HTTP/s proxy gateway** for traffic **forward, intercept and/or replay**. Built for [node.js](http://nodejs.org).
+**Pluggable**, **hackable** and **middleware-oriented** **HTTP/s proxy gateway** for traffic **forward, map and replay**, built for [node.js](http://nodejs.org).
 
 `rocky` essentially [acts](#how-does-it-works) as a fully configurable reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to perform multiple actions during that process.
 
