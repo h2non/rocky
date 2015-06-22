@@ -2,26 +2,26 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable** and versatile **HTTP/s proxy** for **traffic forward and replay**. Built for [node.js](http://nodejs.org).
+**Pluggable**, hackable and middleware-oriented **HTTP/s proxy gateway** for traffic **forward, intercept and/or replay**. Built for [node.js](http://nodejs.org).
 
-`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy forwarding and/or replaying the traffic to one or multiple backends.
+`rocky` essentially [acts](#how-does-it-works) as a fully configurable reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to perform multiple actions during that process.
+
 It can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
-
-`rocky` provides built-in features such as connect-style middleware layer, full-featured path routing, request interceptor, standalone HTTP/S server and connect/express plugin support.
 
 **Still beta**
 
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
-- Replay traffic to multiple backends
-- Can run as standalone HTTP/S server
-- Compatible with connect/express via middleware
+- Able to replay traffic to multiple backends
+- Able to as standalone HTTP/S server
+- Integrable with connect/express via middleware
 - Full-featured router (express-like)
 - Routing support based on regexp and wildcards
 - Route specific traffic forward and replay
 - Built-in middleware layer
-- HTTP traffic interceptors via events
+- Request transformer/adapter on-the-fly
+- HTTP traffic interceptor via middleware/events
 - Fluent and elegant API
 
 ## Rationale
@@ -311,6 +311,7 @@ Useful to incercept the status or modify the options on-the-fly
 Supported events:
 
 - **request** `opts, req, res` - Fired when the request forward process starts
+- **replay** `opts, req, res` - Fired when a request is replayed to another backend
 - **error:forward** `err, req, res` - Fired when the forwarded request fails
 - **error:replay** `err, req, res` - Fired when the replayed request fails
 

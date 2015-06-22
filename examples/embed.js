@@ -1,13 +1,13 @@
 var http = require('http')
 var rocky = require('../')
 
-var migrate = rocky()
+var proxy = rocky()
 
-migrate
+proxy
   .forward('http://localhost:3001')
 
 // Configure rocky
-migrate.get('/users/:id')
+proxy.get('/users/:id')
   .on('request', function (opts) {
     console.log('Request:', opts)
   })
@@ -15,7 +15,7 @@ migrate.get('/users/:id')
     console.log('Error:', err)
   })
 
-migrate.listen(3000)
+proxy.listen(3000)
 
 // Target server
 http.createServer(function (req, res) {

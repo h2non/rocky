@@ -1,7 +1,7 @@
 {
   "name": "rocky",
   "version": "0.1.0-beta.0",
-  "description": "Pluggable and versatile HTTP proxy for traffic forward and replay",
+  "description": "Pluggable and hackable reverse HTTP proxy gateway for traffic forward and replay",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
   "license": "MIT",
@@ -18,7 +18,9 @@
     "repeat",
     "replay",
     "forward",
-    "traffic"
+    "traffic",
+    "gateway",
+    "router"
   ],
   "bin": {
     "rocky": "./bin/rocky"
@@ -30,6 +32,7 @@
     "debug": "^2.2.0",
     "http-proxy": "^1.11.1",
     "lodash": "^3.9.3",
+    "midware": "^0.1.1",
     "router": "^1.1.1",
     "toml": "^2.2.3",
     "yargs": "^3.12.0"
