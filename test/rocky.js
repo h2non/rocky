@@ -1,8 +1,10 @@
+const fs = require('fs')
 const http = require('http')
 const connect = require('connect')
 const sinon = require('sinon')
 const supertest = require('supertest')
 const expect = require('chai').expect
+const checksum = require('checksum')
 const rocky = require('../')
 
 const ports = { target: 9890, proxy: 9891, replay: 9892 }
@@ -136,11 +138,45 @@ suite('rocky', function () {
       expect(req.body).to.match(/hello/)
     }
 
-    var asserts = 0
     function assertReplay(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.match(/hello/)
+    }
+  })
+
+  test('forward and replay a large payload', function (done) {
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .replay(replayUrl)
+      .listen(ports.proxy)
+
+    proxy.post('/test')
+
+    replay = createReplayServer(assertReplay)
+    server = createTestServer(assert)
+
+    var body = randomString()
+    supertest(proxyUrl)
+      .post('/test')
+      .type('text/plain')
+      .send(body)
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(req.body).to.be.equal(body)
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
+      expect(req.body).to.be.equal(body)
     }
   })
 
@@ -179,22 +215,22 @@ suite('rocky', function () {
   })
 
   test('route', function (done) {
+    var spy = sinon.spy()
     proxy = rocky()
     server = createTestServer(assert)
     replay = createReplayServer(assert)
 
-    var spy = sinon.spy()
     proxy.get('/test')
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .options({ hostRewrite: true })
+      .on('proxyReq', spy)
+      .on('replay:proxyReq', spy)
+      .on('error', spy)
       .use(function (req, res, next) {
         req.headers['X-Test'] = 'rocky'
         next()
       })
-      .forward(targetUrl)
-      .replay(replayUrl)
-      .options({ hostRewrite: true })
-      .on('request', spy)
-      .on('replay', spy)
-      .on('error', spy)
 
     proxy.listen(ports.proxy)
 
@@ -263,4 +299,14 @@ function createServer(port, code, assert) {
 
   server.listen(port)
   return server
+}
+
+function randomString(x) {
+  var s = ''
+  x = +x || 100000
+  while (s.length < x && x > 0) {
+    var r = Math.random()
+    s+= r < 0.1 ? Math.floor(r*100): String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65))
+  }
+  return s
 }

@@ -16,7 +16,7 @@ It can be used [programmatically](#programmatic-api) or via [command-line](#comm
 - Able to replay traffic to multiple backends
 - Able to run as standalone HTTP/S server
 - Integrable with connect/express via middleware
-- Full-featured built-in router
+- Full-featured built-in router with params matching
 - Routing support based on regexp and wildcards
 - Route specific traffic forward and replay
 - Built-in middleware layer (compatible with connect/express)
@@ -327,10 +327,22 @@ Useful to incercept the status or modify the options on-the-fly
 
 Supported events:
 
-- **request** `opts, req, res` - Fired when the request forward process starts
-- **replay** `opts, req, res` - Fired when a request is replayed to another backend
-- **error:forward** `err, req, res` - Fired when the forwarded request fails
-- **error:replay** `err, req, res` - Fired when the replayed request fails
+- **proxyReq** `opts, proxyReq, req, res` - Fired when the request forward starts
+- **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
+- **error** `err, req, res` - Fired when the forward request fails
+- **replay:proxyReq** `opts, proxyReq, req, res` - Fired when a replay request starts
+- **replay:proxyRes** `opts, proxyRes, req, res` - Fired when a replay server respond
+- **replay:error** `opts, err, req, res` - Fired when the replay request fails
+
+For more information about events, see the [supported events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events)
+
+#### Route#once(event, ...handler)
+
+Subscribes to a specific event for the given route, and unsubscribe after dispatched
+
+#### Route#off(event, handler)
+
+Remove an event by its handler function in the current route
 
 ### rocky.create(config)
 
