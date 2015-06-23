@@ -4,8 +4,7 @@ const connect = require('connect')
 const sinon = require('sinon')
 const supertest = require('supertest')
 const expect = require('chai').expect
-const checksum = require('checksum')
-const rocky = require('../')
+const rocky = require('..')
 
 const ports = { target: 9890, proxy: 9891, replay: 9892 }
 const baseUrl = 'http://127.0.0.1'

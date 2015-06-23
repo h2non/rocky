@@ -2,9 +2,9 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **hackable** and **middleware-oriented** **HTTP/s proxy** with powerful **routing** and **traffic replay**, built for [node.js](http://nodejs.org).
+**Pluggable**, **hackable** and **middleware-oriented** **HTTP/s proxy with powerful **routing** and **traffic replay**, built for [node.js](http://nodejs.org).
 
-`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to perform multiple actions during that process, like intercepting and transforming the traffic on-the-fly via middleware layer.
+`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy router forwarding, intercepting and/or replaying the traffic to one or multiple backends, allowing you to perform multiple actions during that process, like intercepting and transforming the traffic on-the-fly via the middleware layer.
 
 It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
@@ -22,11 +22,12 @@ It can be used [programmatically](#programmatic-api) or via [command-line](#comm
 - Built-in middleware layer (compatible with connect/express)
 - Request transformer/adapter on-the-fly
 - HTTP traffic interceptor via middleware/events
-- Fluent and elegant programmatic API
+- Fluent, elegant and evented programmatic API
 
 ## When `rocky` is a good choice?
 
 - For HTTP service migrations, such an APIs
+- As HTTP adapter layer transforming the request/response
 - Replaying traffic to one or multiple backends
 - As HTTP traffic interceptor and adapter
 - As standalone reverse HTTP proxy with custom routing
@@ -245,7 +246,23 @@ Use the given middleware function for **all http methods** on the given path, de
 
 #### rocky#on(event, handler)
 
-Subscribe to a proxy event. See support events [here](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events)
+Subscribe to a proxy event.
+See support events [here](#events)
+
+#### rocky#once(event, handler)
+
+Remove an event by its handler function.
+See support events [here](#events)
+
+#### rocky#off(event, handler)
+
+Remove an event by its handler function.
+See support events [here](#events)
+
+#### rocky#removeAllListeners(event)
+
+Remove all the subscribers to the given event.
+See support events [here](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events)
 
 #### rocky#middleware()
 Return: `Function(req, res, next)`
@@ -272,6 +289,8 @@ Add a route handler for the given path for all HTTP methods
 
 #### rocky#get(path)
 Return: `Route`
+
+Configure a route handler for the given path
 
 #### rocky#post(path)
 Return: `Route`
@@ -325,7 +344,7 @@ Add custom middlewares to the specific route.
 Subscribes to a specific event for the given route.
 Useful to incercept the status or modify the options on-the-fly
 
-Supported events:
+##### Events
 
 - **proxyReq** `opts, proxyReq, req, res` - Fired when the request forward starts
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
@@ -334,7 +353,7 @@ Supported events:
 - **replay:proxyRes** `opts, proxyRes, req, res` - Fired when a replay server respond
 - **replay:error** `opts, err, req, res` - Fired when the replay request fails
 
-For more information about events, see the [supported events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events)
+For more information about events, see the [events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events) fired by `http-proxy`
 
 #### Route#once(event, ...handler)
 

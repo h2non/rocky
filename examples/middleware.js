@@ -6,8 +6,9 @@ var proxy = rocky()
 proxy
   .forward('http://localhost:3001')
 
+// Add a global middleware
 proxy.use(function (req, res, next) {
-  console.log('Generic middleware:', req.url)
+  console.log('Global middleware:', req.url)
   next()
 })
 
