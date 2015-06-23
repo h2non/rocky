@@ -1,5 +1,6 @@
 const http = require('http')
 const connect = require('connect')
+const sinon = require('sinon')
 const supertest = require('supertest')
 const expect = require('chai').expect
 const rocky = require('../')
@@ -143,6 +144,75 @@ suite('rocky', function () {
     }
   })
 
+  test('built-in middlewares', function (done) {
+    proxy = rocky().forward(targetUrl)
+    server = createTestServer(assert)
+
+    var mwspy = sinon.spy()
+    proxy.use(function (req, res, next) {
+      mwspy(req, res)
+      next()
+    })
+
+    var routespy = sinon.spy()
+    proxy.get('/test')
+      .use(function (req, res, next) {
+        routespy(req, res)
+        next()
+      })
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(mwspy.calledOnce).to.be.true
+      expect(routespy.calledOnce).to.be.true
+    }
+  })
+
+  test('route', function (done) {
+    proxy = rocky()
+    server = createTestServer(assert)
+    replay = createReplayServer(assert)
+
+    var spy = sinon.spy()
+    proxy.get('/test')
+      .use(function (req, res, next) {
+        req.headers['X-Test'] = 'rocky'
+        next()
+      })
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .options({ hostRewrite: true })
+      .on('request', spy)
+      .on('replay', spy)
+      .on('error', spy)
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.match(/200|204/)
+      expect(spy.calledTwice).to.be.true
+      expect(req.headers['x-test']).to.be.equal('rocky')
+    }
+  })
+
   test('connect middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer(assert)
@@ -186,7 +256,7 @@ function createServer(port, code, assert) {
     })
     req.on('end', function () {
       req.body = body
-      assert(req, res)
+      if (assert) assert(req, res)
       res.end()
     })
   })

@@ -2,11 +2,11 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **hackable** and **middleware-oriented** **HTTP/s proxy gateway** for traffic **forward, map and replay**, built for [node.js](http://nodejs.org).
+**Pluggable**, **hackable** and **middleware-oriented** **HTTP/s proxy** with powerful **routing** and **traffic replay**, built for [node.js](http://nodejs.org).
 
-`rocky` essentially [acts](#how-does-it-works) as a fully configurable reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to perform multiple actions during that process.
+`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to perform multiple actions during that process, like intercepting and transforming the traffic on-the-fly via middleware layer.
 
-It can be used [programmatically](#programmatic-api) or via its [command-line](#command-line) interface.
+It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
 **Still beta**
 
@@ -16,19 +16,32 @@ It can be used [programmatically](#programmatic-api) or via its [command-line](#
 - Able to replay traffic to multiple backends
 - Able to as standalone HTTP/S server
 - Integrable with connect/express via middleware
-- Full-featured router (express-like)
+- Full-featured built-in router
 - Routing support based on regexp and wildcards
 - Route specific traffic forward and replay
-- Built-in middleware layer
+- Built-in middleware layer (compatible with connect/express)
 - Request transformer/adapter on-the-fly
 - HTTP traffic interceptor via middleware/events
-- Fluent and elegant API
+- Fluent and elegant programmatic API
+
+## When `rocky` is a good choice?
+
+- For HTTP service migrations, such an APIs
+- Replaying traffic to one or multiple backends
+- As HTTP traffic interceptor and adapter
+- As standalone reverse HTTP proxy with custom routing
+- As security proxy layer with custom logic
+- As HTTP balancer with routing features
+- As SSL terminator proxy
+- For A/B testing
+- As test HTTP server generating random/fake data
+- And whatever a programmatic HTTP proxy can be useful to
 
 ## Rationale
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems with requires high availability. Taking care about consistency and public interface contract should be a premise in most cases.
 
-That's the main reason why `rocky` borns: it was mainly designed to become a crucial tool to assist during a backend migration strategy. You could use it as a frontend proxy server or integrated in your existent `node.js` backend.
+That's the main reason why `rocky` borns: it was designed to become an useful tool to assist you during a backend migration strategy. You could use it as a frontend proxy server or integrated in your existent `node.js` backend.
 
 `rocky` will take care about HTTP routing discerning the traffic and forwarding/replaying it accordingly to your desired new backend.
 
