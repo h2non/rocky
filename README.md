@@ -241,7 +241,7 @@ Define/overwrite rocky server options
 
 #### rocky#use([ path ], ...middleware)
 
-Use the given middleware function for all http methods on the given path, defaulting to the root path.
+Use the given middleware function for **all http methods** on the given path, defaulting to the root path.
 
 #### rocky#on(event, handler)
 
@@ -315,6 +315,10 @@ Overwrite replay servers for the current route.
 #### Route#options(options)
 
 Overwrite default proxy [options](#configuration) for the current route.
+
+#### Route#use(...middlewares)
+
+Add custom middlewares to the specific route.
 
 #### Route#on(event, ...handler)
 
