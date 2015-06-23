@@ -14,7 +14,7 @@ It can be used [programmatically](#programmatic-api) or via [command-line](#comm
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Able to replay traffic to multiple backends
-- Able to as standalone HTTP/S server
+- Able to run as standalone HTTP/S server
 - Integrable with connect/express via middleware
 - Full-featured built-in router
 - Routing support based on regexp and wildcards
