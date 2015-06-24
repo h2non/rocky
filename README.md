@@ -210,6 +210,8 @@ proxy
 // Configure the routes to forward/replay
 proxy
   .get('/users/:id')
+  // Overwrite the path while proxying
+  .toPath('/profile/:id')
 proxy
   .get('/search')
   // Overwrite the forward URL for this route
