@@ -61,9 +61,9 @@ You can use it as well for testing/maintance proposals, for instance replaying y
          |==============|
          |  HTTP proxy  |
          |--------------|
-         |    Rocky     |
+         | Rocky Router |
          |~~~~~~~~~~~~~~|
-         |    Router    |
+         |  Middleware  |
          |==============|
             ||      |
   (duplex) //        \ (one-way)
@@ -73,14 +73,6 @@ You can use it as well for testing/maintance proposals, for instance replaying y
    |  target  |   | replay 1 | -> | replay 2 | (*N)
    \----------/   \----------/    \----------/
 ```
-
-<!--
-#### Example scenario
-
-```
-
-```
--->
 
 ## Installation
 
