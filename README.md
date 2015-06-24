@@ -2,9 +2,9 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **hackable** and **middleware-oriented** **HTTP/s proxy** with powerful **routing** and **traffic replay**, built for [node.js](http://nodejs.org).
+**Pluggable** and **middleware-oriented** **HTTP/s proxy** with powerful **routing** and **traffic replay**, built for [node.js](http://nodejs.org).
 
-`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy router forwarding, intercepting and/or replaying the traffic to one or multiple backends, and allowing you to perform multiple actions between the process, like intercepting and transforming the traffic on-the-fly.
+`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to intercept the traffic before and after those processes via the built-in middleware layer.
 
 It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
