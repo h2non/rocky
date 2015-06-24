@@ -58,9 +58,9 @@ You can use it as well for testing/maintance proposals, for instance replaying y
          |==============|
          |  HTTP proxy  |
          |--------------|
-         |     Rocky    |
+         |    Rocky     |
          |~~~~~~~~~~~~~~|
-         |  HTTP Router |
+         |    Router    |
          |==============|
             ||      |
   (duplex) //        \ (one-way)
