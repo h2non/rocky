@@ -1,7 +1,7 @@
 var http = require('http')
 var rocky = require('..')
 
-var proxy = rocky()
+var proxy = rocky({ })
 
 proxy
   .forward('http://localhost:3001')
@@ -15,11 +15,17 @@ proxy.use(function (req, res, next) {
 // Configure the route
 proxy
   .get('/users/:id')
+  .replay('http://localhost:3001')
   // Add a route-level middleware
   .use(function (req, res, next) {
     console.log('Route middleware:', req.url)
     next()
   })
+  .host('http://google.com')
+  .headers({
+    'X-Custom': 'blablabla'
+  })
+  .toPath('/users/:id', { id: 'Chuck' })
 
 proxy.listen(3000)
 

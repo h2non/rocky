@@ -8,13 +8,8 @@ proxy
 
 // Configure rocky
 proxy.get('/users/:id')
-  .on('request', function (opts) {
-    console.log('Request:', opts)
-  })
-  .on('error', function (err) {
-    console.log('Error:', err)
-  })
 
+// Start the proxy and listen
 proxy.listen(3000)
 
 // Target server

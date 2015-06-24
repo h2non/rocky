@@ -1,22 +1,16 @@
 var http = require('http')
 var rocky = require('../')
 
-var migrate = rocky()
+var proxy = rocky()
 
-migrate
+proxy
   .forward('http://localhost:3001')
 
-migrate.get('/users/:id')
-  .on('request', function (opts) {
-    console.log('Request:', opts)
-  })
-  .on('error', function (err) {
-    console.log('Error:', err)
-  })
+proxy.get('/users/:id')
 
 // Create the forward server
 http.createServer(function (req, res) {
-  migrate.requestHandler(req, res, function (err) {
+  proxy.requestHandler(req, res, function (err) {
     var code = err ? 500 : 404
     res.writeHead(code)
     res.end()

@@ -3,20 +3,20 @@ var express = require('express')
 var rocky = require('../')
 
 var app = express()
-var migrate = rocky()
+var proxy = rocky()
 
-migrate
+proxy
   .forward('http://httpbin.org')
 
-migrate.get('/headers')
-migrate.get('/status/:code')
+proxy.get('/headers')
+proxy.get('/status/:code')
   .replay('http://localhost:3002')
   .on('error', function (err) {
     console.log('Error:', err)
   })
 
 // Plugin the rocky middleware
-app.use(migrate.middleware())
+app.use(proxy.middleware())
 
 app.get('/test', function (req, res) {
   res.sendStatus(200)
