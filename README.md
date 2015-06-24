@@ -48,7 +48,7 @@ That's the main reason why `rocky` borns: it was designed to become an useful to
 
 `rocky` will take care about HTTP routing discerning the traffic and forwarding/replaying it accordingly to your desired new backend.
 
-You can use it as well for testing/maintance proposals, for instance replaying your traffic from one enviroment to another ones.
+You can use it as well for multiple purposes, like A/B testing and more.
 
 ## How does it works?
 
