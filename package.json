@@ -1,12 +1,12 @@
 {
   "name": "rocky",
   "version": "0.1.0",
-  "description": "Pluggable and hackable reverse HTTP proxy gateway for traffic forward and replay",
+  "description": "Pluggable and middleware-oriented HTTP proxy with powerful routing and traffic replay",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 3000 --reporter spec --ui tdd"
+    "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd"
   },
   "keywords": [
     "http",
