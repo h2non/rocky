@@ -248,6 +248,43 @@ suite('rocky', function () {
     }
   })
 
+  test('balancer', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+
+    var server1 = createServer(9893, 200, spy)
+    var server2 = createServer(9894, 201, spy)
+    var server3 = createServer(9895, 202, spy)
+
+    proxy
+      .get('/test')
+      .balance([
+        'http://localhost:9893',
+        'http://localhost:9894',
+        'http://localhost:9895'
+      ])
+
+    proxy.listen(ports.proxy)
+
+    var count = 0
+    request()
+
+    function request() {
+      count += 1
+      supertest(proxyUrl)
+        .get('/test')
+        .expect(200 + count)
+        .expect('Content-Type', 'application/json')
+        .expect({ 'hello': 'world' })
+        .end(count === 3 ? assert : request)
+    }
+
+    function assert() {
+      expect(spy.calledThrice).to.be.true
+      done()
+    }
+  })
+
   test('connect middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer(assert)

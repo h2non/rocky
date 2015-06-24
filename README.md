@@ -18,13 +18,14 @@ For getting started, take a look to the [explanation](#how-does-it-works), [basi
 - Able to replay traffic to multiple backends
 - Able to run as standalone HTTP/S server
 - Integrable with connect/express via middleware
-- Full-featured built-in router with params matching
-- Routing support based on regexp and wildcards
-- Route specific traffic forward and replay
-- Built-in middleware layer (compatible with connect/express)
+- Full-featured built-in router with regexp and params matching
+- Forward and replay at route level with nested configuration
+- Built-in middleware layer (mostly compatible with connect/express)
 - Request transformer/adapter on-the-fly
-- HTTP traffic interceptor via middleware/events
+- Traffic interceptor via middleware and events
+- Built-in balance with a round-robin like scheduler
 - Fluent, elegant and evented programmatic API
+- Simple command-line interface with declarative configuration file
 
 ## When `rocky` is a good choice?
 
@@ -34,7 +35,7 @@ For getting started, take a look to the [explanation](#how-does-it-works), [basi
 - As HTTP traffic interceptor and adapter
 - As standalone reverse HTTP proxy with custom routing
 - As security proxy layer with custom logic
-- As extensible per route HTTP balancer
+- As extensible HTTP proxy balancer with custom logic per route
 - As SSL terminator proxy
 - For A/B testing
 - As test HTTP server intercepting and generating random/fake responses
@@ -135,7 +136,8 @@ rocky --config rocky.toml --port 8080 --debug
   - **xfwd** `boolean` - Enable/disable x-forward headers
   - **toProxy** `string` - Passes the absolute URL as the path (useful for proxying to proxies)
   - **forwardHost** `boolean` - Always forward the target hostname as `Host` header
-  - **hostRewrite** `boolen` rewrites the location hostname on (301/302/307/308) redirects
+  - **hostRewrite** `boolen` - Rewrites the location hostname on (301/302/307/308) redirects
+  - **balance** `array<url>` - Define the URLs to balance. Default disabled
   - **agent** `https.Agent` - HTTPS agent instance. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - SSL settings
   - **cert** `string` - Path to SSL certificate file
@@ -249,6 +251,10 @@ You can pass any of the [supported options](https://github.com/nodejitsu/node-ht
 
 Use the given middleware function for **all http methods** on the given path, defaulting to the root path.
 
+#### rocky#balance(...urls)
+
+Define a set of URLs to balance between with a simple round-robin like scheduler.
+
 #### rocky#on(event, handler)
 
 Subscribe to a proxy event.
@@ -337,28 +343,32 @@ Only present if `listen()` was called starting the built-in server.
 
 ### Route(path)
 
-#### Route#forward(url)
+#### route#forward(url)
 Alias: `target`
 
 Overwrite forward server for the current route.
 
-#### Route#replay(...url)
+#### route#replay(...url)
 
 Overwrite replay servers for the current route.
 
-#### Route#toPath(url, [ params ])
+#### route#balance(...urls)
+
+Define a set of URLs to balance between with a simple round-robin like scheduler.
+
+#### route#toPath(url, [ params ])
 
 Overwrite the request path, defining additional optional params.
 
-#### Route#headers(headers)
+#### route#headers(headers)
 
 Define or overwrite request headers
 
-#### Route#host(host)
+#### route#host(host)
 
 Overwrite the target hostname (defined as `host` header)
 
-#### Route#transformResponseBody(middleware)
+#### route#transformResponseBody(middleware)
 
 Experimental response body interceptor and transformer middleware for the given route.
 This allows you to change, replace or map the response body sent from the target server before sending it to the client.
@@ -368,16 +378,16 @@ You can see an usage example [here](/examples/interceptor.js).
 
 **Note**: don't use it for large binary bodies
 
-#### Route#options(options)
+#### route#options(options)
 
 Overwrite default proxy [options](#configuration) for the current route.
 You can pass any supported option by [http-proxy](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50)
 
-#### Route#use(...middlewares)
+#### route#use(...middlewares)
 
 Add custom middlewares to the specific route.
 
-#### Route#on(event, ...handler)
+#### route#on(event, ...handler)
 
 Subscribes to a specific event for the given route.
 Useful to incercept the status or modify the options on-the-fly
@@ -393,11 +403,11 @@ Useful to incercept the status or modify the options on-the-fly
 
 For more information about events, see the [events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events) fired by `http-proxy`
 
-#### Route#once(event, ...handler)
+#### route#once(event, ...handler)
 
 Subscribes to a specific event for the given route, and unsubscribe after dispatched
 
-#### Route#off(event, handler)
+#### route#off(event, handler)
 
 Remove an event by its handler function in the current route
 

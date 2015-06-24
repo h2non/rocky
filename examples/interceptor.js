@@ -16,17 +16,17 @@ var route = proxy
     next()
   })
   // Subscribe to the server response to modify the body
-  .transformerBodyResponse(function transformer(req, res, next) {
+  .transformResponseBody(function transformer(req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(res.body.toString())
 
     // Compose the new body
-    var newBody = JSON.stringify({ salutation: body.hello })
+    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
 
     // Send the new body in the request
     next(null, newBody)
 
-    // Or even you can write it directly
+    // Or even you can use write() as well:
     // res.write(newBody)
     // next()
   })
@@ -51,6 +51,6 @@ http.get('http://localhost:3000/users/pepe', function (res) {
   res.setEncoding('utf8')
   res.on('data', function (chunk) {
     // Show the modified response body
-    console.log('Body: ' + chunk)
+    console.log('Body: ' + chunk) // Must be => {"salutation": "hello world"}
   })
 })
