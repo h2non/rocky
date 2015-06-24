@@ -212,6 +212,8 @@ proxy
   .get('/users/:id')
 proxy
   .get('/search')
+  // Overwrite the forward URL for this route
+  .forward('http://another.server')
 
 proxy.listen(3000)
 ```
