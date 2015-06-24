@@ -21,11 +21,11 @@ proxy
     console.log('Route middleware:', req.url)
     next()
   })
+  .toPath('/users/:id', { id: 'Chuck' })
   .host('http://google.com')
   .headers({
     'X-Custom': 'blablabla'
   })
-  .toPath('/users/:id', { id: 'Chuck' })
 
 proxy.listen(3000)
 

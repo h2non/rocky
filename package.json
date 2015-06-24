@@ -6,7 +6,7 @@
   "author": "Tomas Aparicio",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd"
+    "test": "./node_modules/.bin/mocha --timeout 3000 --reporter spec --ui tdd"
   },
   "keywords": [
     "http",

@@ -2,11 +2,13 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable** and **middleware-oriented** **HTTP/s proxy** with powerful **routing** and **traffic replay**, built for [node.js](http://nodejs.org).
+**Pluggable** and **middleware-oriented** **HTTP/s proxy** providing a powerful **routing** layer and features such as **traffic interceptor and replay to multiple backends**, built for [node.js](http://nodejs.org).
 
-`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy router forwarding and/or replaying the traffic to one or multiple backends, allowing you to intercept the traffic before and after those processes via the built-in middleware layer.
+`rocky` essentially [acts](#how-does-it-works) as a reverse HTTP proxy providing a powerful **routing** layer and features such as **traffic interceptor and replay to multiple backends**.
+It was originally designed as strategic utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice).
 
 It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
+For getting started, take a look to the [explanation](#how-does-it-works), [basic usage](#usage) and [examples](/examples)
 
 **Still beta**
 
@@ -26,16 +28,16 @@ It can be used [programmatically](#programmatic-api) or via [command-line](#comm
 
 ## When `rocky` is a good choice?
 
-- For HTTP service migrations, such an APIs
-- As HTTP adapter layer transforming the request/response
+- For progressive HTTP services migrations, such APIs
+- As HTTP traffic interceptor transforming the request/response on-the-fly
 - Replaying traffic to one or multiple backends
 - As HTTP traffic interceptor and adapter
 - As standalone reverse HTTP proxy with custom routing
 - As security proxy layer with custom logic
-- As HTTP balancer with routing features
+- As extensible per route HTTP balancer
 - As SSL terminator proxy
 - For A/B testing
-- As test HTTP server generating random/fake data
+- As test HTTP server intercepting and generating random/fake responses
 - And whatever a programmatic HTTP proxy can be useful to
 
 ## Rationale
@@ -134,6 +136,7 @@ rocky --config rocky.toml --port 8080 --debug
   - **toProxy** `string` - Passes the absolute URL as the path (useful for proxying to proxies)
   - **forwardHost** `boolean` - Always forward the target hostname as `Host` header
   - **hostRewrite** `boolen` rewrites the location hostname on (301/302/307/308) redirects
+  - **agent** `https.Agent` - HTTPS agent instance. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - SSL settings
   - **cert** `string` - Path to SSL certificate file
   - **key** `string` - Path to SSL key file
@@ -174,6 +177,9 @@ Example using [Express](http://expressjs.com/)
 var rocky = require('rocky')
 var express = require('express')
 
+// Set up the express server
+var app = express()
+// Set up the rocky proxy
 var proxy = rocky()
 
 // Default proxy config
@@ -187,14 +193,13 @@ proxy
 proxy
   .get('/users/:id')
 
-// Set up the express server
-var app = express()
-
 // Plug in the rocky middleware
 app.use(proxy.middleware())
 
 // Old route (won't be called since it will be intercepted by rocky)
 app.get('/users/:id', function () { /* ... */ })
+
+app.listen(3000)
 ```
 
 Example using the built-in HTTP server
@@ -224,8 +229,7 @@ For more usage case, take a look to the [examples](/examples)
 
 Creates a new rocky instance with the given options.
 
-You can pass any of the allowed params at [configuration](#configuration) level,
-or take a look to the http-proxy [supported options](https://github.com/nodejitsu/node-http-proxy#options)
+You can pass any of the allowed params at [configuration](#configuration) level and any supported [http-proxy options](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50)
 
 #### rocky#forward(url)
 Alias: `target`
@@ -238,7 +242,8 @@ Add a server URL to replay the incoming request
 
 #### rocky#options(options)
 
-Define/overwrite rocky server options
+Define/overwrite rocky server [options](#configuration).
+You can pass any of the [supported options](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50) by `http-proxy`.
 
 #### rocky#use([ path ], ...middleware)
 
@@ -290,22 +295,32 @@ Add a route handler for the given path for all HTTP methods
 #### rocky#get(path)
 Return: `Route`
 
-Configure a route handler for the given path
+Configure a new route the given path with `GET` method
 
 #### rocky#post(path)
 Return: `Route`
 
+Configure a new route the given path with `POST` method
+
 #### rocky#delete(path)
 Return: `Route`
+
+Configure a new route the given path with `DELETE` method
 
 #### rocky#put(path)
 Return: `Route`
 
+Configure a new route the given path with `PUT` method
+
 #### rocky#patch(path)
 Return: `Route`
 
-#### rocky#options(path)
+Configure a new route the given path with `PATCH` method
+
+#### rocky#head(path)
 Return: `Route`
+
+Configure a new route the given path with `HEAD` method
 
 #### rocky#proxy
 
@@ -331,9 +346,32 @@ Overwrite forward server for the current route.
 
 Overwrite replay servers for the current route.
 
+#### Route#toPath(url, [ params ])
+
+Overwrite the request path, defining additional optional params.
+
+#### Route#headers(headers)
+
+Define or overwrite request headers
+
+#### Route#host(host)
+
+Overwrite the target hostname (defined as `host` header)
+
+#### Route#transformResponseBody(middleware)
+
+Experimental response body interceptor and transformer middleware for the given route.
+This allows you to change, replace or map the response body sent from the target server before sending it to the client.
+
+The middleware must a function accepting the following arguments: `function(req, res, next)`
+You can see an usage example [here](/examples/interceptor.js).
+
+**Note**: don't use it for large binary bodies
+
 #### Route#options(options)
 
 Overwrite default proxy [options](#configuration) for the current route.
+You can pass any supported option by [http-proxy](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50)
 
 #### Route#use(...middlewares)
 
@@ -387,6 +425,10 @@ var config = {
 
 rocky.create(config)
 ```
+
+### rocky.middlewares
+
+Expose multiple middleware [functions](/lib/middlewares.js) to plugin in different level of your proxy.
 
 ### rocky.httpProxy
 
