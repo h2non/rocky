@@ -322,32 +322,32 @@ Close the HTTP proxy server, if exists.
 A shortcut to `rocky.server.close(cb)`
 
 #### rocky#all(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Add a route handler for the given path for all HTTP methods
 
 #### rocky#get(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Configure a new route the given path with `GET` method
 
 #### rocky#post(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Configure a new route the given path with `POST` method
 
 #### rocky#delete(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Configure a new route the given path with `DELETE` method
 
 #### rocky#put(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Configure a new route the given path with `PUT` method
 
 #### rocky#patch(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Configure a new route the given path with `PATCH` method
 
