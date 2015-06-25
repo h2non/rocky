@@ -3,9 +3,9 @@
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
 **Pluggable** and **middleware-oriented** **reverse HTTP/s proxy** providing a powerful **routing** layer and features such as **traffic interceptor and replay to multiple backends, built-in balancer** and [more](#features).
-Built for [node.js](http://nodejs.org). Compatible with connect/express.
+Built for [node.js](http://nodejs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
-It was originally designed as strategic utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice). It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
+`rocky` was originally designed as strategic utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice). It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
 For getting started, take a look to the [explanation](#how-does-it-works), [basic usage](#usage) and [examples](/examples)
 
@@ -20,7 +20,7 @@ For getting started, take a look to the [explanation](#how-does-it-works), [basi
 - Full-featured built-in router with regexp and params matching
 - Forward and replay at route level with nested configuration
 - Built-in middleware layer (mostly compatible with connect/express)
-- Request transformer/adapter on-the-fly
+- Traffic transformer/adapter on-the-fly
 - Traffic interceptor via middleware and events
 - Built-in balance with a round-robin like scheduler
 - Fluent, elegant and evented programmatic API
@@ -91,16 +91,17 @@ Start rocky HTTP proxy server
 Usage: rocky [options]
 
 Options:
-  --help, -h     Show help                                     [boolean]
-  --config, -c   File path to TOML config file                 [required]
+  --help, -h     Show help                                             [boolean]
+  --config, -c   File path to TOML config file                        [required]
   --port, -p     rocky HTTP server port
   --forward, -f  Default forward server URL
   --replay, -r   Define a replay server URL
   --key, -k      Path to SSL key file
   --cert, -e     Path to SSL certificate file
   --secure, -s   Enable SSL certification validation
-  --debug, -d    Enable debug mode                             [boolean]
-  -v, --version  Show version number                           [boolean]
+  --balance, -b  Define server URLs to balance between, separated by commas
+  --debug, -d    Enable debug mode                                     [boolean]
+  -v, --version  Show version number                                   [boolean]
 
 Examples:
   rocky -c rocky.toml \
@@ -128,7 +129,7 @@ rocky --config rocky.toml --port 8080 --debug
   - **toProxy** `string` - Passes the absolute URL as the path (useful for proxying to proxies)
   - **forwardHost** `boolean` - Always forward the target hostname as `Host` header
   - **hostRewrite** `boolen` - Rewrites the location hostname on (301/302/307/308) redirects
-  - **balance** `array<url>` - Define the URLs to balance. Default disabled
+  - **balance** `array<url>` - Define the URLs to balance
   - **agent** `https.Agent` - HTTPS agent instance. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - SSL settings
   - **cert** `string` - Path to SSL certificate file
@@ -155,6 +156,10 @@ forward = "http://new.server"
 [/oauth]
 method = "all"
 forward = "http://auth.server"
+
+[/download/:file]
+method = "GET"
+balance = ["http://1.file.server", "http://2.file.server"]
 
 [/*]
 method = "GET"
@@ -210,12 +215,36 @@ proxy
 // Configure the routes to forward/replay
 proxy
   .get('/users/:id')
-  // Overwrite the path while proxying
+  // Overwrite the path
   .toPath('/profile/:id')
+  // Add custom headers
+  .headers({
+    'Authorization': 'Bearer 0123456789'
+  })
+
 proxy
   .get('/search')
   // Overwrite the forward URL for this route
   .forward('http://another.server')
+  // Use a custom middleware for validation purposes
+  .use(function (req, res, next) {
+    if (req.headers['Autorization'] !== 'Bearer 012345678') {
+      res.statusCode = 401
+      return res.end()
+    }
+    next()
+  })
+  // Intercept and transform the response body before sending it to the client
+  .transformResponseBody(function (req, res, next) {
+    // Get the body buffer and parse it (assuming it's a JSON)
+    var body = JSON.parse(res.body.toString())
+
+    // Compose the new body
+    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+
+    // Send the new body in the request
+    next(null, newBody)
+  })
 
 proxy.listen(3000)
 ```

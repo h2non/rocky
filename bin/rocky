@@ -44,6 +44,10 @@ var argv = yargs
       description: 'Enable SSL certification validation',
       type: 'boolen'
     },
+    balance: {
+      alias: 'b',
+      description: 'Define server URLs to balance between, separated by commas',
+    },
     debug: {
       alias: 'd',
       description: 'Enable debug mode',
