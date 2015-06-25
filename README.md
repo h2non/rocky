@@ -2,12 +2,12 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable** and **middleware-oriented** **reverse HTTP/s proxy** providing a powerful **routing** layer and features such as **traffic interceptor and replay to multiple backends, built-in balancer** and [more](#features).
+**Pluggable** and **middleware-oriented** **HTTP/s proxy** with versatile **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
 Built for [node.js](http://nodejs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
 `rocky` was originally designed as strategic utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice). It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-For getting started, take a look to the [explanation](#how-does-it-works), [basic usage](#usage) and [examples](/examples)
+For getting started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage) and [examples](/examples)
 
 **Still beta**
 
