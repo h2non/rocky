@@ -54,7 +54,7 @@ You can use it as well for multiple purposes, like A/B testing and more.
 
 ```
          |==============|
-         | The Internet |
+         |  Dark World  |
          |==============|
                ||||
          |==============|
