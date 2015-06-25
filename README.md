@@ -191,6 +191,10 @@ proxy
 proxy
   .get('/users/:id')
 
+proxy
+  .get('/download/:file')
+  .balance(['http://1.file.server', 'http://2.file.server'])
+
 // Plug in the rocky middleware
 app.use(proxy.middleware())
 
