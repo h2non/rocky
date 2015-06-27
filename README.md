@@ -397,8 +397,9 @@ Define or overwrite request headers
 
 Overwrite the target hostname (defined as `host` header)
 
-<!--
 #### route#transformRequestBody(middleware)
+
+**Caution**: whole payload data will be buffered in the stack. Don't use it for large binary payloads
 
 Experimental request body interceptor and transformer middleware for the given route.
 This allows you to change, replace or map the response body sent from the target server before sending it to the client.
@@ -406,12 +407,27 @@ This allows you to change, replace or map the response body sent from the target
 The middleware must a function accepting the following arguments: `function(req, res, next)`
 You can see an usage example [here](/examples/interceptor.js).
 
-**Caution**: whole payload data will be allocated in the stack, so don't use it for large binary payloads
--->
+You **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
+
+The body will be exposed as raw `Buffer` or `String` on both properties `body` and `rawBody` in `http.ClientRequest`:
+```js
+rocky
+  .post('/users')
+  .transformRequestBody(function (req, res, next) {
+    // Get the body buffer and parse it (assuming it's a JSON)
+    var body = JSON.parse(req.body.toString())
+
+    // Compose the new body
+    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+
+    // Set the new body
+    next(null, newBody, 'utf8')
+  })
+```
 
 #### route#transformResponseBody(middleware)
 
-**Caution**: the whole payload data will be allocated in the stack, so don't use it for large binary payloads
+**Caution**: the whole payload data will be buffered in the stack. Don't use it for large binary payloads
 
 Experimental response body interceptor and transformer middleware for the given route.
 This allows you to change, replace or map the response body sent from the target server before sending it to the client.
@@ -419,11 +435,13 @@ This allows you to change, replace or map the response body sent from the target
 The middleware must a function accepting the following arguments: `function(req, res, next)`
 You can see an usage example [here](/examples/interceptor.js).
 
-The body interceptor will expose the body as raw `Buffer` or `String` both properties `body` and `rawBody` in `http.ClientRequest`:
+The `next` function accepts the following arguments: `err, newBody, encoding`
+
+The body will be exposed as raw `Buffer` or `String` on both properties `body` and `rawBody` in `http.ClientResponse`:
 ```js
 rocky
   .post('/users')
-  .transformRequestBody(function (req, res, next) {
+  .transformResponseBody(function (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(res.body.toString())
 
@@ -431,7 +449,7 @@ rocky
     var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
 
     // Set the new body
-    next(null, newBody)
+    next(null, newBody, 'utf8')
   })
 ```
 

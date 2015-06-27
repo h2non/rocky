@@ -231,7 +231,6 @@ suite('rocky', function () {
     replay = createReplayServer(assertReplay)
     server = createTestServer(assert)
 
-    var body = randomString()
     supertest(proxyUrl)
       .post('/payload')
       .type('application/json')

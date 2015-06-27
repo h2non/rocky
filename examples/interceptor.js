@@ -1,5 +1,6 @@
 var http = require('http')
 var rocky = require('..')
+var supertest = require('supertest')
 
 // Creates the proxy
 var proxy = rocky()
@@ -9,22 +10,34 @@ proxy
 
 // Configure the route
 var route = proxy
-  .get('/users/:id')
+  .post('/users/:id')
   // Add incoming traffic middleware to intercept and mutate the request
   .use(function (req, res, next) {
     req.headers['Authorization'] = 'Bearer 0123456789'
     next()
   })
+  // Add middleware to transform the response
+  .transformRequestBody(function transformer(req, res, next) {
+    // Get the body buffer and parse it (assuming it's a JSON)
+    var body = JSON.parse(req.body.toString())
+
+    // Compose the new body
+    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+
+    // Set the new body
+    next(null, newBody, 'utf8')
+  })
+
   // Subscribe to the server response to modify the body
   .transformResponseBody(function transformer(req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(res.body.toString())
 
     // Compose the new body
-    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+    var newBody = JSON.stringify({ greetings: body.salutation })
 
     // Set the new body
-    next(null, newBody)
+    next(null, newBody, 'utf8')
 
     // Or even you can use write() as well:
     // res.write(newBody)
@@ -42,15 +55,22 @@ http.createServer(function (req, res) {
   }
 
   res.writeHead(200, { 'Content-Type': 'application/json' })
-  res.write('{"hello": "world"}')
-  res.end()
+
+  var body = ''
+  req.on('data', function (chunk) {
+    body += chunk
+  })
+  req.on('end', function () {
+    res.write(body)
+    res.end()
+  })
 }).listen(3001)
 
 // Client test request
-http.get('http://localhost:3000/users/pepe', function (res) {
-  res.setEncoding('utf8')
-  res.on('data', function (chunk) {
-    // Show the modified response body
-    console.log('Body: ' + chunk) // Must be => {"salutation": "hello world"}
+supertest('http://localhost:3000')
+  .post('/users/pepe')
+  .send({'hello': 'world'})
+  .expect(200)
+  .end(function (err, res) {
+    console.log('Transformed body:', res.body)
   })
-})
