@@ -202,7 +202,7 @@ proxy
   .balance(['http://1.file.server', 'http://2.file.server'])
 
 // Plug in the rocky middleware
-app.use(proxy.middleware())
+app.use(proxy.rr())
 
 // Old route (won't be called since it will be intercepted by rocky)
 app.get('/users/:id', function () { /* ... */ })
