@@ -7,7 +7,7 @@ Built for [node.js](http://nodejs.org). Compatible with [connect](https://github
 
 `rocky` was originally designed as strategic lightweight utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice). It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-For getting started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage) and [examples](/examples)
+For getting started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage), [examples](/examples) and third-party [middlewares](#third-party-middlewares)
 
 **Still beta**
 
@@ -84,6 +84,11 @@ For command-line interface usage, install it as global package:
 ```bash
 npm install -g rocky
 ```
+
+## Third-party middlewares
+
+- [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky
+- [**version**](https://github.com/h2non/rocky-version) - version based routing for rocky (useful for APIs)
 
 ## Command-line
 
@@ -399,7 +404,7 @@ Overwrite the target hostname (defined as `host` header)
 
 #### route#transformRequestBody(middleware)
 
-**Caution**: whole payload data will be buffered in the stack. Don't use it for large binary payloads
+**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the stack until it's finished. Don't use it if you need to handle large payloads
 
 Experimental request body interceptor and transformer middleware for the given route.
 This allows you to change, replace or map the response body sent from the target server before sending it to the client.
@@ -427,7 +432,7 @@ rocky
 
 #### route#transformResponseBody(middleware)
 
-**Caution**: the whole payload data will be buffered in the stack. Don't use it for large binary payloads
+**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the stack until it's finished. Don't use it if you need to handle large payloads
 
 Experimental response body interceptor and transformer middleware for the given route.
 This allows you to change, replace or map the response body sent from the target server before sending it to the client.
