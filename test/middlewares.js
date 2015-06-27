@@ -68,7 +68,7 @@ suite('extendHeaders()', function () {
   test('add headers', function (done) {
     var req = { headers: { host: 'localhost' } }
     var headers = { custom: 'hello' }
-    var mw = middlewares.extendHeaders(headers)
+    var mw = middlewares.headers(headers)
 
     mw(req, null, function assert(err) {
       expect(err).to.be.undefined
@@ -83,7 +83,7 @@ suite('extendHeaders()', function () {
   test('overwrite headers', function (done) {
     var req = { headers: { host: 'localhost' } }
     var headers = { host: 'server.net' }
-    var mw = middlewares.extendHeaders(headers)
+    var mw = middlewares.headers(headers)
 
     mw(req, null, function assert(err) {
       expect(err).to.be.undefined
@@ -126,7 +126,7 @@ suite('transformResponseBody()', function () {
 suite('changeHost()', function () {
   test('overwrite', function (done) {
     var req = { headers: { host: 'localhost' } }
-    var mw = middlewares.changeHost('server.net')
+    var mw = middlewares.host('server.net')
 
     mw(req, null, function assert(err) {
       expect(err).to.be.undefined

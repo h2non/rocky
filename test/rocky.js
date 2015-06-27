@@ -179,7 +179,7 @@ suite('rocky', function () {
     }
   })
 
-  test('built-in middlewares', function (done) {
+  test('middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer(assert)
 
@@ -210,6 +210,47 @@ suite('rocky', function () {
       expect(res.statusCode).to.be.equal(200)
       expect(mwspy.calledOnce).to.be.true
       expect(routespy.calledOnce).to.be.true
+    }
+  })
+
+  test('intercept and transform request payload', function (done) {
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .replay(replayUrl)
+      .listen(ports.proxy)
+
+    proxy
+      .post('/payload')
+      .transformRequestBody(function (req, res, next) {
+        var body = JSON.parse(req.body.toString())
+        var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+        next(null, newBody)
+      })
+
+    replay = createReplayServer(assertReplay)
+    server = createTestServer(assert)
+
+    var body = randomString()
+    supertest(proxyUrl)
+      .post('/payload')
+      .type('application/json')
+      .send('{"hello": "world"}')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({'hello': 'world'})
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/payload')
+      expect(res.statusCode).to.be.equal(200)
+      expect(req.body).to.be.equal('{"salutation":"hello world"}')
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/payload')
+      expect(res.statusCode).to.be.equal(204)
+      expect(req.body).to.be.equal('{"salutation":"hello world"}')
     }
   })
 
@@ -328,9 +369,13 @@ function createServer(port, code, assert) {
     })
     req.on('end', function () {
       req.body = body
+      end()
+    })
+
+    function end() {
       if (assert) assert(req, res)
       res.end()
-    })
+    }
   })
 
   server.listen(port)

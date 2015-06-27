@@ -2,7 +2,7 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable** and **middleware-oriented** **HTTP/s proxy** with versatile **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
+**Pluggable** and **middleware-oriented** **HTTP/S proxy** with versatile **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
 Built for [node.js](http://nodejs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
 `rocky` was originally designed as strategic lightweight utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice). It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
@@ -14,14 +14,14 @@ For getting started, take a look to the [how does it works](#how-does-it-works),
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
-- Able to replay traffic to multiple backends
+- Replay traffic to multiple backends
 - Able to run as standalone HTTP/S server
 - Integrable with connect/express via middleware
 - Full-featured built-in router with regexp and params matching
-- Forward and replay at route level with nested configuration
-- Built-in middleware layer (mostly compatible with connect/express)
-- Traffic transformer/adapter on-the-fly
-- Traffic interceptor via middleware and events
+- Hierarchial router supporting nested configurations
+- Built-in middleware layer (like connect/express)
+- Able to capture traffic as interceptor pattern
+- Built-in support to sniff and transform bodies per request/response
 - Built-in balance with a round-robin like scheduler
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
@@ -35,6 +35,7 @@ For getting started, take a look to the [how does it works](#how-does-it-works),
 - As standalone reverse HTTP proxy with custom routing
 - As security proxy layer with custom logic
 - As extensible HTTP proxy balancer with custom logic per route
+- HTTP API proxy gateway
 - As SSL terminator proxy
 - For A/B testing
 - As test HTTP server intercepting and generating random/fake responses
@@ -125,7 +126,7 @@ rocky --config rocky.toml --port 8080 --debug
   - **debug** `boolean` - Enable debug mode. Default `false`
   - **secure** `boolen` - Enable SSL certificate validation. Default to `false`
   - **port** `number` - TCP port to listen. Default to `3000`
-  - **xfwd** `boolean` - Enable/disable x-forward headers
+  - **xfwd** `boolean` - Enable/disable x-forward headers. Default `true`
   - **toProxy** `string` - Passes the absolute URL as the path (useful for proxying to proxies)
   - **forwardHost** `boolean` - Always forward the target hostname as `Host` header
   - **hostRewrite** `boolen` - Rewrites the location hostname on (301/302/307/308) redirects
@@ -396,7 +397,21 @@ Define or overwrite request headers
 
 Overwrite the target hostname (defined as `host` header)
 
+<!--
+#### route#transformRequestBody(middleware)
+
+Experimental request body interceptor and transformer middleware for the given route.
+This allows you to change, replace or map the response body sent from the target server before sending it to the client.
+
+The middleware must a function accepting the following arguments: `function(req, res, next)`
+You can see an usage example [here](/examples/interceptor.js).
+
+**Caution**: whole payload data will be allocated in the stack, so don't use it for large binary payloads
+-->
+
 #### route#transformResponseBody(middleware)
+
+**Caution**: the whole payload data will be allocated in the stack, so don't use it for large binary payloads
 
 Experimental response body interceptor and transformer middleware for the given route.
 This allows you to change, replace or map the response body sent from the target server before sending it to the client.
@@ -404,7 +419,21 @@ This allows you to change, replace or map the response body sent from the target
 The middleware must a function accepting the following arguments: `function(req, res, next)`
 You can see an usage example [here](/examples/interceptor.js).
 
-**Note**: don't use it for large binary bodies
+The body interceptor will expose the body as raw `Buffer` or `String` both properties `body` and `rawBody` in `http.ClientRequest`:
+```js
+rocky
+  .post('/users')
+  .transformRequestBody(function (req, res, next) {
+    // Get the body buffer and parse it (assuming it's a JSON)
+    var body = JSON.parse(res.body.toString())
+
+    // Compose the new body
+    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+
+    // Set the new body
+    next(null, newBody)
+  })
+```
 
 #### route#options(options)
 

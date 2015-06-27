@@ -23,7 +23,7 @@ var route = proxy
     // Compose the new body
     var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
 
-    // Send the new body in the request
+    // Set the new body
     next(null, newBody)
 
     // Or even you can use write() as well:
