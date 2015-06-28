@@ -17,7 +17,8 @@
     "forward",
     "traffic",
     "gateway",
-    "router"
+    "router",
+    "middleware"
   ],
   "bin": {
     "rocky": "./bin/rocky"
@@ -43,6 +44,7 @@
     "express": "^4.13.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.3",
-    "supertest": "^1.0.1"
+    "supertest": "^1.0.1",
+    "vhost": "^3.0.0"
   }
 }

@@ -38,10 +38,10 @@ For getting started, take a look to the [how does it works](#how-does-it-works),
 - As HTTP API proxy gateway
 - As SSL terminator proxy
 - For A/B testing
-- As test intermediate server intercepting and generating random/fake responses
+- As test intermediate servercd intercepting and generating random/fake responses
 - And whatever a programmatic HTTP proxy could be useful to
 
-## Rationale
+## Motivation
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems with requires high availability. Taking care about consistency and public interface contract should be a premise in most cases.
 
@@ -88,7 +88,7 @@ npm install -g rocky
 ## Third-party middlewares
 
 - [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky
-- [**version**](https://github.com/h2non/rocky-version) - version based routing for rocky (useful for APIs)
+- [**version**](https://github.com/h2non/rocky-version) - HTTP API version based routing (uses [http-version](https://github.com/h2non/http-version))
 
 ## Command-line
 
