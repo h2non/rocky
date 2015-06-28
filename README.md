@@ -409,8 +409,7 @@ Overwrite the target hostname (defined as `host` header)
 
 **Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the stack until it's finished. Don't use it if you need to handle large payloads
 
-Experimental request body interceptor and transformer middleware for the given route.
-This allows you to change, replace or map the response body sent from the target server before sending it to the client.
+This allows you to intercept and replace or transform the response body recieved from the client before sending it to the target.
 
 The middleware must a function accepting the following arguments: `function(req, res, next)`
 You can see an usage example [here](/examples/interceptor.js).
@@ -437,8 +436,7 @@ rocky
 
 **Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the stack until it's finished. Don't use it if you need to handle large payloads
 
-Experimental response body interceptor and transformer middleware for the given route.
-This allows you to change, replace or map the response body sent from the target server before sending it to the client.
+This allows you to intercept and replace or transform the response body received from the target server before sending it to the client.
 
 The middleware must a function accepting the following arguments: `function(req, res, next)`
 You can see an usage example [here](/examples/interceptor.js).
