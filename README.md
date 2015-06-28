@@ -417,7 +417,7 @@ You can see an usage example [here](/examples/interceptor.js).
 
 You **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
 
-The body will be exposed as raw `Buffer` or `String` on both properties `body` and `rawBody` in `http.ClientRequest`:
+The body will be exposed as raw `Buffer` or `String` on both properties `body` and `originalBody` in `http.ClientRequest`:
 ```js
 rocky
   .post('/users')
@@ -445,7 +445,7 @@ You can see an usage example [here](/examples/interceptor.js).
 
 The `next` function accepts the following arguments: `err, newBody, encoding`
 
-The body will be exposed as raw `Buffer` or `String` on both properties `body` and `rawBody` in `http.ClientResponse`:
+The body will be exposed as raw `Buffer` or `String` on both properties `body` and `originalBody` in `http.ClientResponse`:
 ```js
 rocky
   .post('/users')
