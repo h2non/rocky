@@ -123,31 +123,32 @@ rocky --config rocky.toml --port 8080 --debug
 
 **Supported params**
 
-- Default params (top level)
-  - **forward** `string` - Default forward URL
-  - **debug** `boolean` - Enable debug mode. Default `false`
-  - **target** `string` - <url string to be parsed with the url module
-  - **replay** `array<string>` - Optional replay server URLs. You should call the `replay()` method
-  - **balance** `array<url>` - Define the URLs to balance. You should call the `balance()` method
-  - **forward** `string` - url string to be parsed with the url module
-  - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
-  - **ssl** `object` - object to be passed to https.createServer()
-    - **cert** `string` - Path to SSL certificate file
-    - **key** `string` - Path to SSL key file
-  - **ws** `boolean` - true/false, if you want to proxy websockets
-  - **xfwd** `boolean` - true/false, adds x-forward headers
-  - **secure** `boolean` - true/false, verify SSL certificate
-  - **toProxy** `boolean` - true/false, explicitly specify if we are proxying to another proxy
-  - **prependPath** `boolean` - true/false, Default: true - specify whether you want to prepend the target's path to the proxy path
-  - **ignorePath** `boolean` - true/false, Default: false - specify whether you want to ignore the proxy path of the incoming request
-  - **localAddress** `boolean` - <Local interface string to bind for outgoing connections
-  - **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
-  - **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
-  - **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
-  - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
-  - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
+- **forward** `string` - Default forward URL
+- **debug** `boolean` - Enable debug mode. Default `false`
+- **target** `string` - <url string to be parsed with the url module
+- **replay** `array<string>` - Optional replay server URLs. You should call the `replay()` method
+- **balance** `array<url>` - Define the URLs to balance. You should call the `balance()` method
+- **forward** `string` - url string to be parsed with the url module
+- **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
+- **ssl** `object` - object to be passed to https.createServer()
+  - **cert** `string` - Path to SSL certificate file
+  - **key** `string` - Path to SSL key file
+- **ws** `boolean` - true/false, if you want to proxy websockets
+- **xfwd** `boolean` - true/false, adds x-forward headers
+- **secure** `boolean` - true/false, verify SSL certificate
+- **toProxy** `boolean` - true/false, explicitly specify if we are proxying to another proxy
+- **prependPath** `boolean` - true/false, Default: true - specify whether you want to prepend the target's path to the proxy path
+- **ignorePath** `boolean` - true/false, Default: false - specify whether you want to ignore the proxy path of the incoming request
+- **localAddress** `boolean` - <Local interface string to bind for outgoing connections
+- **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
+- **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
+- **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
+- **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
+- **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
 
-The configuration file must be in [TOML](https://github.com/toml-lang/toml) format
+#### Configuration file
+
+The configuration file must be declared in [TOML](https://github.com/toml-lang/toml) language
 ```toml
 port = 8080
 forward = "http://google.com"
