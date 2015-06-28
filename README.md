@@ -28,18 +28,18 @@ For getting started, take a look to the [how does it works](#how-does-it-works),
 
 ## When `rocky` is a good choice?
 
-- For progressive HTTP services migrations, such APIs
+- As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
 - Replaying traffic to one or multiple backends
-- As HTTP traffic interceptor and adapter
-- As standalone reverse HTTP proxy with custom routing
+- As HTTP traffic interceptor, logger and/or adapter
+- As standalone reverse HTTP proxy with powerful routing
 - As security proxy layer with custom logic
-- As extensible HTTP proxy balancer with custom logic per route
-- HTTP API proxy gateway
+- As extensible HTTP proxy balancer with custom logic per specific route
+- As HTTP API proxy gateway
 - As SSL terminator proxy
 - For A/B testing
-- As test HTTP server intercepting and generating random/fake responses
-- And whatever a programmatic HTTP proxy can be useful to
+- As test intermediate server intercepting and generating random/fake responses
+- And whatever a programmatic HTTP proxy could be useful to
 
 ## Rationale
 
