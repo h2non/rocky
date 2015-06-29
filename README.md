@@ -9,7 +9,7 @@ Built for [node.js](http://nodejs.org). Compatible with [connect](https://github
 
 For getting started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage), [examples](/examples) and third-party [middlewares](#third-party-middlewares)
 
-Requires nodejs +0.12 or iojs +1.0
+Requires nodejs +0.12 or iojs +1.6
 
 ## Features
 
