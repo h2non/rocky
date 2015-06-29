@@ -249,8 +249,8 @@ suite('rocky', function () {
   test('intercept and transform request payload', function (done) {
     proxy = rocky()
       .forward(targetUrl)
-      .replay(replayUrl)
-      .replay(replayUrl)
+      .replay({ target: replayUrl, forwardOriginalBody: true })
+      .replay({ target: replayUrl, forwardOriginalBody: true })
       .listen(ports.proxy)
 
     proxy
@@ -261,22 +261,32 @@ suite('rocky', function () {
         next(null, newBody)
       })
 
-    replay = createReplayServer(assert)
+    replay = createReplayServer(assertReplay)
     server = createTestServer(assert)
 
     supertest(proxyUrl)
       .post('/payload')
       .type('application/json')
-      .send('{"hello": "world"}')
+      .send('{"hello":"world"}')
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({'hello': 'world'})
-      .end(done)
+      .end(end)
+
+    function end(err) {
+      setTimeout(function () { done(err) }, 50)
+    }
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/payload')
-      expect(res.statusCode).to.match(/200|204/)
+      expect(res.statusCode).to.be.equal(200)
       expect(req.body).to.be.equal('{"salutation":"hello world"}')
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/payload')
+      expect(res.statusCode).to.be.equal(204)
+      expect(req.body).to.be.equal('{"hello":"world"}')
     }
   })
 
@@ -284,7 +294,7 @@ suite('rocky', function () {
     var spy = sinon.spy()
     proxy = rocky()
     server = createTestServer(assert)
-    replay = createReplayServer(assert)
+    replay = createReplayServer(assertReplay)
 
     proxy.get('/test')
       .forward(targetUrl)
@@ -309,8 +319,13 @@ suite('rocky', function () {
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
-      expect(res.statusCode).to.match(/200|204/)
-      expect(spy.calledTwice).to.be.true
+      expect(res.statusCode).to.be.equal(200)
+      expect(req.headers['x-test']).to.be.equal('rocky')
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
       expect(req.headers['x-test']).to.be.equal('rocky')
     }
   })

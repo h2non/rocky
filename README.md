@@ -478,8 +478,7 @@ Useful to incercept the status or modify the options on-the-fly
 - **proxyReq** `opts, proxyReq, req, res` - Fired when the request forward starts
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
 - **error** `err, req, res` - Fired when the forward request fails
-- **replay:proxyReq** `opts, proxyReq, req, res` - Fired when a replay request starts
-- **replay:proxyRes** `opts, proxyRes, req, res` - Fired when a replay server respond
+- **replay:start** `params, opts` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when the replay request fails
 
 For more information about events, see the [events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events) fired by `http-proxy`

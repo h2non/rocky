@@ -30,7 +30,6 @@
     "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd"
   },
   "dependencies": {
-    "debug": "^2.2.0",
     "http-proxy": "^1.11.1",
     "lodash": "^3.9.3",
     "midware": "^0.1.1",
@@ -42,6 +41,7 @@
     "chai": "^3.0.0",
     "connect": "^3.4.0",
     "express": "^4.13.0",
+    "fw": "^0.1.2",
     "http-version": "^0.1.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.3",
