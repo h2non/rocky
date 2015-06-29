@@ -6,8 +6,9 @@ var assign  = require('lodash').assign
 var findup  = require('findup-sync')
 var version = require('../package.json').version
 
-var yargs = require('yargs')
-var argv = yargs
+var configFile = 'rocky.toml'
+
+var argv = require('yargs')
   .usage('Start rocky HTTP proxy server\nUsage: $0 [options]')
   .example('$0 -c rocky.toml \\\n -f http://127.0.0.1:9000 \\\n -r http://127.0.0.1', '')
   .help('help')
@@ -79,7 +80,7 @@ function start() {
   }
 
   if (!data && !argv.config) {
-    argv.config = findup('rocky.toml', { cwd: process.cwd() })
+    argv.config = findup(configFile, { cwd: process.cwd() })
   }
 
   if (!data && argv.config) {

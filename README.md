@@ -162,6 +162,8 @@ rocky --port 8080
 
 #### Configuration file
 
+Default configuration file name: `rocky.toml`
+
 The configuration file must be declared in [TOML](https://github.com/toml-lang/toml) language
 ```toml
 port = 8080
