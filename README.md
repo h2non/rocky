@@ -119,6 +119,16 @@ Examples:
 rocky --config rocky.toml --port 8080 --debug
 ```
 
+Reading config from `stdin`
+```
+cat rocky.toml | rocky --port 8080 --debug
+```
+
+Automatically file discovery
+```
+cat rocky.toml | rocky --port 8080 --debug
+```
+
 ### Configuration
 
 **Supported params**

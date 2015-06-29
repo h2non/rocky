@@ -3,6 +3,7 @@
 var fs      = require('fs')
 var toml    = require('toml')
 var assign  = require('lodash').assign
+var findup  = require('findup-sync')
 var version = require('../package.json').version
 
 var yargs = require('yargs')
@@ -16,8 +17,7 @@ var argv = yargs
   .options({
     config: {
       alias: 'c',
-      description: 'File path to TOML config file',
-      required: true
+      description: 'File path to TOML config file'
     },
     port: {
       alias: 'p',
@@ -56,27 +56,58 @@ var argv = yargs
   })
   .argv
 
-if (!fs.existsSync(argv.config)) {
-  console.error('invalid config path:', argv.config)
-  process.exitCode = 1
-  return
-}
+var id = setTimeout(start, 100)
+var data = ''
 
-var config = toml.parse(fs.readFileSync(argv.config))
-var opts = assign({}, argv, config)
+process.stdin.resume()
+process.stdin.setEncoding('utf8')
+process.stdin.on('data', function (chunk) {
+  data += chunk
+})
+process.stdin.once('end', function () {
+  clearTimeout(id)
+  start()
+})
 
-if (opts.cert && opts.key) {
-  opts.ssl = {
-    cert: fs.readFileSync(opts.cert, 'utf8'),
-    key: fs.readFileSync(opts.key, 'utf8')
+function start() {
+  process.stdin.pause()
+
+  if (!data && argv.config && !fs.existsSync(argv.config)) {
+    console.error('Invalid config path:', argv.config)
+    process.exitCode = 1
+    return
   }
+
+  if (!data && !argv.config) {
+    argv.config = findup('rocky.toml', { cwd: process.cwd() })
+  }
+
+  if (!data && argv.config) {
+    data = fs.readFileSync(argv.config).toString()
+  }
+
+  if (!data) {
+    console.error('Cannot find rocky.toml config file')
+    process.exitCode = 1
+    return
+  }
+
+  var config = toml.parse(data)
+  var opts = assign({}, argv, config)
+
+  if (opts.cert && opts.key) {
+    opts.ssl = {
+      cert: fs.readFileSync(opts.cert, 'utf8'),
+      key: fs.readFileSync(opts.key, 'utf8')
+    }
+  }
+
+  if (opts.debug) {
+    process.env.DEBUG = 'rocky:*'
+  }
+
+  opts.port = +opts.port || process.env.PORT || 3000
+  require('..').create(opts)
+
+  console.log('rocky server listening on port:', opts.port)
 }
-
-if (opts.debug) {
-  process.env.DEBUG = 'rocky:*'
-}
-
-opts.port = +opts.port || process.env.PORT || 3000
-require('..').create(opts)
-
-console.log('rocky server listening on port:', opts.port)

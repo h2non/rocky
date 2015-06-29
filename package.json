@@ -30,6 +30,7 @@
     "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd"
   },
   "dependencies": {
+    "findup-sync": "^0.2.1",
     "http-proxy": "^1.11.1",
     "lodash": "^3.9.3",
     "midware": "^0.1.1",
