@@ -145,6 +145,7 @@ rocky --config rocky.toml --port 8080 --debug
 - **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
+- **forwardOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one
 
 #### Configuration file
 
@@ -222,7 +223,7 @@ var proxy = rocky()
 // Default proxy config
 proxy
   .forward('http://new.server')
-  .replay('http://old.server')
+  .replay('http://old.server', { forwardOriginalBody: true })
   .options({ forwardHost: true })
 
 // Configure the routes to forward/replay
@@ -275,9 +276,11 @@ Alias: `target`
 
 Define a default target URL to forward the request
 
-#### rocky#replay(...url)
+#### rocky#replay(url, [ opts ])
 
 Add a server URL to replay the incoming request
+
+`opts` param provide specific replay [options](#configuration), overwritting the parent options.
 
 #### rocky#options(options)
 
@@ -385,9 +388,11 @@ Alias: `target`
 
 Overwrite forward server for the current route.
 
-#### route#replay(...url)
+#### route#replay(url, [ opts ])
 
 Overwrite replay servers for the current route.
+
+`opts` param provide specific replay [options](#configuration), overwritting the parent options.
 
 #### route#balance(...urls)
 
@@ -478,7 +483,7 @@ Useful to incercept the status or modify the options on-the-fly
 - **proxyReq** `opts, proxyReq, req, res` - Fired when the request forward starts
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
 - **error** `err, req, res` - Fired when the forward request fails
-- **replay:start** `params, opts` - Fired before a replay request starts
+- **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when the replay request fails
 
 For more information about events, see the [events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events) fired by `http-proxy`

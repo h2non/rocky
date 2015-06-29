@@ -39,14 +39,11 @@ route
   .on('error', function (err, req, res) {
     console.log('Route error:', err)
   })
-  .on('replay:proxyReq', function (proxyReq, req, res, opts) {
-    console.log('Replay request:', req.url, 'to', opts.target)
+  .on('replay:start', function (params, opts, req) {
+    console.log('Replay request:', params, '=>', opts.target)
   })
-  .on('replay:proxyRes', function (proxyRes, req, res) {
-    console.log('Replay response:', req.url, 'with status', res.statusCode)
-  })
-  .on('replay:error', function (err, req, res) {
-    console.log('Replay error:', err)
+  .on('replay:error', function (err, req) {
+    console.log('Replay error:', err, req.url)
   })
 
 proxy.listen(3000)

@@ -11,6 +11,8 @@ proxy
 // Configure the route
 var route = proxy
   .post('/users/:id')
+  // Replay traffic for the given route
+  .replay('http://localhost:3002', { forwardOriginalBody: true })
   // Add incoming traffic middleware to intercept and mutate the request
   .use(function (req, res, next) {
     req.headers['Authorization'] = 'Bearer 0123456789'
@@ -65,6 +67,18 @@ http.createServer(function (req, res) {
     res.end()
   })
 }).listen(3001)
+
+// Replay server
+http.createServer(function (req, res) {
+  // Check if we have a auth
+  if (req.headers['authorization'] !== 'Bearer 0123456789') {
+    res.writeHead(401)
+    return res.end()
+  }
+
+  res.writeHead(204)
+  res.end()
+}).listen(3002)
 
 // Client test request
 supertest('http://localhost:3000')
