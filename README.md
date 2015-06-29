@@ -98,7 +98,7 @@ Usage: rocky [options]
 
 Options:
   --help, -h     Show help                                             [boolean]
-  --config, -c   File path to TOML config file                        [required]
+  --config, -c   File path to TOML config file
   --port, -p     rocky HTTP server port
   --forward, -f  Default forward server URL
   --replay, -r   Define a replay server URL
@@ -117,18 +117,19 @@ Examples:
 
 #### Examples
 
+Passing the config file:
 ```
 rocky --config rocky.toml --port 8080 --debug
 ```
 
-Reading config from `stdin`
+Reading config from `stdin`:
 ```
 cat rocky.toml | rocky --port 8080 --debug
 ```
 
-Automatically file discovery
+Transparent `rocky.toml` file discovery in the current and higher directories:
 ```
-cat rocky.toml | rocky --port 8080 --debug
+rocky --port 8080
 ```
 
 ### Configuration
