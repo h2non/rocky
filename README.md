@@ -515,6 +515,7 @@ Useful to incercept the status or modify the options on-the-fly
 - **proxyReq** `opts, proxyReq, req, res` - Fired when the request forward starts
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
 - **error** `err, req, res` - Fired when the forward request fails
+- **route:error** `err, req, res` - Fired when cannot forward/replay the request or middleware error
 - **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when the replay request fails
 
