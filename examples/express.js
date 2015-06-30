@@ -13,7 +13,7 @@ proxy.get('/headers')
 
 proxy.get('/status/:code')
   .replay('http://localhost:3002')
-  .on('error', function (err) {
+  .on('proxy:error', function (err) {
     console.log('Error:', err)
   })
 

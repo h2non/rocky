@@ -87,8 +87,8 @@ npm install -g rocky
 
 ### Standalone binaries
 
-- [linux-x64](https://github.com/h2non/rocky/releases/download/0.1.9/rocky-0.1.9-linux-x64.nar)
-- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.1.9/rocky-0.1.9-darwin-x64.nar)
+- [linux-x64](https://github.com/h2non/rocky/releases/download/0.1.10/rocky-0.1.10-linux-x64.nar)
+- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.1.10/rocky-0.1.10-darwin-x64.nar)
 
 Packaged using [nar](https://github.com/h2non/nar)
 
@@ -266,6 +266,15 @@ proxy
   .forward('http://new.server')
   .replay('http://old.server', { forwardOriginalBody: true })
   .options({ forwardHost: true })
+  .on('proxy:error', function (err) {
+    console.error('Error:', err)
+  })
+  .on('proxyReq', function (proxyReq, req, res, opts) {
+    console.log('Proxy request:', req.url, 'to', opts.target)
+  })
+  .on('proxyRes', function (proxyRes, req, res) {
+    console.log('Proxy response:', req.url, 'with status', res.statusCode)
+  })
 
 // Configure the routes to forward/replay
 proxy

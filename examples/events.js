@@ -9,12 +9,12 @@ proxy
 // Subscribe to global events
 proxy
   .on('proxyReq', function (proxyReq, req, res, opts) {
-    console.log('New request:', req.url, 'to', opts.target)
+    console.log('Proxy request:', req.url, 'to', opts.target)
   })
   .on('proxyRes', function (proxyRes, req, res) {
-    console.log('New response:', req.url, 'with status', res.statusCode)
+    console.log('Proxy response:', req.url, 'with status', res.statusCode)
   })
-  .on('error', function (err, req, res) {
+  .on('proxy:error', function (err, req, res) {
     console.log('Proxy error:', err)
   })
 
@@ -31,12 +31,12 @@ var route = proxy
 // Subscribe to route-level events
 route
   .on('proxyReq', function (proxyReq, req, res, opts) {
-    console.log('New request:', req.url, 'to', opts.target)
+    console.log('Proxy request:', req.url, 'to', opts.target)
   })
   .on('proxyRes', function (proxyRes, req, res) {
-    console.log('New response:', req.url, 'with status', res.statusCode)
+    console.log('Proxy response:', req.url, 'with status', res.statusCode)
   })
-  .on('error', function (err, req, res) {
+  .on('proxy:error', function (err, req, res) {
     console.log('Proxy error:', err)
   })
   .on('route:error', function (err, req, res) {
