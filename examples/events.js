@@ -37,6 +37,9 @@ route
     console.log('New response:', req.url, 'with status', res.statusCode)
   })
   .on('error', function (err, req, res) {
+    console.log('Proxy error:', err)
+  })
+  .on('route:error', function (err, req, res) {
     console.log('Route error:', err)
   })
   .on('replay:start', function (params, opts, req) {
