@@ -301,7 +301,7 @@ suite('rocky', function () {
       .replay(replayUrl)
       .options({ hostRewrite: true })
       .on('proxyReq', spy)
-      .on('replay:proxyReq', spy)
+      .on('replay:start', spy)
       .on('error', spy)
       .use(function (req, res, next) {
         req.headers['X-Test'] = 'rocky'
@@ -315,7 +315,12 @@ suite('rocky', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(done)
+      .end(end)
+
+    function end() {
+      expect(spy.calledTwice).to.be.true
+      done()
+    }
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
@@ -327,6 +332,31 @@ suite('rocky', function () {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.headers['x-test']).to.be.equal('rocky')
+    }
+  })
+
+  test('missing route', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+
+    proxy.get('/test')
+      .on('error', spy)
+      .on('proxyReq', spy)
+      .on('route:error', spy)
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(end)
+
+    function end() {
+      expect(spy.calledOnce).to.be.true
+      expect(spy.args[0][0].message).to.be.equal('Target URL was not defined for this route')
+      done()
     }
   })
 
