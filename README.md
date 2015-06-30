@@ -172,6 +172,7 @@ rocky --port 8080
 - **localAddress** `boolean` - <Local interface string to bind for outgoing connections
 - **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
 - **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
+- **forwardHost** `boolean` - Forward target URL host while proxying. Default `false`
 - **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
@@ -208,7 +209,7 @@ method = "GET"
 balance = ["http://1.file.server", "http://2.file.server"]
 
 [/photo/:name]
-method = GET
+method = "GET"
 [[replay]]
   target = "http://old.server"
   forwardHost = true
