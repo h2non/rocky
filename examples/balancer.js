@@ -1,5 +1,5 @@
 var http = require('http')
-var rocky = require('../')
+var rocky = require('..')
 
 var proxy = rocky()
 

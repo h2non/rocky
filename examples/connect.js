@@ -1,6 +1,6 @@
 var http = require('http')
 var connect = require('connect')
-var rocky = require('../')
+var rocky = require('..')
 
 var app = connect()
 var migrate = rocky()
