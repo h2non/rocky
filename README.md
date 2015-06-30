@@ -156,8 +156,8 @@ rocky --port 8080
 - **forward** `string` - Default forward URL
 - **debug** `boolean` - Enable debug mode. Default `false`
 - **target** `string` - <url string to be parsed with the url module
-- **replay** `array<string>` - Optional replay server URLs. You should call the `replay()` method
-- **balance** `array<url>` - Define the URLs to balance. You should call the `balance()` method
+- **replay** `array<string>` - Optional replay server URLs. Via API you should use the `replay()` method
+- **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
 - **forward** `string` - url string to be parsed with the url module
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - **ssl** `object` - object to be passed to https.createServer()
@@ -199,13 +199,21 @@ forward = "http://new.server"
 method = "all"
 forward = "http://auth.server"
 
+[/*]
+method = "GET"
+forward = "http://old.server"
+
 [/download/:file]
 method = "GET"
 balance = ["http://1.file.server", "http://2.file.server"]
 
-[/*]
-method = "GET"
-forward = "http://old.server"
+[/photo/:name]
+method = GET
+[[replay]]
+  target = "http://old.server"
+  forwardHost = true
+[[replay]]
+  target = "http://backup.server"
 ```
 
 ## Programmatic API
