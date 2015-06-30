@@ -9,6 +9,8 @@ proxy
   .forward('http://httpbin.org')
 
 proxy.get('/headers')
+  .replay('http://localhost:3001')
+
 proxy.get('/status/:code')
   .replay('http://localhost:3002')
   .on('error', function (err) {
@@ -28,7 +30,13 @@ app.get('/status/:code', function (req, res) {
 
 app.listen(3000)
 
-// Replay server
+// Replay servers
+express()
+  .use(function (req, res) {
+    res.sendStatus(503)
+  })
+  .listen(3001)
+
 express()
   .use(function (req, res) {
     res.sendStatus(503)

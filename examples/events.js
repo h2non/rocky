@@ -43,7 +43,7 @@ route
     console.log('Route error:', err)
   })
   .on('replay:start', function (params, opts, req) {
-    console.log('Replay request:', params, '=>', opts.target)
+    console.log('Replay request:', params, '=>', opts.target, '=> URL:', req.url)
   })
   .on('replay:error', function (err, req) {
     console.log('Replay error:', err, req.url)
