@@ -156,8 +156,8 @@ rocky --port 8080
 - **forward** `string` - Default forward URL
 - **debug** `boolean` - Enable debug mode. Default `false`
 - **target** `string` - <url string to be parsed with the url module
-- **replay** `array<string>` - Optional replay server URLs. You should call the `replay()` method
-- **balance** `array<url>` - Define the URLs to balance. You should call the `balance()` method
+- **replay** `array<string>` - Optional replay server URLs. Via API you should use the `replay()` method
+- **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
 - **forward** `string` - url string to be parsed with the url module
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - **ssl** `object` - object to be passed to https.createServer()
@@ -172,6 +172,7 @@ rocky --port 8080
 - **localAddress** `boolean` - <Local interface string to bind for outgoing connections
 - **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
 - **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
+- **forwardHost** `boolean` - Forward target URL host while proxying. Default `false`
 - **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
@@ -199,13 +200,21 @@ forward = "http://new.server"
 method = "all"
 forward = "http://auth.server"
 
+[/*]
+method = "GET"
+forward = "http://old.server"
+
 [/download/:file]
 method = "GET"
 balance = ["http://1.file.server", "http://2.file.server"]
 
-[/*]
+[/photo/:name]
 method = "GET"
-forward = "http://old.server"
+[[replay]]
+  target = "http://old.server"
+  forwardHost = true
+[[replay]]
+  target = "http://backup.server"
 ```
 
 ## Programmatic API
