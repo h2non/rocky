@@ -28,7 +28,8 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd",
-    "start": "./bin/rocky"
+    "start": "./bin/rocky",
+    "nar": "nar create -e --os linux --arch x64 && nar create -e --os darwin --arch x64"
   },
   "dependencies": {
     "findup-sync": "^0.2.1",
