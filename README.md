@@ -85,6 +85,23 @@ For command-line interface usage, install it as global package:
 npm install -g rocky
 ```
 
+### Standalone binaries
+
+Powered by [nar](https://github.com/h2non/nar)
+
+- [linux-x64](https://github.com/h2non/rocky/releases/download/0.1.6/rocky-0.1.6-linux-x64.nar)
+- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.1.6/rocky-0.1.6-darwin-x64.nar)
+
+##### Usage
+
+```
+chmod +x rocky-0.1.6-linux-x64.nar
+```
+
+```
+./rocky-0.1.6-linux-x64.nar exec --port 3000 --config rocky.toml
+```
+
 ## Third-party middlewares
 
 - [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky

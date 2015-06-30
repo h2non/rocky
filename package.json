@@ -27,7 +27,8 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd"
+    "test": "./node_modules/.bin/mocha --timeout 2000 --reporter spec --ui tdd",
+    "start": "./bin/rocky"
   },
   "dependencies": {
     "findup-sync": "^0.2.1",
