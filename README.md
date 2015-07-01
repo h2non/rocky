@@ -31,7 +31,7 @@ Requires nodejs +0.12 or iojs +1.6
 - As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
 - Replaying traffic to one or multiple backends
-- As HTTP traffic interceptor, logger and/or adapter
+- As intermediate HTTP proxy adapter for external services
 - As standalone reverse HTTP proxy with powerful routing
 - As security proxy layer with custom logic
 - As extensible HTTP proxy balancer with custom logic per specific route
