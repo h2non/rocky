@@ -30,8 +30,8 @@ Requires nodejs +0.12 or iojs +1.6
 
 - As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
-- Replaying traffic to one or multiple backends
 - As intermediate HTTP proxy adapter for external services
+- Replaying traffic to one or multiple backend
 - As standalone reverse HTTP proxy with powerful routing
 - As security proxy layer with custom logic
 - As extensible HTTP proxy balancer with custom logic per specific route
@@ -45,11 +45,9 @@ Requires nodejs +0.12 or iojs +1.6
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems with requires high availability. Taking care about consistency and public interface contract should be a premise in most cases.
 
-That's the main reason why `rocky` borns: it was designed to become an useful tool to assist you during a backend migration strategy. You could use it as a frontend proxy server or integrated in your existent `node.js` backend.
+`rocky` was initially designed to be an useful tool to assist during a backend migration strategy. However it could useful for a lot more of [scenarios](#when-rocky-is-a-good-choice). It was created with versatility in mind, so it can work as standalone HTTP proxy or integrated in your existent `node.js` backend powered by express/connect or raw http server.
 
-`rocky` will take care about HTTP routing discerning the traffic and forwarding/replaying it accordingly to your desired new backend.
-
-You can use it as well for multiple purposes, like A/B testing and more.
+`rocky` will take care about HTTP routing, discerning the traffic and forwarding/replaying it accordingly to your desired new backend.
 
 ## How does it works?
 
