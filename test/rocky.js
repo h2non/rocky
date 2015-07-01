@@ -360,6 +360,97 @@ suite('rocky', function () {
     }
   })
 
+  test('bad forward server', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+
+    proxy.get('/test')
+      .forward('http://invalid.server')
+      .on('proxyReq', spy)
+      .on('proxy:error', spy)
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(502)
+      .expect('Content-Type', 'application/json')
+      .expect(/ENOTFOUND/)
+      .end(end)
+
+    function end(err, res) {
+      expect(spy.calledTwice).to.be.true
+      expect(spy.args[1][0].message).to.match(/ENOTFOUND/)
+      done()
+    }
+  })
+
+  test('replay without forwarding', function (done) {
+    var spy = sinon.spy()
+
+    replay = createReplayServer(assertReplay)
+    proxy = rocky()
+      .replay(replayUrl)
+      .listen(ports.proxy)
+
+    proxy.get('/test')
+      .on('proxyReq', spy)
+      .on('route:error', spy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(404)
+      .expect('Content-Type', 'application/json')
+      .expect(/Target URL/)
+      .end(end)
+
+    function end(err, res) {
+      expect(spy.calledOnce).to.be.true
+      expect(spy.args[0][0].message).to.match(/Target URL/)
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
+      done()
+    }
+  })
+
+  test('timeout', function (done) {
+    var spy = sinon.spy()
+    var serverSpy = sinon.spy()
+
+    replay = createReplayServer(assertReplay)
+    server = createTimeoutServer()
+
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .listen(ports.proxy)
+
+    proxy.get('/test')
+      .options({ timeout: 50 })
+      .on('proxyReq', spy)
+      .on('proxy:error', spy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .end(end)
+
+    function end(err, res) {
+      expect(spy.calledOnce).to.be.true
+      expect(serverSpy.calledOnce).to.be.true
+      expect(err.code).to.be.equal('ECONNRESET')
+      done()
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
+      serverSpy()
+    }
+  })
+
   test('balancer', function (done) {
     var spy = sinon.spy()
     proxy = rocky()
@@ -429,19 +520,27 @@ function createReplayServer(assert) {
   return createServer(ports.replay, 204, assert)
 }
 
-function createServer(port, code, assert) {
-  var server = http.createServer(function (req, res) {
-    res.writeHead(code, { 'Content-Type': 'application/json' })
-    res.write(JSON.stringify({ 'hello': 'world' }))
+function createTimeoutServer(assert) {
+  return createServer(ports.target, 503, assert, 30 * 1000)
+}
 
-    var body = ''
-    req.on('data', function (data) {
-      body += data
-    })
-    req.on('end', function () {
-      req.body = body
-      end()
-    })
+function createServer(port, code, assert, timeout) {
+  var server = http.createServer(function (req, res) {
+    setTimeout(handler, +timeout || 1)
+
+    function handler() {
+      res.writeHead(code, { 'Content-Type': 'application/json' })
+      res.write(JSON.stringify({ 'hello': 'world' }))
+
+      var body = ''
+      req.on('data', function (data) {
+        body += data
+      })
+      req.on('end', function () {
+        req.body = body
+        end()
+      })
+    }
 
     function end() {
       if (assert) assert(req, res)

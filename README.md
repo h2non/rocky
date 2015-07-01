@@ -159,6 +159,8 @@ rocky --port 8080
 - **replay** `array<string>` - Optional replay server URLs. Via API you should use the `replay()` method
 - **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
 - **forward** `string` - url string to be parsed with the url module
+- **timeout** `number` - Timeout for request socket
+- **proxyTimeout** `number` - Timeout for proxy request socket
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - **ssl** `object` - object to be passed to https.createServer()
   - **cert** `string` - Path to SSL certificate file
@@ -206,6 +208,7 @@ forward = "http://old.server"
 
 [/download/:file]
 method = "GET"
+timeout = 5000
 balance = ["http://1.file.server", "http://2.file.server"]
 
 [/photo/:name]
@@ -374,7 +377,7 @@ Return a connect/express compatible middleware
 
 Raw HTTP request/response handler.
 
-#### rocky#listen(port)
+#### rocky#listen(port, [ host ])
 
 Starts a HTTP proxy server in the given port
 
@@ -532,7 +535,7 @@ Useful to incercept the status or modify the options on-the-fly
 
 - **proxyReq** `opts, proxyReq, req, res` - Fired when the request forward starts
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
-- **proxy:error** `err` - Fired when the proxy request fails
+- **proxy:error** `err, req, res` - Fired when the proxy request fails
 - **route:error** `err, req, res` - Fired when cannot forward/replay the request or middleware error
 - **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when the replay request fails
