@@ -1,6 +1,6 @@
 # rocky [![Build Status](https://api.travis-ci.org/h2non/rocky.svg?branch=master&style=flat)](https://travis-ci.org/h2non/rocky) [![Code Climate](https://codeclimate.com/github/h2non/rocky/badges/gpa.svg)](https://codeclimate.com/github/h2non/rocky) [![NPM](https://img.shields.io/npm/v/rocky.svg)](https://www.npmjs.org/package/rocky) ![Downloads](https://img.shields.io/npm/dm/rocky.svg)
 
-<img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
+<img align="right" height="200" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
 **Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with versatile hierarchical **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
 Built for [node.js](http://nodejs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
