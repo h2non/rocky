@@ -22,7 +22,7 @@ Requires nodejs +0.12 or iojs +1.6
 - Built-in middleware layer (like connect/express)
 - Able to capture traffic as interceptor pattern
 - Built-in support to sniff and transform bodies per request/response
-- Built-in balance with a round-robin like scheduler
+- Built-in balancer
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
 
