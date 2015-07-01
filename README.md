@@ -2,10 +2,10 @@
 
 <img align="right" height="180" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with versatile **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
+**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with versatile and hierarchical **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
 Built for [node.js](http://nodejs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
-`rocky` was originally designed as strategic lightweight utility for a progressive HTTP service migration, however it could be a good choice for [more purposes](#when-rocky-is-a-good-choice). It can be used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
+`rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
 For getting started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage), [examples](/examples) and third-party [middlewares](#third-party-middlewares)
 
@@ -178,7 +178,7 @@ rocky --port 8080
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
 - **forwardOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one
 
-#### Configuration file
+### Configuration file
 
 Default configuration file name: `rocky.toml`
 
@@ -462,7 +462,7 @@ Overwrite the target hostname (defined as `host` header)
 
 #### route#transformRequestBody(middleware)
 
-**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the stack until it's finished. Don't use it if you need to handle large payloads
+**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
 
 This allows you to intercept and replace or transform the response body recieved from the client before sending it to the target.
 
@@ -489,7 +489,7 @@ rocky
 
 #### route#transformResponseBody(middleware)
 
-**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the stack until it's finished. Don't use it if you need to handle large payloads
+**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
 
 This allows you to intercept and replace or transform the response body received from the target server before sending it to the client.
 
