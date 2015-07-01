@@ -7,7 +7,7 @@ Built for [node.js](http://nodejs.org). Compatible with [connect](https://github
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-For getting started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage), [examples](/examples) and third-party [middlewares](#third-party-middlewares)
+To get started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage), [examples](/examples) and third-party [middlewares](#third-party-middlewares)
 
 Requires nodejs +0.12 or iojs +1.6
 
