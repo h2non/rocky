@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Pluggable and middleware-oriented full featured HTTP/S proxy router",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
