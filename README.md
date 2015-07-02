@@ -6,7 +6,7 @@
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-To get started, take a look to the [how does it works](#how-does-it-works), [basic usage](#usage), [examples](/examples) and third-party [middlewares](#third-party-middlewares)
+To get started, take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [examples](/examples) and third-party [middleware](#third-party-middleware)
 
 Requires nodejs +0.12 or iojs +1.6
 
@@ -44,13 +44,13 @@ Requires nodejs +0.12 or iojs +1.6
 
 ## Motivation
 
-Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems with requires high availability. Taking care about consistency and public interface contract should be a premise in most cases.
+Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was initially designed to be an useful tool to assist during a backend migration strategy. However it could useful for a lot more of [scenarios](#when-rocky-is-a-good-choice). It was created with versatility in mind, so it can work as standalone HTTP proxy or integrated in your existent `node.js` backend powered by express/connect or raw http server.
+`rocky` was initially designed to be a useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice). It was created with versatility in mind, so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
 
-`rocky` will take care about HTTP routing, discerning the traffic and forwarding/replaying it accordingly to your desired new backend.
+`rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
 
-## How does it works?
+## How does it work?
 
 ```
          |==============|
@@ -101,7 +101,7 @@ chmod +x rocky-0.1.6-linux-x64.nar
 ./rocky-0.1.6-linux-x64.nar exec --port 3000 --config rocky.toml
 ```
 
-## Third-party middlewares
+## Third-party middleware
 
 - [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky
 - [**version**](https://github.com/h2non/rocky-version) - HTTP API version based routing (uses [http-version](https://github.com/h2non/http-version))
@@ -143,7 +143,7 @@ Reading config from `stdin`:
 cat rocky.toml | rocky --port 8080 --debug
 ```
 
-Transparent `rocky.toml` file discovery in the current and higher directories:
+Transparent `rocky.toml` file discovery in current and parent directories:
 ```
 rocky --port 8080
 ```
@@ -315,7 +315,7 @@ proxy
 proxy.listen(3000)
 ```
 
-For more usage case, take a look to the [examples](/examples)
+For more usage cases, take a look at the [examples](/examples)
 
 ### rocky([ options ])
 
@@ -464,7 +464,7 @@ Overwrite the target hostname (defined as `host` header)
 
 #### route#transformRequestBody(middleware)
 
-**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
+**Caution**: using this middleware could generate negative performance side-effects, since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
 
 This allows you to intercept and replace or transform the response body recieved from the client before sending it to the target.
 
@@ -491,7 +491,7 @@ rocky
 
 #### route#transformResponseBody(middleware)
 
-**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
+**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads.
 
 This allows you to intercept and replace or transform the response body received from the target server before sending it to the client.
 
@@ -523,7 +523,7 @@ You can pass any supported option by [http-proxy](https://github.com/nodejitsu/n
 
 #### route#use(...middlewares)
 
-Add custom middlewares to the specific route.
+Add custom middleware to the specific route.
 
 #### route#on(event, ...handler)
 
@@ -543,7 +543,7 @@ For more information about events, see the [events](https://github.com/nodejitsu
 
 #### route#once(event, ...handler)
 
-Subscribes to a specific event for the given route, and unsubscribe after dispatched
+Subscribes to a specific event for the given route, and unsubscribes after dispatched
 
 #### route#off(event, handler)
 
