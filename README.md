@@ -2,8 +2,7 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with versatile hierarchical **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer** and [more](#features).
-Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
+**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with versatile hierarchical **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer**, **hierarchical configuration** and [more](#features). Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
@@ -21,8 +20,9 @@ Requires nodejs +0.12 or iojs +1.6
 - Hierarchial router supporting nested configurations
 - Built-in middleware layer (supports both global and route specific middleware)
 - Able to capture traffic as interceptor pattern
-- Built-in support to sniff and transform bodies per request/response
+- Built-in traffic sniffer and transformer for request/response payloads
 - Built-in load balancer
+- Hierarchical configuration
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
 
