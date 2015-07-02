@@ -19,7 +19,7 @@ Requires nodejs +0.12 or iojs +1.6
 - Integrable with connect/express via middleware
 - Full-featured built-in router with regexp and params matching
 - Hierarchial router supporting nested configurations
-- Built-in middleware layer (like connect/express)
+- Built-in middleware layer (supports both global and route specific middleware)
 - Able to capture traffic as interceptor pattern
 - Built-in support to sniff and transform bodies per request/response
 - Built-in balancer
