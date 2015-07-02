@@ -35,7 +35,7 @@ Requires nodejs +0.12 or iojs +1.6
 - As standalone reverse HTTP proxy with powerful routing
 - As security proxy layer with custom logic
 - As extensible HTTP proxy balancer with custom logic per specific route
-- As HTTP load balancer
+- As HTTP load balancer with zero-downtime
 - As HTTP API proxy gateway
 - As SSL terminator proxy
 - For A/B testing
