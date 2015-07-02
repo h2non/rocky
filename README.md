@@ -22,7 +22,7 @@ Requires nodejs +0.12 or iojs +1.6
 - Built-in middleware layer (supports both global and route specific middleware)
 - Able to capture traffic as interceptor pattern
 - Built-in support to sniff and transform bodies per request/response
-- Built-in balancer
+- Built-in load balancer
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
 
@@ -35,6 +35,7 @@ Requires nodejs +0.12 or iojs +1.6
 - As standalone reverse HTTP proxy with powerful routing
 - As security proxy layer with custom logic
 - As extensible HTTP proxy balancer with custom logic per specific route
+- As HTTP load balancer
 - As HTTP API proxy gateway
 - As SSL terminator proxy
 - For A/B testing
