@@ -8,7 +8,7 @@
 
 To get started, take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [examples](/examples) and third-party [middleware](#third-party-middleware)
 
-Requires nodejs +0.12 or iojs +1.6
+Requires node.js +0.12 or io.js +1.6
 
 ## Features
 
@@ -18,7 +18,7 @@ Requires nodejs +0.12 or iojs +1.6
 - Integrable with connect/express via middleware
 - Full-featured built-in router with regexp and params matching
 - Hierarchial router supporting nested configurations
-- Built-in middleware layer (supports both global and route specific middleware)
+- Hierarchial middleware layer (supporting pre/post hooks)
 - Able to capture traffic as interceptor pattern
 - Built-in traffic sniffer and transformer for request/response payloads
 - Built-in load balancer
@@ -46,7 +46,13 @@ Requires nodejs +0.12 or iojs +1.6
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was initially designed to be a useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice). It was created with versatility in mind, so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
+`rocky` was initially created to become an useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice).
+
+## Design
+
+`rocky` was designed with versatility in mind, with a small core and lightweight codebase, but very focused on extensibility provifing multiple layers, such as middleware
+
+so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
 
 `rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
 
@@ -86,19 +92,19 @@ npm install -g rocky
 
 ### Standalone binaries
 
-- [linux-x64](https://github.com/h2non/rocky/releases/download/0.1.10/rocky-0.1.10-linux-x64.nar)
-- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.1.10/rocky-0.1.10-darwin-x64.nar)
+- [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.0/rocky-0.2.0-linux-x64.nar)
+- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.0/rocky-0.2.0-darwin-x64.nar)
 
 Packaged using [nar](https://github.com/h2non/nar)
 
 ##### Usage
 
 ```
-chmod +x rocky-0.1.6-linux-x64.nar
+chmod +x rocky-0.2.0-linux-x64.nar
 ```
 
 ```
-./rocky-0.1.6-linux-x64.nar exec --port 3000 --config rocky.toml
+./rocky-0.2.0-linux-x64.nar exec --port 3000 --config rocky.toml
 ```
 
 ## Third-party middleware
@@ -383,7 +389,7 @@ Starts a HTTP proxy server in the given port
 #### rocky#close([ callback ])
 
 Close the HTTP proxy server, if exists.
-A shortcut to `rocky.server.close(cb)`
+Shortcut to `rocky#server.close(cb)`
 
 #### rocky#all(path)
 Return: [`Route`](#routepath)
@@ -416,17 +422,13 @@ Return: [`Route`](#routepath)
 Configure a new route the given path with `PATCH` method
 
 #### rocky#head(path)
-Return: `Route`
+Return: [`Route`](#routepath)
 
 Configure a new route the given path with `HEAD` method
 
-#### rocky#proxy
-
-[http-proxy](https://github.com/nodejitsu/node-http-proxy) instance
-
 #### rocky#router
 
-HTTP [router](https://github.com/pillarjs/router#routeroptions) instance
+Internal [router](https://github.com/pillarjs/router#routeroptions) instance
 
 #### rocky#server
 
@@ -521,7 +523,7 @@ rocky
 Overwrite default proxy [options](#configuration) for the current route.
 You can pass any supported option by [http-proxy](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50)
 
-#### route#use(...middlewares)
+#### route#use(...middleware)
 
 Add custom middleware to the specific route.
 
@@ -574,9 +576,19 @@ var config = {
 rocky.create(config)
 ```
 
-### rocky.middlewares
+### rocky.middleware
 
-Expose multiple middleware [functions](/lib/middlewares.js) to plugin in different level of your proxy.
+Expose the built-in middleware [functions](/lib/middleware). You can use them as plugins.
+
+#### rocky.middleware.requestBody
+
+#### rocky.middleware.responseBody
+
+#### rocky.middleware.toPath
+
+#### rocky.middleware.host
+
+#### rocky.middleware.headers
 
 ### rocky.httpProxy
 
