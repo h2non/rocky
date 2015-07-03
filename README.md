@@ -17,8 +17,8 @@ Requires node.js +0.12 or io.js +1.6
 - Able to run as standalone HTTP/S server
 - Integrable with connect/express via middleware
 - Full-featured built-in router with regexp and params matching
-- Hierarchial router supporting nested configurations
-- Hierarchial middleware layer (supporting pre/post hooks)
+- Hierarchial router configuration
+- Hierarchial middleware layer (supports multiple hooks)
 - Able to capture traffic as interceptor pattern
 - Built-in traffic sniffer and transformer for request/response payloads
 - Built-in load balancer
@@ -50,13 +50,22 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ## Design
 
-`rocky` was designed with versatility in mind, with a small core and lightweight codebase, but very focused on extensibility provifing multiple layers, such as middleware
+`rocky` was designed with versatility in mind, with a small core and clean codebase, and very focused on extensibility providing multiple layers of extensibility, such as middleware, which could be considered as well like a kind of hooks in some way.
 
 so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
 
 `rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
 
+## Stability
+
+rocky is relative young but production focused package.
+Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night), and this versio serie could be considered in `beta` stage.
+
+Version `0.2.x` introduces significant improvements, more consistent API and imporant features in the middleware layer. This version is more focused on stability.
+
 ## How does it work?
+
+A common scenario could be the following:
 
 ```
          |==============|
@@ -109,8 +118,12 @@ chmod +x rocky-0.2.0-linux-x64.nar
 
 ## Third-party middleware
 
+- [**built-in**](#rockymiddlewares) - Native built-in middleware as part of rocky core
+- [**consul**](https://github.com/h2non/rocky-consul) - Dynamic service discovery and balancing using Consul
 - [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky
 - [**version**](https://github.com/h2non/rocky-version) - HTTP API version based routing (uses [http-version](https://github.com/h2non/http-version))
+
+Note that you can use any other existent middleware plug in `rocky` as part of your connect/express app
 
 ## Command-line
 
@@ -149,7 +162,7 @@ Reading config from `stdin`:
 cat rocky.toml | rocky --port 8080 --debug
 ```
 
-Transparent `rocky.toml` file discovery in current and parent directories:
+Transparent `rocky.toml` file discovery in current and higher directories:
 ```
 rocky --port 8080
 ```
