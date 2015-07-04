@@ -197,6 +197,11 @@ rocky --port 8080
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
 - **forwardOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one
+- **router** `object` - Specific router params
+  - **strict** `boolean` - When `false` trailing slashes are optional (default: `false`)
+  - **caseSensitive** `boolean` - When `true` the routing will be case sensitive. (default: `false`)
+  - **mergeParams** `boolean` - When `true` any `req.params` passed to the router will be
+    merged into the router's `req.params`. (default: `false`)
 
 ### Configuration file
 
