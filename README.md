@@ -10,7 +10,9 @@ To get started, take a look to the [how does it work](#how-does-it-work), [basic
 
 Requires node.js +0.12 or io.js +1.6
 
-## Features
+## About
+
+### Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends
@@ -23,10 +25,12 @@ Requires node.js +0.12 or io.js +1.6
 - Built-in traffic sniffer and transformer for request/response payloads
 - Built-in load balancer
 - Hierarchical configuration
+- Fully integrable with connect/express
+- Compatible with most of the existing connect/express middleware
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
 
-## When `rocky` is a good choice?
+### When `rocky` could be useful?
 
 - As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
@@ -42,13 +46,13 @@ Requires node.js +0.12 or io.js +1.6
 - As test intermediate servercd intercepting and generating random/fake responses
 - And whatever a programmatic HTTP proxy could be useful to
 
-## Motivation
+### Motivation
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
 `rocky` was initially created to become an useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice).
 
-## Design
+### Design
 
 `rocky` was designed with versatility in mind, with a small core and clean codebase, and very focused on extensibility providing multiple layers of extensibility, such as middleware, which could be considered as well like a kind of hooks in some way.
 
@@ -56,14 +60,14 @@ so it can work as a standalone HTTP proxy or integrated in your existent `node.j
 
 `rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
 
-## Stability
+### Stability
 
 rocky is relative young but production focused package.
 Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night), and this versio serie could be considered in `beta` stage.
 
 Version `0.2.x` introduces significant improvements, more consistent API and imporant features in the middleware layer. This version is more focused on stability.
 
-## How does it work?
+### How does it work?
 
 A common scenario could be the following:
 
@@ -118,12 +122,13 @@ chmod +x rocky-0.2.0-linux-x64.nar
 
 ## Third-party middleware
 
-- [**built-in**](#rockymiddlewares) - Native built-in middleware as part of rocky core
 - [**consul**](https://github.com/h2non/rocky-consul) - Dynamic service discovery and balancing using Consul
 - [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky
 - [**version**](https://github.com/h2non/rocky-version) - HTTP API version based routing (uses [http-version](https://github.com/h2non/http-version))
 
-Note that you can use any other existent middleware plug in `rocky` as part of your connect/express app
+Note that you can use any other existent middleware plug in `rocky` as part of your connect/express app.
+
+Additionally, `rocky` provides some [built-in middleware](#rockymiddleware) as part of its core that you can plug in for specific needs.
 
 ## Command-line
 
@@ -367,6 +372,12 @@ You can pass any of the [supported options](https://github.com/nodejitsu/node-ht
 
 Use the given middleware function for **all http methods** on the given path, defaulting to the root path.
 
+#### rocky#useParam(param, ...middleware)
+Alias: `param()`
+
+Maps the specified path parameter name to a specialized param-capturing middleware.
+The middleware stack is the same as `.use()`
+
 #### rocky#balance(...urls)
 
 Define a set of URLs to balance between with a simple round-robin like scheduler.
@@ -409,37 +420,37 @@ Starts a HTTP proxy server in the given port
 Close the HTTP proxy server, if exists.
 Shortcut to `rocky#server.close(cb)`
 
-#### rocky#all(path)
+#### rocky#all(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
 Add a route handler for the given path for all HTTP methods
 
-#### rocky#get(path)
+#### rocky#get(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
 Configure a new route the given path with `GET` method
 
-#### rocky#post(path)
+#### rocky#post(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
 Configure a new route the given path with `POST` method
 
-#### rocky#delete(path)
-Return: [`Route`](#routepath)
-
-Configure a new route the given path with `DELETE` method
-
-#### rocky#put(path)
+#### rocky#put(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
 Configure a new route the given path with `PUT` method
 
-#### rocky#patch(path)
+#### rocky#delete(path, [ ...middleware ])
+Return: [`Route`](#routepath)
+
+Configure a new route the given path with `DELETE` method
+
+#### rocky#patch(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
 Configure a new route the given path with `PATCH` method
 
-#### rocky#head(path)
+#### rocky#head(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
 Configure a new route the given path with `HEAD` method
@@ -480,7 +491,7 @@ Define or overwrite request headers
 
 #### route#host(host)
 
-Overwrite the target hostname (defined as `host` header)
+Overwrite the `Host` header value when forward the request
 
 #### route#transformRequestBody(middleware)
 
