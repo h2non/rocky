@@ -10,6 +10,26 @@ To get started, take a look to the [how does it work](#how-does-it-work), [basic
 
 Requires node.js +0.12 or io.js +1.6
 
+- [About](#about)
+  - [Features](#features)
+  - [When rocky could be useful?](#when-rocky-could-be-useful)
+  - [Motivation](#motivation)
+  - [Design](#design)
+  - [Stability](#stability)
+  - [How does it work?](#how-does-it-work)
+- [Installation](#installation)
+  - [Standalone binaries](#standalone-binaries)
+      - [Usage](#usage)
+- [Third-party middleware](#third-party-middleware)
+- [Command-line](#command-line)
+  - [Examples](#examples)
+  - [Configuration](#configuration)
+  - [Configuration file](#configuration-file)
+- [Programmatic API](#programmatic-api)
+  - [Usage](#usage)
+  - [Documentation](#rocky-options-)
+  - [Special thanks](#special-thanks)
+
 ## About
 
 ### Features
@@ -641,6 +661,11 @@ Accessor for the [http-proxy](https://github.com/nodejitsu/node-http-proxy) API
 ### rocky.VERSION
 
 Current rocky package semver
+
+## Special Thanks
+
+- [http-proxy](https://github.com/nodejitsu/node-http-proxy) package creators and maintainers
+- [router](https://github.com/pillarjs/router) package creators and maintainers
 
 ## License
 
