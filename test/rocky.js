@@ -1,4 +1,3 @@
-const fs = require('fs')
 const http = require('http')
 const connect = require('connect')
 const sinon = require('sinon')

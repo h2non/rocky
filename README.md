@@ -402,21 +402,21 @@ You can pass any of the [supported options](https://github.com/nodejitsu/node-ht
 
 Use the given middleware to handle **all http methods** on the given path, defaulting to the root path.
 
-#### rocky#useReplay(...middleware)
-
-Use a given middleware to handle the replay traffic
-
 #### rocky#useParam(param, ...middleware)
 Alias: `param()`
 
 Maps the specified path parameter name to a specialized param-capturing middleware.
-The middleware stack is the same as `.use()`
+The middleware stack is the same as `.use()`.
+
+#### rocky#useReplay(...middleware)
+
+Use a given middleware to handle the replay traffic.
 
 #### rocky#useFor(name, ...middleware)
 
 Use a custom middleware for a specific phase. Supported phase names are: `forward`, 'replay'.
 
-This method is mostly used internally, but could be useful for dynamic programmatic middleware configuration, instead of used the shortcut methods such as: `useReplay` or `useForward`.
+This method is used internally, but it's also public since it could be useful for dynamic programmatic middleware configuration, instead of using the shortcut methods such as: `useReplay` or `useForward`.
 
 #### rocky#balance(...urls)
 
