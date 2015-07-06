@@ -10,12 +10,15 @@ To get started, take a look to the [how does it work](#how-does-it-work), [basic
 
 Requires node.js +0.12 or io.js +1.6
 
-- [About](#about)
+## Contents
+
+- [Introduction](#introduction)
   - [Features](#features)
   - [When rocky could be useful?](#when-rocky-could-be-useful)
   - [Motivation](#motivation)
   - [Design](#design)
   - [Stability](#stability)
+  - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
 - [Installation](#installation)
   - [Standalone binaries](#standalone-binaries)
@@ -30,7 +33,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Documentation](#rocky-options-)
   - [Special thanks](#special-thanks)
 
-## About
+## Introduction
 
 ### Features
 
@@ -82,9 +85,17 @@ so it can work as a standalone HTTP proxy or integrated in your existent `node.j
 ### Stability
 
 rocky is relative young but production focused package.
-Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night), and this versio serie could be considered in `beta` stage.
+Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend).
+That minor version could be considered in `beta` stage.
 
-Version `0.2.x` introduces significant improvements, more consistent API and imporant features in the middleware layer. This version is more focused on stability.
+Version `0.2.x` introduces significant improvements, a more consistent API and handy features in for extend rocky via its middleware layer. This version is more focused on stability.
+
+You could use
+
+### Versions
+
+- [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) `beta` - First version. Initially released at `25.06.2015`.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - In development. Pending release data.
 
 ### How does it work?
 
