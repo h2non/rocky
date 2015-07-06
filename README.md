@@ -12,18 +12,20 @@ Requires node.js +0.12 or io.js +1.6
 
 ## Contents
 
+- [Features](#features)
+- [When rocky could be useful?](#when-rocky-could-be-useful)
+- [Installation](#installation)
+  - [Standalone binaries](#standalone-binaries)
 - [Introduction](#introduction)
-  - [Features](#features)
-  - [When rocky could be useful?](#when-rocky-could-be-useful)
   - [Motivation](#motivation)
-- [Design](#design)
+  - [Design](#design)
   - [Stability](#stability)
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
 - [Middleware layer](#middleware-layer)
-  - [Types of middleware]
-- [Installation](#installation)
-  - [Standalone binaries](#standalone-binaries)
+  - [Types of middleware](#types-of-middleware)
+  - [Middleware API](#middleware-api)
+  - [Third-party middleware](#types-of-middleware)
 - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
   - [Examples](#examples)
@@ -34,9 +36,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Documentation](#rocky-options-)
   - [Special thanks](#special-thanks)
 
-## Introduction
-
-### Features
+## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends
@@ -53,7 +53,7 @@ Requires node.js +0.12 or io.js +1.6
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
 
-### When `rocky` could be useful?
+## When `rocky` could be useful?
 
 - As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
@@ -68,60 +68,6 @@ Requires node.js +0.12 or io.js +1.6
 - For A/B testing
 - As test intermediate servercd intercepting and generating random/fake responses
 - And whatever a programmatic HTTP proxy could be useful to
-
-### Motivation
-
-Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
-
-`rocky` was initially created to become an useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice).
-
-### Design
-
-`rocky` was designed with versatility in mind, with a small core and clean codebase, and very focused on extensibility providing multiple layers of extensibility, such as middleware, which could be considered as well like a kind of hooks in some way.
-
-so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
-
-`rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
-
-### Stability
-
-rocky is relative young but production focused package.
-Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend).
-That minor version could be considered in `beta` stage.
-
-Version `0.2.x` introduces significant improvements, a more consistent API and handy features in for extend rocky via its middleware layer. This version is more focused on stability.
-
-You could use
-
-### Versions
-
-- [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) `beta` - First version. Initially released at `25.06.2015`.
-- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - In development. Pending release data.
-
-### How does it work?
-
-`rocky` could be useful in [multiple scenarios](#when-rocky-could-be-useful), but a representive general purpose and recurrent use case scenario could be the following:
-
-```
-         |==============|
-         |  Dark World  |
-         |==============|
-               ||||
-         |==============|
-         |  HTTP proxy  |
-         |--------------|
-         | Rocky Router |
-         |~~~~~~~~~~~~~~|
-         |  Middleware  |
-         |==============|
-            ||      |
-  (duplex) //        \ (one-way)
-          //          \
-         //            \
-   /----------\   /----------\    /----------\
-   |  target  |   | replay 1 | -> | replay 2 | (*N)
-   \----------/   \----------/    \----------/
-```
 
 ## Installation
 
@@ -151,15 +97,118 @@ chmod +x rocky-0.2.0-linux-x64.nar
 ./rocky-0.2.0-linux-x64.nar exec --port 3000 --config rocky.toml
 ```
 
-## Third-party middleware
+## Introduction
+
+### Motivation
+
+Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
+
+`rocky` was initially created to become an useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice).
+
+### Design
+
+`rocky` was designed with versatility in mind, with a small core and clean codebase, and very focused on extensibility providing multiple layers of extensibility, such as middleware, which could be considered as well like a kind of hooks in some way.
+
+so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
+
+`rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
+
+### Stability
+
+rocky is relative young but production focused package.
+Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it could be considered in `beta` stage.
+
+Version `0.2.x` introduces significant improvements, a more consistent API and handy features to extend rocky via its multiple middleware layers. This version is more focused on stability and production focused, however it's only recommended to use it in non-hostile environments.
+
+### Versions
+
+- [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) `beta` - First version. Initially released at `25.06.2015`.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - In development. Pending release data.
+
+### How does it work?
+
+`rocky` could be useful in [multiple scenarios](#when-rocky-could-be-useful), but a useful use case scenario could be the following:
+
+```
+         |==============|
+         | The Internet |
+         |==============|
+               ||||
+         |==============|
+         |  HTTP proxy  |
+         |~~~~~~~~~~~~~~|
+         | Rocky Router |
+         |~~~~~~~~~~~~~~|
+         |  Middleware  |
+         |==============|
+            ||      |
+  (duplex) //        \ (one-way)
+          //          \
+         //            \
+   /----------\   /----------\    /----------\
+   |  target  |   | replay 1 | -> | replay 2 | (*N)
+   \----------/   \----------/    \----------/
+```
+
+## Middleware layer
+
+`rocky` provides a build-in featured and powerful connect-style middleware that allow
+you to augment its functionality easily.
+
+The middleware layer is compatible with
+
+### Types of middleware
+
+`rocky` introduces multiple types of middleware layers based on the same interface and behavior of connect/express middleware.
+This was introduced in order to achieve in a more responsive way multiple traffic flows in the scope of a HTTP proxy.
+
+Those flows are intrinsicly correlated but might be handled in a completely different way.
+The goal is to allowing you to handle them acordingly, acting in the middle of those phases to augment some functionality or react to some event with better precisision.
+
+Supported types of middleware are:
+
+- **global** `.use()` - Dispachted on every matched route for both forward and replay phases.
+- **forward** `.useForward()` - Dispached before forwarding a request.
+- **replay** `.useReplay()` - Dispached before starting the replay request cycle.
+
+The following diagram explains the request flow and how the different middleware layers are involved in it:
+```
+↓    ( Incoming request )
+↓             ||
+↓    ---------------------
+↓    [ Global middleware ]  --> Dispatch on every incoming request
+↓    ---------------------
+↓             ||
+↓      -----------------
+↓      | Route handler |    --> Match a configured route
+↓      -----------------
+↓            |||
+↓           /   \
+↓         /       \
+↓       /           \
+↓ [ Forward ]    [ Replay ] --> Dispatch both middleware in separated flows
+↓      \             /
+↓       \           /
+↓        \         /
+↓     ------------------
+↓     | HTTP dispacher |    --> Send requests over the network, separately
+↓     ------------------
+```
+
+### Middleware API
+
+Middleware behavior and interface are the same like connect/express,
+so you can create middleware as you already know with the notation `function(req, res, next)`
+
+### Third-party middleware
 
 - [**consul**](https://github.com/h2non/rocky-consul) - Dynamic service discovery and balancing using Consul
-- [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based routing for rocky
+- [**vhost**](https://github.com/h2non/rocky-vhost) - vhost based proxy routing for rocky
 - [**version**](https://github.com/h2non/rocky-version) - HTTP API version based routing (uses [http-version](https://github.com/h2non/http-version))
 
 Note that you can use any other existent middleware plug in `rocky` as part of your connect/express app.
 
-Additionally, `rocky` provides some [built-in middleware](#rockymiddleware) as part of its core that you can plug in for specific needs.
+Additionally, `rocky` provides some [built-in middleware functions](#rockymiddleware) that you can plug in different types of middleware.
 
 ## Command-line
 
@@ -668,19 +717,45 @@ rocky.create(config)
 
 ### rocky.middleware
 
-Expose the built-in middleware [functions](/lib/middleware).
+Expose the built-in internal middleware [functions](/lib/middleware).
+
+You can reuse them as standard middleware in diferent ways, like this:
+```js
+rocky()
+  .all('/*')
+  .use(rocky.middleware.headers({
+    'Authorization': 'Bearer 0123456789'
+  }))
+  .useReplay(rocky.middleware.host('replay.server.net'))
+```
 
 #### rocky.middleware.requestBody(middleware)
 
+Intercept and optionally transform/replace the request body before forward it to the target server.
+
+See [rocky#transformRequestBody](#routetransformrequestbodymiddleware--filter-) for more details.
+
 #### rocky.middleware.responseBody(middleware)
+
+Intercept and optionally transform/replace the response body from the server before send it to the client.
+
+See [rocky#transformResponseBody](#routetransformresponsebodymiddleware--filter-) for more details.
 
 #### rocky.middleware.toPath(path, [ params ])
 
+Overrites the request URL path of the incoming request before forward/replay it.
+
 #### rocky.middleware.headers(headers)
+
+Add/extend custom headers to the incoming request before forward/replay it.
 
 #### rocky.middleware.host(host)
 
+Overwrite the `Host` header before forwarding/replaying the request. Useful for some scenarios (e.g Heroku).
+
 #### rocky.middleware.reply(status, [ headers, body ])
+
+Shortcut method to reply the intercepted request from the middleware, with optional `headers` and `body` data.
 
 ### rocky.httpProxy
 
