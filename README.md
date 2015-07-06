@@ -16,13 +16,14 @@ Requires node.js +0.12 or io.js +1.6
   - [Features](#features)
   - [When rocky could be useful?](#when-rocky-could-be-useful)
   - [Motivation](#motivation)
-  - [Design](#design)
+- [Design](#design)
   - [Stability](#stability)
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
+- [Middleware layer](#middleware-layer)
+  - [Types of middleware]
 - [Installation](#installation)
   - [Standalone binaries](#standalone-binaries)
-      - [Usage](#usage)
 - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
   - [Examples](#examples)
@@ -138,7 +139,7 @@ npm install -g rocky
 - [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.0/rocky-0.2.0-linux-x64.nar)
 - [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.0/rocky-0.2.0-darwin-x64.nar)
 
-Packaged using [nar](https://github.com/h2non/nar)
+Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.6`
 
 ##### Usage
 
@@ -411,7 +412,7 @@ Alias: `param()`
 Maps the specified path parameter name to a specialized param-capturing middleware.
 The middleware stack is the same as `.use()`
 
-#### rocky#useOn(name, ...middleware)
+#### rocky#useFor(name, ...middleware)
 
 Use a custom middleware for a specific phase. Supported phase names are: `forward`, 'replay'.
 
@@ -539,15 +540,15 @@ Overwrite the `Host` header value when forward the request
 
 #### route#transformRequestBody(middleware, [ filter ])
 
-**Caution**: using this middleware could generate negative performance side-effects, since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
+This method implements a non-instrusive native `http.IncommingMessage` stream wrapper that allow you to intercept and transform the request body received from the client before sending it to the target server.
 
-This method allow you to intercept and transform the response body recieved from the client before sending it to the target server.
-
-The `middleware` argument must a function accepting the following arguments: `function(req, res, next)`
+The `middleware` argument must a function which accepts the following arguments: `function(req, res, next)`
 The `filter` arguments is optional and it can be a `string`, `regexp` or `function(req)` which should return `boolean` if the `request` passes the filter. The default check value by `string` or `regexp` test is the `Content-Type` header.
 
 In the middleware function **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
 You can see an usage example [here](/examples/interceptor.js).
+
+**Caution**: using this middleware could generate in some scenarios negative performance side-effects, since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads.
 
 The body will be exposed as raw `Buffer` or `String` on both properties `body` and `originalBody` in `http.ClientRequest`:
 ```js
@@ -570,15 +571,15 @@ rocky
 
 #### route#transformResponseBody(middleware, [ filter ])
 
-**Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads.
+This method implements a non-instrusive native `http.RequestResponse` stream wrapper that allow you to intercept and transform the response body received from the target server before sending it to the client.
 
-This method allow you to intercept and transform the response body received from the target server before sending it to the client.
-
-The `middleware` argument must a function accepting the following arguments: `function(req, res, next)`
+The `middleware` argument must a function which accepts the following arguments: `function(req, res, next)`
 The `filter` arguments is optional and it can be a `string`, `regexp` or `function(res)` which should return `boolean` if the `request` passes the filter. The default check value by `string` or `regexp` test is the `Content-Type` header.
 
 In the middleware function **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
 You can see an usage example [here](/examples/interceptor.js).
+
+**Caution**: using this middleware could generate in some scenarios negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads.
 
 The body will be exposed as raw `Buffer` or `String` on both properties `body` and `originalBody` in `http.ClientResponse`:
 ```js
@@ -607,6 +608,12 @@ You can pass any supported option by [http-proxy](https://github.com/nodejitsu/n
 #### route#use(...middleware)
 
 Add custom middleware to the specific route.
+
+#### rocky#useFor(name, ...middleware)
+
+#### rocky#useReplay(...middleware)
+
+#### rocky#useForward(...middleware)
 
 #### route#on(event, ...handler)
 
