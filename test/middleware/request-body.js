@@ -1,38 +1,56 @@
 const expect = require('chai').expect
+const stream = require('stream')
 const middleware = require('../../lib/middleware')
 
 suite('middleware#requestBody', function () {
+  var req, res
+
+  beforeEach(function () {
+    res = new stream.Writable
+    req = new stream.Readable
+    req.headers = {}
+    req._read = function () {
+      return Buffer.concat(this._readableState.buffer)
+    }
+  })
+
+  function middlewareFn(req, res, next) {
+    var body = req.body.toString('utf8')
+    var newBody = body.split(' ').reverse().join(' ')
+    next(null, newBody, 'utf8')
+  }
+
+  function pushData() {
+    req.push(new Buffer('Ping '))
+    req.push(new Buffer('Pong'))
+    req.push(null)
+  }
+
   test('transform', function (done) {
-    const body = []
-    const noop = function () {}
-    const res = { write: write, end: end }
-    const req = { pause: noop, resume: noop, write: write }
-
-    function write(data) {
-      body.push(data)
-    }
-
-    function end() {
-      expect(res.body).to.be.equal('Pong Ping')
+    req.on('end', function () {
+      expect(req.body).to.be.equal('Pong Ping')
       done()
-    }
-
-    /*
-    var mw = middleware.requestBody(function (req, res, next) {
-      var body = res.body.toString()
-      var newBody = body.split(' ').reverse().join(' ')
-      res.body = newBody
-      res.write(newBody)
-      next()
     })
 
+    var mw = middleware.requestBody(middlewareFn)
     mw(req, res, function () {})
 
-    req.write(new Buffer('Ping '))
-    req.write(new Buffer('Pong'))
-    res.end()
-    */
+    pushData()
+  })
 
-    done()
+  test('filter', function (done) {
+    req.on('end', function () {
+      expect(req.body).to.be.equal('Pong Ping')
+      done()
+    })
+
+    function filter(req) {
+      return !req.headers['content-type']
+    }
+
+    var mw = middleware.requestBody(middlewareFn, filter)
+    mw(req, res, function () {})
+
+    pushData()
   })
 })

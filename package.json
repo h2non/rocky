@@ -1,7 +1,7 @@
 {
   "name": "rocky",
-  "version": "0.1.11",
-  "description": "Pluggable and middleware-oriented full featured HTTP/S proxy router",
+  "version": "0.2.0-beta.0",
+  "description": "Pluggable, versatile and middleware-oriented full featured HTTP/S proxy with traffic replay and intercept",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
   "license": "MIT",
@@ -18,7 +18,8 @@
     "traffic",
     "gateway",
     "router",
-    "middleware"
+    "middleware",
+    "intercept"
   ],
   "bin": {
     "rocky": "./bin/rocky"
@@ -50,6 +51,7 @@
     "mocha": "^2.2.5",
     "sinon": "^1.15.3",
     "supertest": "^1.0.1",
-    "vhost": "^3.0.0"
+    "vhost": "^3.0.0",
+    "rocky-consul": "^0.1.0"
   }
 }

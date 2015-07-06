@@ -17,7 +17,7 @@ Requires node.js +0.12 or io.js +1.6
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends
 - Able to run as standalone HTTP/S server
-- Integrable with connect/express via middleware
+- Easily integrable with connect/express via middleware
 - Full-featured built-in router with regexp and params matching
 - Hierarchial router configuration
 - Hierarchial middleware layer (supports multiple hooks)
@@ -25,7 +25,6 @@ Requires node.js +0.12 or io.js +1.6
 - Built-in traffic sniffer and transformer for request/response payloads
 - Built-in load balancer
 - Hierarchical configuration
-- Fully integrable with connect/express
 - Compatible with most of the existing connect/express middleware
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
@@ -69,7 +68,7 @@ Version `0.2.x` introduces significant improvements, more consistent API and imp
 
 ### How does it work?
 
-A common scenario could be the following:
+`rocky` could be useful in [multiple scenarios](#when-rocky-could-be-useful), but a representive general purpose and recurrent use case scenario could be the following:
 
 ```
          |==============|
@@ -197,7 +196,6 @@ rocky --port 8080
 - **localAddress** `boolean` - <Local interface string to bind for outgoing connections
 - **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
 - **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
-- **forwardHost** `boolean` - Forward target URL host while proxying. Default `false`
 - **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
@@ -477,9 +475,14 @@ Overwrite replay servers for the current route.
 
 `opts` param provide specific replay [options](#configuration), overwritting the parent options.
 
-#### route#balance(...urls)
+#### route#balance(urls)
 
 Define a set of URLs to balance between with a simple round-robin like scheduler.
+
+#### route#reply(status, [ headers, body ])
+
+Shortcut method to intercept and reply the incoming request.
+If used, `body` param must be a `string` or `buffer`
 
 #### route#toPath(url, [ params ])
 
@@ -493,16 +496,17 @@ Define or overwrite request headers
 
 Overwrite the `Host` header value when forward the request
 
-#### route#transformRequestBody(middleware)
+#### route#transformRequestBody(middleware, [ filter ])
 
 **Caution**: using this middleware could generate negative performance side-effects, since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads
 
-This allows you to intercept and replace or transform the response body recieved from the client before sending it to the target.
+This method allow you to intercept and transform the response body recieved from the client before sending it to the target server.
 
-The middleware must a function accepting the following arguments: `function(req, res, next)`
+The `middleware` argument must a function accepting the following arguments: `function(req, res, next)`
+The `filter` arguments is optional and it can be a `string`, `regexp` or `function(req)` which should return `boolean` if the `request` passes the filter. The default check value by `string` or `regexp` test is the `Content-Type` header.
+
+In the middleware function **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
 You can see an usage example [here](/examples/interceptor.js).
-
-You **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
 
 The body will be exposed as raw `Buffer` or `String` on both properties `body` and `originalBody` in `http.ClientRequest`:
 ```js
@@ -517,19 +521,23 @@ rocky
 
     // Set the new body
     next(null, newBody, 'utf8')
+  }, function (req) {
+    // Custom filter
+    return /application\/json/i.test(req.headers['content-type'])
   })
 ```
 
-#### route#transformResponseBody(middleware)
+#### route#transformResponseBody(middleware, [ filter ])
 
 **Caution**: using this middleware could generate negative performance side-effects since the whole payload data will be buffered in the heap until it's finished. Don't use it if you need to handle large payloads.
 
-This allows you to intercept and replace or transform the response body received from the target server before sending it to the client.
+This method allow you to intercept and transform the response body received from the target server before sending it to the client.
 
-The middleware must a function accepting the following arguments: `function(req, res, next)`
+The `middleware` argument must a function accepting the following arguments: `function(req, res, next)`
+The `filter` arguments is optional and it can be a `string`, `regexp` or `function(res)` which should return `boolean` if the `request` passes the filter. The default check value by `string` or `regexp` test is the `Content-Type` header.
+
+In the middleware function **must call the `next` function**, which accepts the following arguments: `err, newBody, encoding`
 You can see an usage example [here](/examples/interceptor.js).
-
-The `next` function accepts the following arguments: `err, newBody, encoding`
 
 The body will be exposed as raw `Buffer` or `String` on both properties `body` and `originalBody` in `http.ClientResponse`:
 ```js
@@ -544,6 +552,9 @@ rocky
 
     // Set the new body
     next(null, newBody, 'utf8')
+  }, function (res) {
+    // Custom filter
+    return /application\/json/i.test(res.getHeader('content-type'))
   })
 ```
 
@@ -569,6 +580,8 @@ Useful to incercept the status or modify the options on-the-fly
 - **route:error** `err, req, res` - Fired when cannot forward/replay the request or middleware error
 - **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when the replay request fails
+- **server:error** `err, req, res` - Fired on server middleware error. Only available if running as standalone HTTP server
+- **route:missing** `req, res` - Fired on missing route. Only available if running as standalone HTTP server
 
 For more information about events, see the [events](https://github.com/nodejitsu/node-http-proxy#listening-for-proxy-events) fired by `http-proxy`
 
@@ -607,17 +620,19 @@ rocky.create(config)
 
 ### rocky.middleware
 
-Expose the built-in middleware [functions](/lib/middleware). You can use them as plugins.
+Expose the built-in middleware [functions](/lib/middleware).
 
-#### rocky.middleware.requestBody
+#### rocky.middleware.requestBody(middleware)
 
-#### rocky.middleware.responseBody
+#### rocky.middleware.responseBody(middleware)
 
-#### rocky.middleware.toPath
+#### rocky.middleware.toPath(path, [ params ])
 
-#### rocky.middleware.host
+#### rocky.middleware.headers(headers)
 
-#### rocky.middleware.headers
+#### rocky.middleware.host(host)
+
+#### rocky.middleware.reply(status, [ headers, body ])
 
 ### rocky.httpProxy
 

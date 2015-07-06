@@ -335,7 +335,7 @@ suite('rocky', function () {
     }
   })
 
-  test('missing route', function (done) {
+  test('missing target', function (done) {
     var spy = sinon.spy()
     proxy = rocky()
 
@@ -348,19 +348,47 @@ suite('rocky', function () {
 
     supertest(proxyUrl)
       .get('/test')
+      .expect(502)
+      .expect('Content-Type', 'application/json')
+      .end(assert)
+
+    function assert(err, res) {
+      var errorMsg = /Cannot forward the request/i
+      expect(spy.calledOnce).to.be.true
+      expect(res.statusCode).to.be.equal(502)
+      expect(spy.args[0][0].message).to.match(errorMsg)
+      expect(spy.args[0][1].url).to.be.equal('/test')
+      expect(res.body.message).to.match(errorMsg)
+      done()
+    }
+  })
+
+  test('missing route', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+
+    proxy
+      .on('route:missing', spy)
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
       .end(end)
 
-    function end() {
+    function end(err, res) {
       expect(spy.calledOnce).to.be.true
-      expect(spy.args[0][0].message).to.be.equal('Target URL was not defined for this route')
+      expect(res.statusCode).to.be.equal(502)
+      expect(res.body.message).to.be.equal('No route configured')
       done()
     }
   })
 
-  test('bad forward server', function (done) {
+
+  test('unavailable forward server', function (done) {
     var spy = sinon.spy()
     proxy = rocky()
 
@@ -401,12 +429,12 @@ suite('rocky', function () {
       .get('/test')
       .expect(404)
       .expect('Content-Type', 'application/json')
-      .expect(/Target URL/)
+      .expect(/Cannot forward/i)
       .end(end)
 
     function end(err, res) {
       expect(spy.calledOnce).to.be.true
-      expect(spy.args[0][0].message).to.match(/Target URL/)
+      expect(spy.args[0][0].message).to.match(/Target URL/i)
     }
 
     function assertReplay(req, res) {

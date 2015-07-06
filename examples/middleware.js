@@ -21,6 +21,10 @@ proxy
     console.log('Route middleware:', req.url)
     next()
   })
+  .useParam('id', function (req, res, next) {
+    console.log('Route with param "id":', req.url)
+    next()
+  })
   .toPath('/users/:id', { id: 'Chuck' })
   .host('http://google.com')
   .headers({

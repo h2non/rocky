@@ -28,6 +28,9 @@ var route = proxy
 
     // Set the new body
     next(null, newBody, 'utf8')
+  }, function (req) {
+    // Custom filter
+    return /application\/json/i.test(req.headers['content-type'])
   })
 
   // Subscribe to the server response to modify the body
@@ -44,6 +47,9 @@ var route = proxy
     // Or even you can use write() as well:
     // res.write(newBody)
     // next()
+  }, function (res) {
+    // Custom filter
+    return /application\/json/i.test(res.getHeader('content-type'))
   })
 
 proxy.listen(3000)

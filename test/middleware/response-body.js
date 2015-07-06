@@ -1,32 +1,57 @@
 const expect = require('chai').expect
 const middleware = require('../../lib/middleware')
+const noop = function () {}
 
 suite('middleware#responseBody', function () {
-  test('transform', function (done) {
-    var body = []
-    var res = { write: write, end: end }
+  var req, res
 
-    function write(data) {
-      body.push(data)
+  beforeEach(function () {
+    res =  {
+      write: noop,
+      end: noop,
+      getHeader: function () { return 'application/json' }
     }
+  })
 
-    function end() {
+  function middlewareFn(req, res, next) {
+    var body = res.body.toString()
+    var newBody = body.split(' ').reverse().join(' ')
+    next(null, newBody, 'utf8')
+  }
+
+  function writeData() {
+    res.write(new Buffer('Ping '))
+    res.write(new Buffer('Pong'))
+    res.end()
+  }
+
+  test('transform', function (done) {
+    res.end = function () {
       expect(res.body).to.be.equal('Pong Ping')
       done()
     }
 
-    var mw = middleware.responseBody(function (req, res, next) {
-      var body = res.body.toString()
-      var newBody = body.split(' ').reverse().join(' ')
-      res.body = newBody
-      res.write(newBody)
-      next()
-    })
+    middleware.responseBody
+      (middlewareFn)
+        (null, res, noop)
 
-    mw(null, res, function () {})
+    writeData()
+  })
 
-    res.write(new Buffer('Ping '))
-    res.write(new Buffer('Pong'))
-    res.end()
+  test('filter', function (done) {
+    res.end = function () {
+      expect(res.body).to.be.equal('Pong Ping')
+      done()
+    }
+
+    function filter(res) {
+      return res.getHeader('content-type') === 'application/json'
+    }
+
+    middleware.responseBody
+      (middlewareFn, filter)
+        (null, res, noop)
+
+    writeData()
   })
 })
