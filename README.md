@@ -622,6 +622,7 @@ Overwrite replay servers for the current route.
 #### route#balance(urls)
 
 Define a set of URLs to balance between with a simple round-robin like scheduler.
+`urls` param must be an array of strings.
 
 #### route#reply(status, [ headers, body ])
 
@@ -634,11 +635,15 @@ Overwrite the request path, defining additional optional params.
 
 #### route#headers(headers)
 
-Define or overwrite request headers
+Define or overwrite request headers for the current route.
 
 #### route#host(host)
 
-Overwrite the `Host` header value when forward the request
+Overwrite the `Host` header value when forward the request.
+
+#### route#redirect(url)
+
+Redirect the incoming request for the current route.
 
 #### route#transformRequestBody(middleware, [ filter ])
 
@@ -809,6 +814,10 @@ Overwrite the `Host` header before forwarding/replaying the request. Useful for 
 #### rocky.middleware.reply(status, [ headers, body ])
 
 Shortcut method to reply the intercepted request from the middleware, with optional `headers` and `body` data.
+
+#### rocky.middleware.redirect(url)
+
+Shortcut method to redirect the current request.
 
 ### rocky.httpProxy
 
