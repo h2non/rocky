@@ -23,7 +23,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
 - [Middleware layer](#middleware-layer)
-  - [Hierarchy](#hierarchy)
+  - [Hierarchies](#hierarchies)
   - [Types of middleware](#types-of-middleware)
   - [Middleware flow](#middleware-flow)
   - [Middleware API](#middleware-api)
@@ -158,7 +158,7 @@ you to augment its functionality easily.
 
 The middleware layer is compatible with
 
-### Hierarchy
+### Hierarchies
 
 `rocky` supports multiple middleware hierarchies:
 
