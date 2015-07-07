@@ -122,11 +122,11 @@ Version `0.2.x` introduces significant improvements, a more consistent API and h
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) `beta` - First version. Initially released at `25.06.2015`.
-- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - In development. Pending release data.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - Currently under development.
 
 ### How does it work?
 
-`rocky` could be useful in [multiple scenarios](#when-rocky-could-be-useful), but a useful use case scenario could be the following:
+`rocky` could be useful in [multiple scenarios](#when-rocky-could-be-useful), but a common and representative use case scenario could be the following:
 
 ```
          |==============|
@@ -168,31 +168,31 @@ Supported types of middleware are:
 
 - **global** `.use([path], function (req, res, next))` - Dispachted on every matched route for both forward and replay phases.
 - **forward** `.useForward(function (req, res, next))` - Dispached before forwarding a request.
-- **replay** `.useReplay(function (req, res, next))` - Dispached before starting the replay request cycle.
-- **param** `.useParam(param, function (req, res, next))` - Dispached on every matched param on route path. Only available as global middleware
+- **replay** `.useReplay(function (req, res, next))` - Dispached before starting each replay request.
+- **param** `.useParam(param, function (req, res, next))` - Dispached on every matched param on route path. Only available as global middleware.
 
 The following diagram explains the request flow and how the different middleware layers are involved in it:
 ```
-↓    ( Incoming request )
-↓             ||
-↓    ---------------------
-↓    [ Global middleware ]  --> Dispatch on every incoming request
-↓    ---------------------
-↓             ||
-↓      -----------------
-↓      | Route handler |    --> Match a configured route
-↓      -----------------
-↓            |||
-↓           /   \
-↓         /       \
-↓       /           \
-↓ [ Forward ]    [ Replay ] --> Dispatch both middleware in separated flows
-↓      \             /
-↓       \           /
-↓        \         /
-↓     ------------------
-↓     | HTTP dispacher |    --> Send requests over the network, separately
-↓     ------------------
+↓    ( Incoming request )   ↓
+↓             ||            ↓
+↓    ---------------------  ↓
+↓    [ Global middleware ]  ↓ --> Dispatch on every incoming request
+↓    ---------------------  ↓
+↓             ||            ↓
+↓      -----------------    ↓
+↓      | Route handler |    ↓ --> Match a configured route
+↓      -----------------    ↓
+↓            |||            ↓
+↓           /   \           ↓
+↓         /       \         ↓
+↓       /           \       ↓
+↓ [ Forward ]    [ Replay ] ↓ --> Dispatch both middleware in separated flows
+↓      \             /      ↓
+↓       \           /       ↓
+↓        \         /        ↓
+↓     ------------------    ↓
+↓     | HTTP dispacher |    ↓ --> Send requests over the network, separately
+↓     ------------------    ↓
 ```
 
 ### Middleware API
