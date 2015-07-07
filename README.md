@@ -25,8 +25,7 @@ Requires node.js +0.12 or io.js +1.6
 - [Middleware layer](#middleware-layer)
   - [Types of middleware](#types-of-middleware)
   - [Middleware API](#middleware-api)
-  - [Third-party middleware](#types-of-middleware)
-- [Third-party middleware](#third-party-middleware)
+  - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
   - [Examples](#examples)
   - [Configuration](#configuration)
@@ -34,7 +33,7 @@ Requires node.js +0.12 or io.js +1.6
 - [Programmatic API](#programmatic-api)
   - [Usage](#usage)
   - [Documentation](#rocky-options-)
-  - [Special thanks](#special-thanks)
+- [Special thanks](#special-thanks)
 
 ## Features
 
@@ -167,9 +166,10 @@ The goal is to allowing you to handle them acordingly, acting in the middle of t
 
 Supported types of middleware are:
 
-- **global** `.use()` - Dispachted on every matched route for both forward and replay phases.
-- **forward** `.useForward()` - Dispached before forwarding a request.
-- **replay** `.useReplay()` - Dispached before starting the replay request cycle.
+- **global** `.use([path], function (req, res, next))` - Dispachted on every matched route for both forward and replay phases.
+- **forward** `.useForward(function (req, res, next))` - Dispached before forwarding a request.
+- **replay** `.useReplay(function (req, res, next))` - Dispached before starting the replay request cycle.
+- **param** `.useParam(param, function (req, res, next))` - Dispached on every matched param on route path. Only available as global middleware
 
 The following diagram explains the request flow and how the different middleware layers are involved in it:
 ```

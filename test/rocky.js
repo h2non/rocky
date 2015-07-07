@@ -178,13 +178,13 @@ suite('rocky', function () {
     }
   })
 
-  test('middleware', function (done) {
+  test('global middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer(assert)
 
-    var mwspy = sinon.spy()
+    var spy = sinon.spy()
     proxy.use(function (req, res, next) {
-      mwspy(req, res)
+      spy(req, res)
       next()
     })
 
@@ -207,8 +207,208 @@ suite('rocky', function () {
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
-      expect(mwspy.calledOnce).to.be.true
+      expect(spy.calledOnce).to.be.true
       expect(routespy.calledOnce).to.be.true
+      expect(spy.args[0][0].rocky).to.be.an('object')
+      expect(spy.args[0][0].rocky.options).to.be.an('object')
+      expect(spy.args[0][0].rocky.proxy).to.be.an('object')
+      expect(spy.args[0][0].rocky.route).to.be.an('object')
+    }
+  })
+
+  test('forward middleware', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky().forward(targetUrl)
+    server = createTestServer(assert)
+
+    proxy.useForward(middlewareFn)
+    proxy.get('/test')
+      .useForward(middlewareFn)
+
+    function middlewareFn(req, res, next) {
+      spy(req, res)
+      next()
+    }
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(spy.calledTwice).to.be.true
+      expect(spy.args[0][0].rocky).to.be.an('object')
+      expect(spy.args[0][0].rocky.options).to.be.an('object')
+      expect(spy.args[0][0].rocky.proxy).to.be.an('object')
+      expect(spy.args[0][0].rocky.route).to.be.an('object')
+    }
+  })
+
+  test('replay middleware', function (done) {
+    proxy = rocky().forward(targetUrl)
+    server = createTestServer(assert)
+
+    var spy = sinon.spy()
+    proxy.useReplay(middlewareFn)
+
+    proxy.get('/test')
+      .useReplay(middlewareFn)
+
+    function middlewareFn(req, res, next) {
+      spy(req, res)
+      next()
+    }
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(spy.calledTwice).to.be.true
+      expect(spy.args[0][0].rocky).to.be.an('object')
+      expect(spy.args[0][0].rocky.options).to.be.an('object')
+      expect(spy.args[0][0].rocky.proxy).to.be.an('object')
+      expect(spy.args[0][0].rocky.route).to.be.an('object')
+    }
+  })
+
+  test('param middleware', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky().forward(targetUrl)
+    server = createTestServer(assert)
+
+    proxy.useParam('id', middlewareFn)
+    proxy.get('/:id')
+
+    function middlewareFn(req, res, next) {
+      spy(req, res)
+      next()
+    }
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/1')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/1')
+      expect(res.statusCode).to.be.equal(200)
+      expect(spy.calledOnce).to.be.true
+    }
+  })
+
+  test('overwrite forward options via middleware', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky().forward('http://invalid')
+    server = createTestServer(assert)
+
+    proxy.get('/test')
+      .use(middlewareFn)
+
+    function middlewareFn(req, res, next) {
+      spy(req, res)
+      req.rocky.options.target = targetUrl
+      next()
+    }
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(spy.calledOnce).to.be.true
+    }
+  })
+
+  test('overwrite replay options via middleware', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay('http://invalid')
+      .on('replay:start', spy)
+      .on('replay:error', spy)
+
+    server = createTestServer(assert)
+    replay = createReplayServer(assert)
+
+    proxy.get('/test')
+      .useReplay(middlewareFn)
+
+    function middlewareFn(req, res, next) {
+      spy(req, res)
+      req.rocky.options.replays = [ replayUrl ]
+      next()
+    }
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(spy.calledTwice).to.be.true
+      expect(spy.args[0][0].url).to.be.equal('/test')
+      expect(spy.args[0][0].rocky.options.replays).to.be.deep.equal([ replayUrl ])
+    }
+  })
+
+  // Pending!
+  test('forward events', function (done) {
+    var spy = sinon.spy()
+    server = createTestServer(assert)
+    proxy = rocky()
+      .forward(targetUrl)
+      .on('error', spy)
+      .on('proxyRes', spy)
+      .on('proxyReq', spy)
+
+    proxy.get('/test')
+      .on('proxyRes', spy)
+      .on('proxyReq', spy)
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(done)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(spy.calledTwice).to.be.true
     }
   })
 
@@ -317,7 +517,7 @@ suite('rocky', function () {
       .end(end)
 
     function end() {
-      expect(spy.calledTwice).to.be.true
+      expect(spy.calledOnce).to.be.true
       done()
     }
 

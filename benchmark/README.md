@@ -1,13 +1,13 @@
-# Benchmark
+# Rocky Benchmark
 
 Simple benchmark suite for `rocky`
 
 ## Requirements
 
 - Go +1.3
-- vegeta `go get github.com/tsenart/vegeta`
+- vegeta - `go get github.com/tsenart/vegeta`
 
-## Run it!
+## Running benchmark
 
 ```
 bash benchmark/run.sh

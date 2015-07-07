@@ -14,14 +14,14 @@ rate=100                    # concurrent requests per second
 duration=10s                # benchmark duration in human friendly format
 
 #
-# Read from arguments
+# Overwrite from arguments, if present
 #
 [ ! -z $1 ] && url=$1
 [ ! -z $2 ] && rate=$2
 [ ! -z $3 ] && duration=$3
 
 #
-# Test variables
+# Private variables
 #
 current=0
 proxyPid=0

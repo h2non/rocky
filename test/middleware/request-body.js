@@ -32,8 +32,8 @@ suite('middleware#requestBody', function () {
       done()
     })
 
-    var mw = middleware.requestBody(middlewareFn)
-    mw(req, res, function () {})
+    middleware.requestBody(middlewareFn)
+      (req, res, function () {})
 
     pushData()
   })
@@ -50,6 +50,30 @@ suite('middleware#requestBody', function () {
 
     var mw = middleware.requestBody(middlewareFn, filter)
     mw(req, res, function () {})
+
+    pushData()
+  })
+
+  test('invalid method', function (done) {
+    req.method = 'GET'
+
+    middleware.requestBody(middlewareFn)
+      (req, res, function (err) {
+        expect(err).to.be.undefined
+        done()
+      })
+
+    pushData()
+  })
+
+  test('body already present', function (done) {
+    req.body = 'blablabla'
+
+    middleware.requestBody(middlewareFn)
+      (req, res, function (err) {
+        expect(err).to.be.null
+        done()
+      })
 
     pushData()
   })
