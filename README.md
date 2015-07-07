@@ -23,6 +23,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
 - [Middleware layer](#middleware-layer)
+  - [Hierarchy](#hierarchy)
   - [Types of middleware](#types-of-middleware)
   - [Middleware API](#middleware-api)
   - [Third-party middleware](#third-party-middleware)
@@ -156,6 +157,13 @@ you to augment its functionality easily.
 
 The middleware layer is compatible with
 
+### Hierarchy
+
+`rocky` supports multiple middleware hierarchies:
+
+- **global** - Dispached on every incoming request matched by the router
+- **route** - Dispached only per route scope
+
 ### Types of middleware
 
 `rocky` introduces multiple types of middleware layers based on the same interface and behavior of connect/express middleware.
@@ -174,19 +182,19 @@ Supported types of middleware are:
 The following diagram explains the request flow and how the different middleware layers are involved in it:
 ```
 ↓    ( Incoming request )   ↓
-↓             ||            ↓
+↓            |||            ↓
+↓      ----------------     ↓
+↓      |    Router    |     ↓ --> Match a configured route
+↓      ----------------     ↓
+↓            |||            ↓
 ↓    ---------------------  ↓
-↓    [ Global middleware ]  ↓ --> Dispatch on every incoming request
+↓    | Global middleware |  ↓ --> Dispatch on every incoming request (Global)
 ↓    ---------------------  ↓
-↓             ||            ↓
-↓      -----------------    ↓
-↓      | Route handler |    ↓ --> Match a configured route
-↓      -----------------    ↓
 ↓            |||            ↓
 ↓           /   \           ↓
 ↓         /       \         ↓
 ↓       /           \       ↓
-↓ [ Forward ]    [ Replay ] ↓ --> Dispatch both middleware in separated flows
+↓ [ Forward ]    [ Replay ] ↓ --> Dispatch both middleware in separated flows (Global, Route)
 ↓      \             /      ↓
 ↓       \           /       ↓
 ↓        \         /        ↓
@@ -199,6 +207,16 @@ The following diagram explains the request flow and how the different middleware
 
 Middleware behavior and interface are the same like connect/express,
 so you can create middleware as you already know with the notation `function(req, res, next)`
+
+`rocky` exposes `req.rocky` via the middleware to give a way to extend or modify specific proxy options per each incoming request.
+
+```js
+proxy
+  .get('/users/:id')
+  .use(function (req, res, next) {
+    req.params.
+  })
+```
 
 ### Third-party middleware
 
