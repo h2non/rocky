@@ -172,12 +172,32 @@ This was introduced in order to achieve in a more responsive way multiple traffi
 Those flows are intrinsicly correlated but might be handled in a completely different way.
 The goal is to allowing you to handle them acordingly, acting in the middle of those phases to augment some functionality or react to some event with better precisision.
 
-Supported types of middleware are:
+*Supported types of middleware are**:
 
-- **global** `.use([path], function (req, res, next))` - Dispachted on every matched route for both forward and replay phases.
-- **forward** `.useForward(function (req, res, next))` - Dispached before forwarding a request.
-- **replay** `.useReplay(function (req, res, next))` - Dispached before starting each replay request.
-- **param** `.useParam(param, function (req, res, next))` - Dispached on every matched param on route path. Only available as global middleware.
+##### router
+
+- **Scope**: `global`
+- **Description**: Dispatched on every matched route.
+- **Notation**: `.use([path], function (req, res, next))`
+
+##### forward
+
+- **Scope**: `global`, `route`
+- **Description**: Dispached before forwarding an incoming request.
+- **Notation**: `.useForward(function (req, res, next))`
+
+##### replay
+
+- **Scope**: `global`, `route`
+- **Description**: Dispached before starting each replay request.
+- **Notation**: `.useReplay(function (req, res, next))`
+
+##### param
+
+- **Scope**: `global`
+- **Description**: Dispached on every matched param on any route.
+- **Notation**: `.useParam(function (req, res, next))`
+
 
 The following diagram explains the request flow and how the different middleware layers are involved in it:
 ```
