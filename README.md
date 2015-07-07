@@ -25,6 +25,7 @@ Requires node.js +0.12 or io.js +1.6
 - [Middleware layer](#middleware-layer)
   - [Hierarchy](#hierarchy)
   - [Types of middleware](#types-of-middleware)
+  - [Middleware flow](#middleware-flow)
   - [Middleware API](#middleware-api)
   - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
@@ -172,7 +173,7 @@ This was introduced in order to achieve in a more responsive way multiple traffi
 Those flows are intrinsicly correlated but might be handled in a completely different way.
 The goal is to allowing you to handle them acordingly, acting in the middle of those phases to augment some functionality or react to some event with better precisision.
 
-*Supported types of middleware are**:
+**Supported types of middleware**:
 
 ##### router
 
@@ -198,13 +199,14 @@ The goal is to allowing you to handle them acordingly, acting in the middle of t
 - **Description**: Dispached on every matched param on any route.
 - **Notation**: `.useParam(function (req, res, next))`
 
+### Middleware flow
 
 The following diagram explains the request flow and how the different middleware layers are involved in it:
 ```
 ↓    ( Incoming request )   ↓
 ↓            |||            ↓
 ↓      ----------------     ↓
-↓      |    Router    |     ↓ --> Match a configured route
+↓      |    Router    |     ↓ --> Match a route, dispatching its middleware if required
 ↓      ----------------     ↓
 ↓            |||            ↓
 ↓    ---------------------  ↓
@@ -228,13 +230,26 @@ The following diagram explains the request flow and how the different middleware
 Middleware behavior and interface are the same like connect/express,
 so you can create middleware as you already know with the notation `function(req, res, next)`
 
-`rocky` exposes `req.rocky` via the middleware to give a way to extend or modify specific proxy options per each incoming request.
+`rocky` exposes as a sort of inversion of control in every `http.ClientRequest` object the following fields:
+
+- **req.rocky** `object`
+  - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
+  - **.proxy** `Rocky` - Expose the rocky instance. Use only for hacking purposes!
+  - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
+
+This provides you way to extend or modify specific values from the middleware layer without having side-effects,
+for instance replacing the server target URL, like in the following example:
 
 ```js
-proxy
-  .get('/users/:id')
+rocky()
+  .get('/users/:name')
+  .forward('http://old.server.net')
   .use(function (req, res, next) {
-    req.params.
+    if (req.param.name === 'admin') {
+      // Overwrite the target URL only for this user
+      req.rocky.options.target = 'http://new.server.net'
+    }
+    next()
   })
 ```
 
