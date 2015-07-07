@@ -66,7 +66,7 @@ Requires node.js +0.12 or io.js +1.6
 - As security proxy layer with custom logic
 - As extensible HTTP proxy balancer with custom logic per specific route
 - As HTTP load balancer with zero-downtime
-- As HTTP API proxy gateway
+- As HTTP API gateway
 - As SSL terminator proxy
 - For A/B testing
 - As test intermediate servercd intercepting and generating random/fake responses
