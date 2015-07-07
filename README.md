@@ -106,7 +106,7 @@ chmod +x rocky-0.2.0-linux-x64.nar
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was initially created to become an useful tool for assisting during a backend migration strategy. However, it could be useful for many other [scenarios](#when-rocky-is-a-good-choice).
+`rocky` was initially created to become an useful tool for assisting during a backend migration strategy, however it could be useful for many other [scenarios](#when-rocky-could-be-useful).
 
 ### Design
 
