@@ -252,9 +252,11 @@ suite('rocky', function () {
 
   test('replay middleware', function (done) {
     proxy = rocky().forward(targetUrl)
-    server = createTestServer(assert)
+    server = createTestServer()
+    replay = createReplayServer(assert)
 
     var spy = sinon.spy()
+    proxy.replay(replayUrl)
     proxy.useReplay(middlewareFn)
 
     proxy.get('/test')
@@ -276,7 +278,7 @@ suite('rocky', function () {
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
-      expect(res.statusCode).to.be.equal(200)
+      expect(res.statusCode).to.be.equal(204)
       expect(spy.calledTwice).to.be.true
       expect(spy.args[0][0].rocky).to.be.an('object')
       expect(spy.args[0][0].rocky.options).to.be.an('object')
@@ -352,7 +354,7 @@ suite('rocky', function () {
       .on('replay:start', spy)
       .on('replay:error', spy)
 
-    server = createTestServer(assert)
+    server = createTestServer()
     replay = createReplayServer(assert)
 
     proxy.get('/test')
@@ -360,7 +362,7 @@ suite('rocky', function () {
 
     function middlewareFn(req, res, next) {
       spy(req, res)
-      req.rocky.options.replays = [ replayUrl ]
+      req.rocky.options.target = replayUrl
       next()
     }
 
@@ -375,26 +377,33 @@ suite('rocky', function () {
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
-      expect(res.statusCode).to.be.equal(200)
+      expect(res.statusCode).to.be.equal(204)
       expect(spy.calledTwice).to.be.true
       expect(spy.args[0][0].url).to.be.equal('/test')
-      expect(spy.args[0][0].rocky.options.replays).to.be.deep.equal([ replayUrl ])
+      expect(spy.args[0][0].rocky.options.target).to.be.deep.equal(replayUrl)
     }
   })
 
-  // Pending!
   test('forward events', function (done) {
     var spy = sinon.spy()
     server = createTestServer(assert)
+    replay = createReplayServer(assertReplay)
+
     proxy = rocky()
       .forward(targetUrl)
-      .on('error', spy)
+      .replay(replayUrl)
       .on('proxyRes', spy)
       .on('proxyReq', spy)
+      .on('replay:start', spy)
+      .on('replay:error', spy)
+      .on('route:error', spy)
+      .on('error', spy)
 
     proxy.get('/test')
       .on('proxyRes', spy)
       .on('proxyReq', spy)
+      .on('replay:start', spy)
+      .on('replay:error', spy)
 
     proxy.listen(ports.proxy)
 
@@ -403,12 +412,22 @@ suite('rocky', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(done)
+      .end(end)
+
+    function end(err) {
+      expect(err).to.be.null
+      expect(spy.args.length).to.be.equal(6)
+      done()
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
+    }
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
-      expect(spy.calledTwice).to.be.true
     }
   })
 
@@ -517,7 +536,7 @@ suite('rocky', function () {
       .end(end)
 
     function end() {
-      expect(spy.calledOnce).to.be.true
+      expect(spy.calledTwice).to.be.true
       done()
     }
 
