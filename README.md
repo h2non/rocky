@@ -108,23 +108,24 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` was designed with versatility in mind, with a small core and clean codebase, and very focused on extensibility providing multiple layers of extensibility, such as middleware, which could be considered as well like a kind of hooks in some way.
+`rocky` design is driven by keeping versatility and extensibility in mind. The main goal is to keep it with a small core and codebase with just the proper responsability and built-in features, but highly opened to extensibility.
+Middleware layer is probably the core and more useful feature of `rocky`.
 
-so it can work as a standalone HTTP proxy or integrated in your existent `node.js` backend, powered by express/connect or a raw http server.
-
-`rocky` will take care of HTTP routing, discerning traffic and forwarding/replaying it accordingly to your desired new backend.
+The significant difference betweet the middleware layer and an event bus, which is very common in asynchronous programming, is the control flow capability. Via middleware you can completely rely on a consistent control flow when handling some data, continuing or stoping it accordingly.
+This approach allow you to plug in intermedia jobs with custom logic beetwen stages of the HTTP traffic flow live cycle.
 
 ### Stability
 
 rocky is relative young but production focused package.
 Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it could be considered in `beta` stage.
 
-Version `0.2.x` introduces significant improvements, a more consistent API and handy features to extend rocky via its multiple middleware layers. This version is more focused on stability and production focused, however it's only recommended to use it in non-hostile environments.
+Version `0.2.x` introduced significant improvements such as a more consistent API and a new hierarchical middleware layer.
+This version is focused on stability and production use, however it's only recommended to use it in non-hostile environments for now.
 
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) `beta` - First version. Initially released at `25.06.2015`.
-- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - Currently under development.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - Released at `07.07.2015`.
 
 ### How does it work?
 
