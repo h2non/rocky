@@ -143,7 +143,7 @@ suite('rocky', function () {
     }
   })
 
-  test('forward and replay a large payload', function (done) {
+  test('forward and replay large payload', function (done) {
     proxy = rocky()
       .forward(targetUrl)
       .replay(replayUrl)
@@ -155,7 +155,7 @@ suite('rocky', function () {
     replay = createReplayServer(assertReplay)
     server = createTestServer(assert)
 
-    var body = randomString()
+    var body = longString()
     supertest(proxyUrl)
       .post('/test')
       .type('text/plain')
@@ -798,9 +798,9 @@ function createServer(port, code, assert, timeout) {
   return server
 }
 
-function randomString(x) {
+function longString(x) {
   var s = ''
-  x = +x || 100000
+  x = +x || 1024 * 1024 * 5
   while (s.length < x && x > 0) {
     var r = Math.random()
     s+= r < 0.1 ? Math.floor(r*100): String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65))
