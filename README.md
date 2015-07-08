@@ -499,11 +499,12 @@ Creates a new rocky instance with the given options.
 You can pass any of the allowed params at [configuration](#configuration) level and any supported [http-proxy options](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50)
 
 #### rocky#forward(url)
-Alias: `target`
+Aliases: `target`, `forwardTo`
 
 Define a default target URL to forward the request
 
 #### rocky#replay(url, [ opts ])
+Alias: `replayTo`
 
 Add a server URL to replay the incoming request
 
@@ -623,11 +624,12 @@ Only present if `listen()` was called starting the built-in server.
 ### Route(path)
 
 #### route#forward(url)
-Alias: `target`
+Aliases: `target`, `forwardTo`
 
 Overwrite forward server for the current route.
 
 #### route#replay(url, [ opts ])
+Alias: `replyTo`
 
 Overwrite replay servers for the current route.
 
