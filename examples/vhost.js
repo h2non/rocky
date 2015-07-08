@@ -1,5 +1,5 @@
 var connect = require('connect')
-var rocky = require('rocky')
+var rocky = require('..')
 var vhost = require('vhost')
 
 // Configure rocky proxies

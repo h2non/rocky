@@ -1,5 +1,5 @@
 var express = require('express')
-var rocky = require('rocky')
+var rocky = require('..')
 var version = require('http-version')
 var request = require('supertest')
 

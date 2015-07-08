@@ -1,4 +1,4 @@
-const rocky = require('rocky')
+const rocky = require('..')
 const consul = require('rocky-consul')
 
 // Create the proxy
