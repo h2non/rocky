@@ -208,7 +208,9 @@ The goal is to allowing you to handle them accordingly, acting in the middle of 
 
 ### Middleware flow
 
-The following diagram explains the request flow and how the different middleware layers are involved in it:
+Middleware functions are always executed in FIFO order.
+The following diagram represents the internal incoming request flow and how the different middleware layers are involved on it:
+
 ```
 ↓    ( Incoming request )   ↓
 ↓            |||            ↓
