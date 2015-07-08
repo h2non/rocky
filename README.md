@@ -8,7 +8,7 @@ Compatible with [connect](https://github.com/senchalabs/connect)/[express](http:
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-To get started, take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [examples](/examples) and third-party [middleware](#third-party-middleware)
+To get started, take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
 Requires node.js +0.12 or io.js +1.6
 
@@ -157,9 +157,11 @@ This version is focused on stability and production use, however it's only recom
 ## Middleware layer
 
 One of the more powerful features of `rocky` is its build-in connect-style middleware layer.
-This allow you to augment the proxy functionality very easily attaching third-party middleware (also known as plugins).
+`rocky` was designed with a main core idea: "augment by default".
 
-`rocky` middleware layer has the same interface as connect/express middleware, and it's mostly compatible with them.
+The middleware layer provides you an simple and consistent way to augment the proxy functionality very easily, attaching third-party middleware (also known as plugins) on it.
+
+`rocky` middleware layer has the same interface as connect/express middleware, and it's mostly compatible with existent middleware (see [express](existent middleware) example).
 
 ### Hierarchies
 
@@ -295,17 +297,22 @@ Examples:
 
 Passing the config file:
 ```
-rocky --config rocky.toml --port 8080 --debug
+rocky --config rocky.toml --port 8080
 ```
 
 Reading config from `stdin`:
 ```
-cat rocky.toml | rocky --port 8080 --debug
+cat rocky.toml | rocky --port 8080
 ```
 
 Transparent `rocky.toml` file discovery in current and higher directories:
 ```
 rocky --port 8080
+```
+
+Or alternatively `rocky` can find the config file passing a environment variable:
+```
+ROCKY_CONFIG=path/to/rocky.toml rocky --port 8080
 ```
 
 ### Configuration
