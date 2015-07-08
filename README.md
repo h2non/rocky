@@ -164,7 +164,7 @@ One of the more powerful features of `rocky` is its build-in connect-style middl
 
 The middleware layer provides you an simple and consistent way to augment the proxy functionality very easily, attaching third-party middleware (also known as plugins) on it.
 
-`rocky` middleware layer has the same interface as connect/express middleware, and it's mostly compatible with existent middleware (see [express](existent middleware) example).
+`rocky` middleware layer has the same interface as connect/express middleware, and it's mostly compatible with existent middleware (see [express](https://github.com/h2non/rocky/blob/master/examples/express.js) example).
 
 ### Hierarchies
 
