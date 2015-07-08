@@ -37,6 +37,7 @@ Requires node.js +0.12 or io.js +1.6
 - [Programmatic API](#programmatic-api)
   - [Usage](#usage)
   - [Documentation](#rocky-options-)
+  - [Supported events](#events)
 - [Special thanks](#special-thanks)
 
 ## Features
