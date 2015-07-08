@@ -110,11 +110,13 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` design is driven by keeping versatility and extensibility in mind. The main goal is to keep it with a small core and codebase with just the proper responsability and built-in features, but highly opened to extensibility.
-Middleware layer is probably the core and more useful feature of `rocky`.
+`rocky` design is driven by keeping versatility and extensibility in mind.
+The main goal is to remain it with a small core and codebase, hosting just the proper responsability and necessary built-in features, and making more efforts providing more ways to extensibility.
+That level extensibility can be achieved via its middleware layer, which is the core and more powerful feature of `rocky`.
 
-The significant difference betweet the middleware layer and an event bus, which is very common in asynchronous programming, is the control flow capability. Via middleware you can completely rely on a consistent control flow when handling some data, continuing or stoping it accordingly.
-This approach allow you to plug in intermedia jobs with custom logic beetwen stages of the HTTP traffic flow live cycle.
+The significant difference between the middleware layer and an event bus (which is very common in asynchronous programming) is the control flow capability.
+Via middleware you can completely rely on a consistent control flow when performing some actiong with HTTP traffic, continuing or stoping it accordingly.
+This approach allows you to plug in intermediate jobs with custom logic beetwen different stages of the HTTP flow live cycle.
 
 ### Stability
 
