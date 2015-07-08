@@ -310,7 +310,7 @@ Transparent `rocky.toml` file discovery in current and higher directories:
 rocky --port 8080
 ```
 
-Or alternatively `rocky` can find the config file passing a environment variable:
+Or alternatively `rocky` can find the config file passing the `ROCKY_CONFIG` environment variable:
 ```
 ROCKY_CONFIG=path/to/rocky.toml rocky --port 8080
 ```
