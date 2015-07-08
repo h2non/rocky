@@ -85,19 +85,19 @@ npm install -g rocky
 
 ### Standalone binaries
 
-- [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.0/rocky-0.2.0-linux-x64.nar)
-- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.0/rocky-0.2.0-darwin-x64.nar)
+- [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.1/rocky-0.2.1-linux-x64.nar)
+- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.1/rocky-0.2.1-darwin-x64.nar)
 
 Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.6`
 
 ##### Usage
 
 ```
-chmod +x rocky-0.2.0-linux-x64.nar
+chmod +x rocky-0.2.1-linux-x64.nar
 ```
 
 ```
-./rocky-0.2.0-linux-x64.nar exec --port 3000 --config rocky.toml
+./rocky-0.2.1-linux-x64.nar exec --port 3000 --config rocky.toml
 ```
 
 ## Introduction
