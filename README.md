@@ -62,15 +62,14 @@ Requires node.js +0.12 or io.js +1.6
 - As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
 - As intermediate HTTP proxy adapter for external services
-- Replaying traffic to one or multiple backend
-- As standalone reverse HTTP proxy with powerful routing
-- As security proxy layer with custom logic
-- As extensible HTTP proxy balancer with custom logic per specific route
-- As HTTP load balancer with zero-downtime
 - As HTTP API gateway
+- As standalone reverse HTTP proxy with powerful routing
+- As security proxy layer
+- As HTTP load balancer with programmatic control and zero-downtime
+- Replaying traffic to one or multiple backend
 - As SSL terminator proxy
 - For A/B testing
-- As test intermediate servercd intercepting and generating random/fake responses
+- As intermediate test server intercepting and generating random/fake responses
 - And whatever a programmatic HTTP proxy could be useful to
 
 ## Installation
