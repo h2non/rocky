@@ -126,8 +126,8 @@ This version is focused on stability and production use, however it's only recom
 
 ### Versions
 
-- [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) `beta` - First version. Initially released at `25.06.2015`.
-- [**0.2.x**](https://github.com/h2non/rocky/tree/master) `beta` - Released at `07.07.2015`.
+- [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
+- [**0.2.x**](https://github.com/h2non/rocky/tree/master) - Released at `07.07.2015`. Production focused version.
 
 ### How does it work?
 
@@ -156,10 +156,10 @@ This version is focused on stability and production use, however it's only recom
 
 ## Middleware layer
 
-`rocky` provides a build-in featured and powerful connect-style middleware that allow
-you to augment its functionality easily.
+One of the more powerful features of `rocky` is its build-in connect-style middleware layer.
+This allow you to augment the proxy functionality very easily attaching third-party middleware (also known as plugins).
 
-The middleware layer is compatible with
+`rocky` middleware layer has the same interface as connect/express middleware, and it's mostly compatible with them.
 
 ### Hierarchies
 
@@ -174,7 +174,7 @@ The middleware layer is compatible with
 This was introduced in order to achieve in a more responsive way multiple traffic flows in the scope of a HTTP proxy.
 
 Those flows are intrinsicly correlated but might be handled in a completely different way.
-The goal is to allowing you to handle them acordingly, acting in the middle of those phases to augment some functionality or react to some event with better precisision.
+The goal is to allowing you to handle them accordingly, acting in the middle of those phases to augment some functionality or react to some event with better precisision.
 
 **Supported types of middleware**:
 

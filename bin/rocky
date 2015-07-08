@@ -73,6 +73,10 @@ process.stdin.once('end', function () {
 function start() {
   process.stdin.pause()
 
+  if (!data && process.env.ROCKY_CONFIG) {
+    argv.config = process.env.ROCKY_CONFIG
+  }
+
   if (!data && argv.config && !fs.existsSync(argv.config)) {
     console.error('Invalid config path:', argv.config)
     process.exitCode = 1
