@@ -62,8 +62,8 @@ Requires node.js +0.12 or io.js +1.6
 - As HTTP proxy for progressive migrations (e.g: APIs)
 - As HTTP traffic interceptor transforming the request/response on-the-fly
 - As intermediate HTTP proxy adapter for external services
-- As HTTP API gateway
-- As standalone reverse HTTP proxy with powerful routing
+- As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
+- As standard reverse HTTP proxy with powerful routing
 - As security proxy layer
 - As HTTP load balancer with programmatic control and zero-downtime
 - Replaying traffic to one or multiple backend
