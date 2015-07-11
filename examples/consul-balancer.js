@@ -1,4 +1,5 @@
 const rocky = require('..')
+// See: https://github.com/h2non/rocky-consul
 const consul = require('rocky-consul')
 
 // Create the proxy
