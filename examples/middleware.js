@@ -25,6 +25,16 @@ proxy
     console.log('Route with param "id":', req.url)
     next()
   })
+  // Define a replay only middleware
+  .useReplay(function (req, res, next) {
+    req.headers['X-Replay-Id'] = '0123456789'
+    next()
+  })
+  // Define a forward request only middleware
+  .useForward(function (req, res, next) {
+    req.headers['X-Forward-Id'] = '123456789'
+    next()
+  })
   .toPath('/users/:id', { id: 'Chuck' })
   .host('http://google.com')
   .headers({
