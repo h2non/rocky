@@ -8,7 +8,7 @@ Compatible with [connect](https://github.com/senchalabs/connect)/[express](http:
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-To get started, take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
+To get started, you can take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
 Requires node.js +0.12 or io.js +1.6
 
@@ -133,7 +133,7 @@ This version is focused on stability and production use, however it's only recom
 
 ### How does it work?
 
-`rocky` could be useful in [multiple scenarios](#when-rocky-could-be-useful), but a common and representative use case scenario could be the following:
+`rocky` can be useful in [multiple scenarios](#when-rocky-could-be-useful), but a common and representative use case scenario could be the following:
 
 ```
          |==============|
@@ -158,10 +158,10 @@ This version is focused on stability and production use, however it's only recom
 
 ## Middleware layer
 
-One of the more powerful features of `rocky` is its build-in connect-style middleware layer.
-`rocky` was designed with a main core idea: "augment by default".
+One of the more powerful features in `rocky` is its build-in middleware layer.
+`rocky` was designed with a main core idea: augment by default.
 
-The middleware layer provides you an simple and consistent way to augment the proxy functionality very easily, attaching third-party middleware (also known as plugins) on it.
+The middleware layer provides a simple and consistent way to augment the proxy functionality very easily, allowing you to attach third-party middleware (also known as plugins) to cover specific tasks which acts between different phases of the proxy, for instance handling incoming/outgoing traffic.
 
 `rocky` middleware layer has the same interface as connect/express middleware, and it's mostly compatible with existent middleware (see [express](https://github.com/h2non/rocky/blob/master/examples/express.js) example).
 
@@ -175,10 +175,11 @@ The middleware layer provides you an simple and consistent way to augment the pr
 ### Types of middleware
 
 `rocky` introduces multiple types of middleware layers based on the same interface and behavior of connect/express middleware.
-This was introduced in order to achieve in a more responsive way multiple traffic flows in the scope of a HTTP proxy.
+This was introduced in order to achieve in a more responsive way multiple traffic flows in the specific scope
+and behavior nature of a programmatic HTTP proxy with traffic replay.
 
 Those flows are intrinsicly correlated but might be handled in a completely different way.
-The goal is to allowing you to handle them accordingly, acting in the middle of those phases to augment some functionality or react to some event with better precisision.
+The goal is to allowing you to handle them accordingly, acting in the middle of those phases to augment some functionality or react to some event with better accuracy.
 
 **Supported types of middleware**:
 

@@ -100,6 +100,11 @@ function start() {
   var config = toml.parse(data)
   var opts = assign({}, argv, config)
 
+  startProxy(opts)
+  console.log('rocky server listening on port:', opts.port)
+}
+
+function startProxy(opts) {
   if (opts.cert && opts.key) {
     opts.ssl = {
       cert: fs.readFileSync(opts.cert, 'utf8'),
@@ -113,6 +118,4 @@ function start() {
 
   opts.port = +opts.port || process.env.PORT || 3000
   require('..').create(opts)
-
-  console.log('rocky server listening on port:', opts.port)
 }
