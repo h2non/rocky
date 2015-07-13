@@ -528,13 +528,20 @@ The middleware stack is the same as `.use()`.
 
 #### rocky#useReplay(...middleware)
 
-Use a given middleware to handle the replay traffic.
+Use a middleware for all the incoming traffic in the HTTP replay phase.
+This middleware stack can be useful to differ between forward/replay traffic, applying separated flows of middleware.
+
+#### rocky#useForward(...middleware)
+
+Use a middleware for all the incoming traffic only for the HTTP request forward phase.
+For most cases you will only use `.use()`, but for particular modifications only for the forwarded traffic, this middleware can be useful.
 
 #### rocky#useFor(name, ...middleware)
 
 Use a custom middleware for a specific phase. Supported phase names are: `forward`, 'replay'.
 
-This method is used internally, but it's also public since it could be useful for dynamic programmatic middleware configuration, instead of using the shortcut methods such as: `useReplay` or `useForward`.
+This method is used internally, however it's also public since it could be useful
+for dynamic middleware configurations instead of using the shortcut methods such as: `useReplay` or `useForward`.
 
 #### rocky#balance(...urls)
 
@@ -733,13 +740,22 @@ You can pass any supported option by [http-proxy](https://github.com/nodejitsu/n
 
 #### route#use(...middleware)
 
-Add custom middleware to the specific route.
+Use a middleware for the incoming traffic for the current route for both replay/forward phases.
 
-#### rocky#useFor(name, ...middleware)
+#### route#useReplay(...middleware)
 
-#### rocky#useReplay(...middleware)
+Use a middleware for current route incoming traffic in the HTTP replay phase.
+This middleware stack can be useful to differ between forward/replay traffic, applying separated flows of middleware.
 
-#### rocky#useForward(...middleware)
+#### route#useForward(...middleware)
+
+Use a middleware for current route incoming traffic only for the HTTP request forward phase.
+For most cases you will only use `.use()`, but for particular modifications only for the forwarded traffic, this middleware can be useful.
+
+#### route#useFor(name, ...middleware)
+
+This method is used internally, however it's also public since it could be useful
+for dynamic middleware configurations instead of using the shortcut methods such as: `useReplay` or `useForward`.
 
 #### route#on(event, ...handler)
 
