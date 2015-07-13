@@ -178,6 +178,42 @@ suite('rocky', function () {
     }
   })
 
+  test('forward and replay large payload as stream', function (done) {
+    proxy = rocky()
+      .forward(targetUrl)
+      //.replay(replayUrl)
+      //.replay(replayUrl)
+      .listen(ports.proxy)
+
+    proxy.post('/test')
+
+    replay = createReplayServer(assertReplay)
+    server = createTestServer(assert)
+
+    var req = supertest(proxyUrl)
+      .post('/test')
+      .type('json')
+
+    var body = require('fs').readFileSync('test/fixtures/data.json').toString()
+
+    require('fs')
+      .createReadStream('test/fixtures/data.json')
+      .pipe(req)
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(req.body).to.be.equal(body)
+      done()
+    }
+
+    function assertReplay(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(204)
+      expect(req.body).to.be.equal(body)
+    }
+  })
+
   test('global middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer(assert)
