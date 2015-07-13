@@ -455,7 +455,7 @@ suite('rocky', function () {
       .send('{"hello": "world"}')
       .expect(200)
       .expect('Content-Type', 'application/json')
-      .expect('{"salutation":"hello world"}')
+      .expect({ salutation: 'hello world' })
       .end(done)
 
     function assert(req, res) {

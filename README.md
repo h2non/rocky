@@ -662,7 +662,8 @@ Overwrite the `Host` header value when forward the request.
 
 Redirect the incoming request for the current route.
 
-#### route#transformRequestBody(middleware, [ filter ])
+#### route#transformRequest(middleware, [ filter ])
+Alias: `transformRequestBody()`
 
 This method implements a non-instrusive native `http.IncommingMessage` stream wrapper that allow you to intercept and transform the request body received from the client before sending it to the target server.
 
@@ -678,7 +679,7 @@ The body will be exposed as raw `Buffer` or `String` on both properties `body` a
 ```js
 rocky
   .post('/users')
-  .transformRequestBody(function (req, res, next) {
+  .transformRequest(function (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(req.body.toString())
 
@@ -693,7 +694,8 @@ rocky
   })
 ```
 
-#### route#transformResponseBody(middleware, [ filter ])
+#### route#transformResponse(middleware, [ filter ])
+Alias: `transformResponseBody()`
 
 This method implements a non-instrusive native `http.RequestResponse` stream wrapper that allow you to intercept and transform the response body received from the target server before sending it to the client.
 
@@ -709,7 +711,7 @@ The body will be exposed as raw `Buffer` or `String` on both properties `body` a
 ```js
 rocky
   .post('/users')
-  .transformResponseBody(function (req, res, next) {
+  .transformResponse(function (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(res.body.toString())
 
@@ -808,13 +810,13 @@ rocky()
 
 Intercept and optionally transform/replace the request body before forward it to the target server.
 
-See [rocky#transformRequestBody](#routetransformrequestbodymiddleware--filter-) for more details.
+See [rocky#transformRequestBody](#routetransformrequestmiddleware--filter-) for more details.
 
 #### rocky.middleware.responseBody(middleware)
 
 Intercept and optionally transform/replace the response body from the server before send it to the client.
 
-See [rocky#transformResponseBody](#routetransformresponsebodymiddleware--filter-) for more details.
+See [rocky#transformResponseBody](#routetransformresponsemiddleware--filter-) for more details.
 
 #### rocky.middleware.toPath(path, [ params ])
 
