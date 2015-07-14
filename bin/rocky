@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-var fs      = require('fs')
-var toml    = require('toml')
-var assign  = require('lodash').assign
-var findup  = require('findup-sync')
-var version = require('../package.json').version
+const fs      = require('fs')
+const toml    = require('toml')
+const assign  = require('lodash').assign
+const findup  = require('findup-sync')
+const version = require('../package.json').version
 
-var configFile = 'rocky.toml'
+const configFile = 'rocky.toml'
 
-var argv = require('yargs')
+const argv = require('yargs')
   .usage('Start rocky HTTP proxy server\nUsage: $0 [options]')
   .example('$0 -c rocky.toml \\\n -f http://127.0.0.1:9000 \\\n -r http://127.0.0.1', '')
   .help('help')
@@ -31,6 +31,10 @@ var argv = require('yargs')
     replay: {
       alias: 'r',
       description: 'Define a replay server URL'
+    },
+    route: {
+      alias: 't',
+      description: 'Define one or multiple routes, separated by commas'
     },
     key: {
       alias: 'k',
@@ -73,6 +77,58 @@ process.stdin.once('end', function () {
 function start() {
   process.stdin.pause()
 
+  var config = readConfig(data)
+  var opts = assign({}, argv, config)
+  if (process.exitCode) return
+
+  startProxy(opts)
+}
+
+function startProxy(opts) {
+  if (opts.cert && opts.key) {
+    opts.ssl = {
+      cert: fs.readFileSync(opts.cert, 'utf8'),
+      key: fs.readFileSync(opts.key, 'utf8')
+    }
+  }
+
+  if (opts.debug) {
+    process.env.DEBUG = 'rocky:*'
+  }
+
+  opts.port = +opts.port || process.env.PORT || 3000
+  require('..').create(opts)
+  console.log('rocky server listening on port:', opts.port)
+}
+
+function readConfig() {
+  if (argv.route && argv.forward) {
+    return readArgsConfig()
+  } else {
+    return readTomlConfig(data)
+  }
+}
+
+function readArgsConfig() {
+  var config = {}
+  var paths = argv.route.split(',')
+
+  paths
+  .filter(function (path) {
+    return path.trim()
+  })
+  .forEach(function (path) {
+    config[path] = {
+      method: 'all',
+      forward: argv.forward,
+      replay: argv.replay
+    }
+  })
+
+  return config
+}
+
+function readTomlConfig(data) {
   if (!data && process.env.ROCKY_CONFIG) {
     argv.config = process.env.ROCKY_CONFIG
   }
@@ -97,25 +153,5 @@ function start() {
     return
   }
 
-  var config = toml.parse(data)
-  var opts = assign({}, argv, config)
-
-  startProxy(opts)
-  console.log('rocky server listening on port:', opts.port)
-}
-
-function startProxy(opts) {
-  if (opts.cert && opts.key) {
-    opts.ssl = {
-      cert: fs.readFileSync(opts.cert, 'utf8'),
-      key: fs.readFileSync(opts.key, 'utf8')
-    }
-  }
-
-  if (opts.debug) {
-    process.env.DEBUG = 'rocky:*'
-  }
-
-  opts.port = +opts.port || process.env.PORT || 3000
-  require('..').create(opts)
+  return toml.parse(data)
 }

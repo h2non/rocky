@@ -285,6 +285,7 @@ Options:
   --port, -p     rocky HTTP server port
   --forward, -f  Default forward server URL
   --replay, -r   Define a replay server URL
+  --route, -t    Define one or multiple routes, separated by commas
   --key, -k      Path to SSL key file
   --cert, -e     Path to SSL certificate file
   --secure, -s   Enable SSL certification validation
@@ -315,9 +316,14 @@ Transparent `rocky.toml` file discovery in current and higher directories:
 rocky --port 8080
 ```
 
-Or alternatively `rocky` can find the config file passing the `ROCKY_CONFIG` environment variable:
+Alternatively `rocky` can find the config file passing the `ROCKY_CONFIG` environment variable:
 ```
 ROCKY_CONFIG=path/to/rocky.toml rocky --port 8080
+```
+
+Or for simple configurations you can setup a proxy without a config file, defining the routes via flag:
+```
+rocky --port --forward http://server --route "/download/*, /images/*, /*"
 ```
 
 ### Configuration
