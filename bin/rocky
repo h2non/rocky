@@ -62,7 +62,7 @@ const argv = require('yargs')
   .argv
 
 var data = ''
-var id = setTimeout(start, 100)
+var id = setTimeout(start, 250)
 
 process.stdin.resume()
 process.stdin.setEncoding('utf8')
