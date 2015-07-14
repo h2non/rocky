@@ -128,18 +128,19 @@ suite('rocky', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(done)
+      .end()
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
-      expect(req.body).to.match(/hello/)
+      expect(req.body).to.be.equal('{"hello":"world"}')
     }
 
     function assertReplay(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
-      expect(req.body).to.match(/hello/)
+      expect(req.body).to.be.equal('{"hello":"world"}')
+      done()
     }
   })
 

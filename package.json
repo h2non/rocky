@@ -36,7 +36,9 @@
     "findup-sync": "^0.2.1",
     "http-proxy": "^1.11.1",
     "lodash": "^3.9.3",
+    "media-typer": "^0.3.0",
     "midware": "^0.1.1",
+    "raw-body": "^2.1.2",
     "router": "^1.1.1",
     "toml": "^2.2.3",
     "yargs": "^3.12.0"
