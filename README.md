@@ -348,7 +348,8 @@ ROCKY_CONFIG=path/to/rocky.toml rocky --port 8080
 - **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
-- **forwardOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one
+- **forwardOriginalBody** `boolean` - Only valid for **forward** request. Forward the original body instead of the transformed one.
+- **replayOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one.
 - **router** `object` - Specific router params
   - **strict** `boolean` - When `false` trailing slashes are optional (default: `false`)
   - **caseSensitive** `boolean` - When `true` the routing will be case sensitive. (default: `false`)

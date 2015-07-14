@@ -1,7 +1,9 @@
+const fs = require('fs')
 const http = require('http')
 const connect = require('connect')
 const sinon = require('sinon')
 const supertest = require('supertest')
+const request = require('request')
 const expect = require('chai').expect
 const rocky = require('..')
 
@@ -25,7 +27,7 @@ suite('rocky', function () {
     if (proxy && proxy.server) {
       proxy.server.close()
     }
-    setTimeout(done, 10)
+    setTimeout(done, 50)
   })
 
   test('simple forward', function (done) {
@@ -182,8 +184,8 @@ suite('rocky', function () {
   test('forward and replay large payload as stream', function (done) {
     proxy = rocky()
       .forward(targetUrl)
-      //.replay(replayUrl)
-      //.replay(replayUrl)
+      .replay(replayUrl)
+      .replay(replayUrl)
       .listen(ports.proxy)
 
     proxy.post('/test')
@@ -191,27 +193,24 @@ suite('rocky', function () {
     replay = createReplayServer(assertReplay)
     server = createTestServer(assert)
 
-    var req = supertest(proxyUrl)
-      .post('/test')
-      .type('json')
+    var body = fs.readFileSync('test/fixtures/data.json').toString()
 
-    var body = require('fs').readFileSync('test/fixtures/data.json').toString()
-
-    require('fs')
-      .createReadStream('test/fixtures/data.json')
-      .pipe(req)
+    fs.createReadStream('test/fixtures/data.json')
+      .pipe(request.post(proxyUrl + '/test'))
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(req.body).to.be.equal(body)
-      done()
     }
 
+    var replays = 0
     function assertReplay(req, res) {
+      replays += 1
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.be.equal(body)
+      if (replays > 1) done()
     }
   })
 
@@ -504,8 +503,8 @@ suite('rocky', function () {
   test('intercept and transform request payload', function (done) {
     proxy = rocky()
       .forward(targetUrl)
-      .replay({ target: replayUrl, forwardOriginalBody: true })
-      .replay({ target: replayUrl, forwardOriginalBody: true })
+      .replay({ target: replayUrl, replayOriginalBody: true })
+      .replay({ target: replayUrl, replayOriginalBody: true })
       .listen(ports.proxy)
 
     proxy
