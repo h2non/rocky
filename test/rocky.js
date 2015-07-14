@@ -466,7 +466,7 @@ suite('rocky', function () {
 
   test('body buffer', function (done) {
     proxy = rocky()
-      .forward(targetUrl)
+      .forward(targetUrl, { forwardOriginalBody: true })
       .replay(replayUrl)
       .replay(replayUrl)
       .listen(ports.proxy)
@@ -474,14 +474,14 @@ suite('rocky', function () {
     proxy
       .post('/payload')
       .bufferBody()
-      .transformResponseBody(function (req, res, next) {
-        var body = JSON.parse(res.body.toString())
+      .transformRequestBody(function (req, res, next) {
+        var body = JSON.parse(req.body.toString())
         var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
         next(null, newBody)
       })
 
-    replay = createReplayServer(assert)
     server = createTestServer(assert)
+    replay = createReplayServer(assertReplay)
 
     supertest(proxyUrl)
       .post('/payload')
@@ -492,12 +492,19 @@ suite('rocky', function () {
       .expect({ salutation: 'hello world' })
       .end(function () {})
 
-    var calls = 0
     function assert(req, res) {
+      expect(req.url).to.be.equal('/payload')
+      expect(req.body).to.be.equal('{"hello": "world"}')
+      expect(res.statusCode).to.be.equal(200)
+    }
+
+    var calls = 0
+    function assertReplay(req, res) {
       calls++
       expect(req.url).to.be.equal('/payload')
-      expect(res.statusCode).to.match(/200|204/)
-      if (calls > 2) done()
+      expect(req.body).to.be.equal('{"salutation":"hello world"}')
+      expect(res.statusCode).to.be.equal(204)
+      if (calls > 1) done()
     }
   })
 
