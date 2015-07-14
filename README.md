@@ -443,7 +443,7 @@ var proxy = rocky()
 // Default proxy config
 proxy
   .forward('http://new.server')
-  .replay('http://old.server', { forwardOriginalBody: true })
+  .replay('http://old.server', { replayOriginalBody: true })
   .options({ forwardHost: true })
   .on('proxy:error', function (err) {
     console.error('Error:', err)
@@ -669,6 +669,13 @@ Overwrite the `Host` header value when forward the request.
 #### route#redirect(url)
 
 Redirect the incoming request for the current route.
+
+#### route#bufferBody([ filter ])
+
+Intercept and cache in a buffer the request payload data.
+Body will be exposed in `req.body`.
+
+Note: use it only for small payloads
 
 #### route#transformRequest(middleware, [ filter ])
 Alias: `transformRequestBody()`

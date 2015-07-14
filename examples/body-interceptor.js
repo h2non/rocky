@@ -12,7 +12,7 @@ proxy
 var route = proxy
   .post('/users/:id')
   // Replay traffic for the given route
-  .replay('http://localhost:3002', { forwardOriginalBody: true })
+  .replay('http://localhost:3002', { replayOriginalBody: true })
   // Add incoming traffic middleware to intercept and mutate the request
   .use(function (req, res, next) {
     req.headers['Authorization'] = 'Bearer 0123456789'
