@@ -44,29 +44,30 @@ Requires node.js +0.12 or io.js +1.6
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends
-- Able to run as standalone HTTP/S server
+- Intercept HTTP requests and responses and modify them on the fly
 - Easily integrable with connect/express via middleware
-- Full-featured built-in router with regexp and params matching
-- Hierarchial router configuration
-- Hierarchial middleware layer (supports multiple hooks)
-- Able to capture traffic as interceptor pattern
-- Built-in traffic sniffer and transformer for request/response payloads
+- Full-featured built-in router with params matching
 - Built-in load balancer
-- Hierarchical configuration
+- Nested configuration per global/route and forward/replay phases
+- Hierarchial middleware layer (based on connect-style middleware)
+- Able to run as standalone HTTP/S server
 - Compatible with most of the existing connect/express middleware
+- Versatible programmatic control for dynamic configurations with zero-downtime
 - Fluent, elegant and evented programmatic API
 - Simple command-line interface with declarative configuration file
 
 ## When `rocky` could be useful?
 
 - As HTTP proxy for progressive migrations (e.g: APIs)
-- As HTTP traffic interceptor transforming the request/response on-the-fly
-- As intermediate HTTP proxy adapter for external services
+- Replaying traffic to one or multiple backends
+- As reverse proxy to forward traffic to a specified server.
+- As HTTP traffic interceptor transforming the request/response on the fly
+- As intermediate HTTP proxy adapter for external services integrations
 - As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
-- As standard reverse HTTP proxy with powerful routing
+- As standard reverse HTTP proxy with dynamic routing
 - As security proxy layer
-- As HTTP load balancer with programmatic control and zero-downtime
-- Replaying traffic to one or multiple backend
+- As HTTP load balancer with programmatic control
+- As HTTP cache or log server
 - As SSL terminator proxy
 - For A/B testing
 - As intermediate test server intercepting and generating random/fake responses
@@ -129,7 +130,7 @@ This version is focused on stability and production use, however it's only recom
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
-- [**0.2.x**](https://github.com/h2non/rocky/tree/master) - Released at `07.07.2015`. Production focused version.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/master) - Released at `07.07.2015`. Production-focused version.
 
 ### How does it work?
 
