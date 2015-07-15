@@ -275,7 +275,7 @@ rocky()
 
 Note that you can use any other existent middleware plug in `rocky` as part of your connect/express app.
 
-Additionally, `rocky` provides some [built-in middleware functions](#rockymiddleware) that you can plug in different types of middleware.
+Additionally, `rocky` provides some [built-in middleware functions](#rockymiddleware-1) that you can plug in different types of middleware.
 
 ## Command-line
 
