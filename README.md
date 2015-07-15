@@ -88,8 +88,8 @@ npm install -g rocky
 
 ### Standalone binaries
 
-- [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.4/rocky-0.2.4-linux-x64.nar)
-- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.4/rocky-0.2.4-darwin-x64.nar)
+- [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.5/rocky-0.2.5-linux-x64.nar)
+- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.5/rocky-0.2.5-darwin-x64.nar)
 
 Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.7`
 
