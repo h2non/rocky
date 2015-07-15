@@ -38,6 +38,7 @@
     "lodash": "^3.9.3",
     "media-typer": "^0.3.0",
     "midware": "^0.1.1",
+    "morgan": "^1.6.1",
     "raw-body": "^2.1.2",
     "router": "^1.1.1",
     "toml": "^2.2.3",
