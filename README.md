@@ -31,11 +31,13 @@ Requires node.js +0.12 or io.js +1.6
   - [Middleware API](#middleware-api)
   - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
+  - [Installation](#installation)
+  - [Usage](#usage)
   - [Examples](#examples)
-  - [Configuration](#configuration)
   - [Configuration file](#configuration-file)
 - [Programmatic API](#programmatic-api)
   - [Usage](#usage)
+  - [Configuration](#configuration)
   - [Documentation](#rocky-options-)
   - [Supported events](#events)
 - [Special thanks](#special-thanks)
@@ -79,28 +81,6 @@ Requires node.js +0.12 or io.js +1.6
 
 ```bash
 npm install rocky --save
-```
-
-For command-line interface usage, install it as global package:
-```bash
-npm install -g rocky
-```
-
-### Standalone binaries
-
-- [linux-x64](https://github.com/h2non/rocky/releases/download/0.2.5/rocky-0.2.5-linux-x64.nar)
-- [darwin-x64](https://github.com/h2non/rocky/releases/download/0.2.5/rocky-0.2.5-darwin-x64.nar)
-
-Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.7`
-
-##### Usage
-
-```
-chmod +x rocky-0.2.1-linux-x64.nar
-```
-
-```
-./rocky-0.2.1-linux-x64.nar exec --port 3000 --config rocky.toml
 ```
 
 ## Introduction
@@ -279,6 +259,32 @@ Additionally, `rocky` provides some [built-in middleware functions](#rockymiddle
 
 ## Command-line
 
+### Installation
+
+For command-line usage, you must install [`rocky-cli`](https://github.com/h2non/rocky-cli)
+```
+npm install -g rocky-cli
+```
+
+### Standalone binaries
+
+- [linux-x64](https://github.com/h2non/rocky-cli/releases/latest)
+- [darwin-x64](https://github.com/h2non/rocky-cli/releases/latest)
+
+Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.7`
+
+##### Usage
+
+```
+chmod +x rocky-cli-linux-x64.nar
+```
+
+```
+./rocky-cli-linux-x64.nar exec --port 3000 --config rocky.toml
+```
+
+### Usage
+
 ```bash
 Start rocky HTTP proxy server
 Usage: rocky [options]
@@ -330,42 +336,6 @@ Or for simple configurations you can setup a proxy without a config file, defini
 ```
 rocky --port --forward http://server --route "/download/*, /images/*, /*"
 ```
-
-### Configuration
-
-**Supported params**
-
-- **forward** `string` - Default forward URL
-- **debug** `boolean` - Enable debug mode. Default `false`
-- **target** `string` - <url string to be parsed with the url module
-- **replay** `array<string|object>` - Optional replay server URLs. You can use the `replay()` method to configure it
-- **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
-- **replayAfterForward** `boolean` - Replay the request only after the forward request ends successfully. Default `false`
-- **timeout** `number` - Timeout for request socket
-- **proxyTimeout** `number` - Timeout for proxy request socket
-- **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
-- **ssl** `object` - object to be passed to https.createServer()
-  - **cert** `string` - Path to SSL certificate file
-  - **key** `string` - Path to SSL key file
-- **ws** `boolean` - true/false, if you want to proxy websockets
-- **xfwd** `boolean` - true/false, adds x-forward headers
-- **secure** `boolean` - true/false, verify SSL certificate
-- **toProxy** `boolean` - true/false, explicitly specify if we are proxying to another proxy
-- **prependPath** `boolean` - true/false, Default: true - specify whether you want to prepend the target's path to the proxy path
-- **ignorePath** `boolean` - true/false, Default: false - specify whether you want to ignore the proxy path of the incoming request
-- **localAddress** `boolean` - <Local interface string to bind for outgoing connections
-- **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
-- **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
-- **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
-- **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
-- **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
-- **forwardOriginalBody** `boolean` - Only valid for **forward** request. Forward the original body instead of the transformed one.
-- **replayOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one.
-- **router** `object` - Specific router params
-  - **strict** `boolean` - When `false` trailing slashes are optional (default: `false`)
-  - **caseSensitive** `boolean` - When `true` the routing will be case sensitive. (default: `false`)
-  - **mergeParams** `boolean` - When `true` any `req.params` passed to the router will be
-    merged into the router's `req.params`. (default: `false`)
 
 ### Configuration file
 
@@ -505,6 +475,42 @@ proxy.listen(3000)
 ```
 
 For more usage cases, take a look at the [examples](/examples)
+
+### Configuration
+
+**Supported configuration params**:
+
+- **forward** `string` - Default forward URL
+- **debug** `boolean` - Enable debug mode. Default `false`
+- **target** `string` - <url string to be parsed with the url module
+- **replay** `array<string|object>` - Optional replay server URLs. You can use the `replay()` method to configure it
+- **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
+- **replayAfterForward** `boolean` - Replay the request only after the forward request ends successfully. Default `false`
+- **timeout** `number` - Timeout for request socket
+- **proxyTimeout** `number` - Timeout for proxy request socket
+- **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
+- **ssl** `object` - object to be passed to https.createServer()
+  - **cert** `string` - Path to SSL certificate file
+  - **key** `string` - Path to SSL key file
+- **ws** `boolean` - true/false, if you want to proxy websockets
+- **xfwd** `boolean` - true/false, adds x-forward headers
+- **secure** `boolean` - true/false, verify SSL certificate
+- **toProxy** `boolean` - true/false, explicitly specify if we are proxying to another proxy
+- **prependPath** `boolean` - true/false, Default: true - specify whether you want to prepend the target's path to the proxy path
+- **ignorePath** `boolean` - true/false, Default: false - specify whether you want to ignore the proxy path of the incoming request
+- **localAddress** `boolean` - <Local interface string to bind for outgoing connections
+- **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
+- **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
+- **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
+- **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
+- **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
+- **forwardOriginalBody** `boolean` - Only valid for **forward** request. Forward the original body instead of the transformed one.
+- **replayOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one.
+- **router** `object` - Specific router params
+  - **strict** `boolean` - When `false` trailing slashes are optional (default: `false`)
+  - **caseSensitive** `boolean` - When `true` the routing will be case sensitive. (default: `false`)
+  - **mergeParams** `boolean` - When `true` any `req.params` passed to the router will be
+    merged into the router's `req.params`. (default: `false`)
 
 ### rocky([ options ])
 
@@ -804,31 +810,6 @@ Subscribes to a specific event for the given route, and unsubscribes after dispa
 #### route#off(event, handler)
 
 Remove an event by its handler function in the current route
-
-### rocky.create(config)
-
-Create a standalone `rocky` server with the given `config` options.
-See the [supported config fields](#configuration)
-
-```js
-var config = {
-  'forward': 'http://google.com',
-  '/search': {
-    method: 'GET',
-    forward: 'http://duckduckgo.com'
-    replay: ['http://bing.com', 'http://yahoo.com']
-  },
-  '/users/:id': {
-    method: 'all'
-  },
-  '/*': {
-    method: 'all',
-    forward: 'http://bing.com'
-  }
-}
-
-rocky.create(config)
-```
 
 ### rocky.middleware
 

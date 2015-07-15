@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Pluggable, versatile and middleware-oriented full featured HTTP/S proxy with traffic replay and intercept",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
@@ -21,28 +21,19 @@
     "middleware",
     "intercept"
   ],
-  "bin": {
-    "rocky": "./bin/rocky"
-  },
   "engines": {
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 5000 --reporter spec --ui tdd test/*",
-    "start": "./bin/rocky",
-    "nar": "nar create -e --os linux --arch x64 && nar create -e --os darwin --arch x64"
+    "test": "./node_modules/.bin/mocha --timeout 5000 --reporter spec --ui tdd test/*"
   },
   "dependencies": {
-    "findup-sync": "^0.2.1",
     "http-proxy": "^1.11.1",
     "lodash": "^3.9.3",
     "media-typer": "^0.3.0",
     "midware": "^0.1.1",
-    "morgan": "^1.6.1",
     "raw-body": "^2.1.2",
-    "router": "^1.1.1",
-    "toml": "^2.2.3",
-    "yargs": "^3.12.0"
+    "router": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^3.0.0",

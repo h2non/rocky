@@ -7,6 +7,5 @@ function rocky(opts) {
 }
 
 rocky.httpProxy  = require('http-proxy')
-rocky.create     = require('./lib/create')
 rocky.middleware = require('./lib/middleware')
 rocky.VERSION    = require('./package.json').version
