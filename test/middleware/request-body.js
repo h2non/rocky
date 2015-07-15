@@ -1,5 +1,7 @@
-const expect = require('chai').expect
 const stream = require('stream')
+const Socket = require('net').Socket
+const Request = require('http').IncomingMessage
+const expect = require('chai').expect
 const middleware = require('../../lib/middleware')
 
 suite('middleware#requestBody', function () {
@@ -7,7 +9,7 @@ suite('middleware#requestBody', function () {
 
   beforeEach(function () {
     res = new stream.Writable
-    req = new stream.Readable
+    req = new Request(new Socket)
     req.headers = {}
     req._read = function () {
       return Buffer.concat(this._readableState.buffer)
@@ -26,57 +28,32 @@ suite('middleware#requestBody', function () {
     req.push(null)
   }
 
-  /*
-  test('transform', function (done) {
-    req.on('end', function () {
-      expect(req.body).to.be.equal('Pong Ping')
-      done()
-    })
+  test('body already present', function (done) {
+    req.body = new Buffer('Ping Pong')
 
     middleware.requestBody(middlewareFn)
-      (req, res, function () {})
-
-    pushData()
+      (req, res, done)
   })
 
-  test('filter', function (done) {
-    req.on('end', function () {
-      expect(req.body).to.be.equal('Pong Ping')
-      done()
-    })
-
+  test('filter function', function (done) {
     function filter(req) {
-      return !req.headers['content-type']
+      return req.headers['content-type']
     }
 
-    var mw = middleware.requestBody(middlewareFn, filter)
-    mw(req, res, function () {})
+    middleware.requestBody(middlewareFn, filter)
+      (req, res, done)
+  })
 
-    pushData()
+  test('filter regexp', function (done) {
+    req.headers['content-type'] = 'text/html; charset=utf8'
+    middleware.requestBody(middlewareFn, /application\/json/i)
+      (req, res, done)
   })
 
   test('invalid method', function (done) {
     req.method = 'GET'
 
     middleware.requestBody(middlewareFn)
-      (req, res, function (err) {
-        expect(err).to.be.undefined
-        done()
-      })
-
-    pushData()
+      (req, res, done)
   })
-
-  test('body already present', function (done) {
-    req.body = 'blablabla'
-
-    middleware.requestBody(middlewareFn)
-      (req, res, function (err) {
-        expect(err).to.be.null
-        done()
-      })
-
-    pushData()
-  })
-  */
 })

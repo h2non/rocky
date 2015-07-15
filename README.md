@@ -70,7 +70,7 @@ Requires node.js +0.12 or io.js +1.6
 - As SSL terminator proxy
 - For A/B testing
 - As intermediate test server intercepting and generating random/fake responses
-- And whatever a programmatic HTTP proxy could be useful to
+- And whatever a programmatic HTTP proxy can be useful to
 
 ## Installation
 
