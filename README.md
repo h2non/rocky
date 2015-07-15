@@ -400,6 +400,7 @@ balance = ["http://1.file.server", "http://2.file.server"]
 
 [/photo/:name]
 method = "GET"
+replayAfterForward = true
 [[replay]]
   target = "http://old.server"
   forwardHost = true
