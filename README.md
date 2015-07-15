@@ -290,6 +290,7 @@ Options:
   --cert, -e     Path to SSL certificate file
   --secure, -s   Enable SSL certification validation
   --balance, -b  Define server URLs to balance between, separated by commas
+  --mute, -m     Disable HTTP traffic log in stdout                    [boolean]
   --debug, -d    Enable debug mode                                     [boolean]
   -v, --version  Show version number                                   [boolean]
 

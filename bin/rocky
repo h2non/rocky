@@ -2,7 +2,6 @@
 
 const fs      = require('fs')
 const toml    = require('toml')
-const morgan  = require('morgan')
 const assign  = require('lodash').assign
 const findup  = require('findup-sync')
 const version = require('../package.json').version
@@ -48,11 +47,16 @@ const argv = require('yargs')
     secure: {
       alias: 's',
       description: 'Enable SSL certification validation',
-      type: 'boolen'
+      type: 'boolean'
     },
     balance: {
       alias: 'b',
       description: 'Define server URLs to balance between, separated by commas',
+    },
+    mute: {
+      alias: 'm',
+      description: 'Disable HTTP traffic log in stdout',
+      type: 'boolean'
     },
     debug: {
       alias: 'd',
@@ -94,13 +98,12 @@ function startProxy(opts) {
   }
 
   if (opts.debug) {
-    process.env.DEBUG = 'rocky:*'
+    process.env.DEBUG = '*'
   }
 
   opts.port = +opts.port || process.env.PORT || 3000
-  const proxy = require('..').create(opts)
-  proxy.use(morgan('combined'))
 
+  require('..').create(opts)
   console.log('rocky server listening on port:', opts.port)
 }
 
