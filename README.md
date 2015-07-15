@@ -351,24 +351,24 @@ replay = ["http://duckduckgo.com"]
 cert = "server.crt"
 key  = "server.key"
 
-["/users/:id"]
+[/users/:id]
 method = "all"
 forward = "http://new.server"
 
-["/oauth"]
+[/oauth]
 method = "all"
 forward = "http://auth.server"
 
-["/*"]
+[/*]
 method = "GET"
 forward = "http://old.server"
 
-["/download/:file"]
+[/download/:file]
 method = "GET"
 timeout = 5000
 balance = ["http://1.file.server", "http://2.file.server"]
 
-["/photo/:name"]
+[/photo/:name]
 method = "GET"
 replayAfterForward = true
 [[replay]]
