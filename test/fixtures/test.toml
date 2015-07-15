@@ -1,3 +1,0 @@
-forward = "http://localhost:8089"
-hostRewrite = true
-xfwd = true
