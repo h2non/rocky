@@ -651,7 +651,7 @@ suite('rocky', function () {
       .end(assert)
 
     function assert(err, res) {
-      var errorMsg = /Cannot forward the request/i
+      var errorMsg = /missing target URL/i
       expect(spy.calledOnce).to.be.true
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args[0][0].message).to.match(errorMsg)
@@ -685,6 +685,58 @@ suite('rocky', function () {
     }
   })
 
+  test('replay after forward', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+    server = createTestServer(spy, 100)
+    replay = createReplayServer(assertReplay)
+
+    proxy.options({ replayAfterForward: true })
+    proxy.get('/test')
+      .forward(targetUrl)
+      .replay(replayUrl)
+    proxy.listen(ports.proxy)
+
+    var start = Date.now()
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(function (err) {
+        if (err) done(err)
+      })
+
+    function assertReplay() {
+      expect(spy.calledOnce).to.be.true
+      expect((Date.now() - start) >= 100).to.be.true
+      done()
+    }
+  })
+
+  test('do not replay if forward fails', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+    replay = createReplayServer(spy)
+
+    proxy.options({ replayAfterForward: true })
+    proxy.get('/test')
+      .forward('http://invalid')
+      .replay(replayUrl)
+    proxy.listen(ports.proxy)
+
+    var start = Date.now()
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(502)
+      .expect('Content-Type', 'application/json')
+      .end(function (err) {
+        setTimeout(function () {
+          expect(spy.calledOnce).to.be.false
+          done(err)
+        }, 50)
+      })
+  })
 
   test('unavailable forward server', function (done) {
     var spy = sinon.spy()
@@ -838,12 +890,12 @@ suite('rocky', function () {
 
 })
 
-function createTestServer(assert) {
-  return createServer(ports.target, 200, assert)
+function createTestServer(assert, timeout) {
+  return createServer(ports.target, 200, assert, timeout)
 }
 
-function createReplayServer(assert) {
-  return createServer(ports.replay, 204, assert)
+function createReplayServer(assert, timeout) {
+  return createServer(ports.replay, 204, assert, timeout)
 }
 
 function createTimeoutServer(assert) {

@@ -43,7 +43,7 @@ Requires node.js +0.12 or io.js +1.6
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
-- Replay traffic to multiple backends
+- Replay traffic to multiple backends (concurrently or sequentially)
 - Intercept HTTP requests and responses and modify them on the fly
 - Easily integrable with connect/express via middleware
 - Full-featured built-in router with params matching
@@ -58,7 +58,7 @@ Requires node.js +0.12 or io.js +1.6
 
 ## When `rocky` could be useful?
 
-- As HTTP proxy for progressive migrations (e.g: APIs)
+- As HTTP proxy for service migrations (e.g: APIs)
 - Replaying traffic to one or multiple backends
 - As reverse proxy to forward traffic to a specified server.
 - As HTTP traffic interceptor transforming the request/response on the fly
@@ -66,7 +66,9 @@ Requires node.js +0.12 or io.js +1.6
 - As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
 - As standard reverse HTTP proxy with dynamic routing
 - As security proxy layer
-- As HTTP load balancer with programmatic control
+- As HTTP load balancer with full programmatic control
+- As embedded HTTP proxy in your node.js app
+- As static response HTTP server
 - As HTTP cache or log server
 - As SSL terminator proxy
 - For A/B testing
@@ -231,9 +233,9 @@ The following diagram represents the internal incoming request flow and how the 
 ↓      \             /      ↓
 ↓       \           /       ↓
 ↓        \         /        ↓
-↓     ------------------    ↓
-↓     | HTTP dispacher |    ↓ --> Send requests over the network, separately
-↓     ------------------    ↓
+↓    -------------------    ↓
+↓    | HTTP dispatcher |    ↓ --> Send requests over the network (concurrently or sequentially)
+↓    -------------------    ↓
 ```
 
 ### Middleware API
@@ -247,6 +249,7 @@ so you can create middleware as you already know with the notation `function(req
   - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
   - **.proxy** `Rocky` - Expose the rocky instance. Use only for hacking purposes!
   - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
+- **req.stopReplay** `boolean` - Optional field internally checked by `rocky` to stop the request replay process.
 
 This provides you way to extend or modify specific values from the middleware layer without having side-effects,
 for instance replacing the server target URL, like in the following example:
@@ -335,9 +338,9 @@ rocky --port --forward http://server --route "/download/*, /images/*, /*"
 - **forward** `string` - Default forward URL
 - **debug** `boolean` - Enable debug mode. Default `false`
 - **target** `string` - <url string to be parsed with the url module
-- **replay** `array<string>` - Optional replay server URLs. Via API you should use the `replay()` method
+- **replay** `array<string|object>` - Optional replay server URLs. You can use the `replay()` method to configure it
 - **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
-- **forward** `string` - url string to be parsed with the url module
+- **replayAfterForward** `boolean` - Replay the request only after the forward request ends successfully. Default `false`
 - **timeout** `number` - Timeout for request socket
 - **proxyTimeout** `number` - Timeout for proxy request socket
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
@@ -787,6 +790,7 @@ Useful to incercept the status or modify the options on-the-fly
 - **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when a replay request fails
 - **replay:end** `params, opts, req` - Fired when a replay request ends
+- **replay:stop** `params, opts, req` - Fired when a replay request process is stopped
 - **server:error** `err, req, res` - Fired on server middleware error. Only available if running as standalone HTTP server
 - **route:missing** `req, res` - Fired on missing route. Only available if running as standalone HTTP server
 
