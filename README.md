@@ -31,7 +31,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Middleware API](#middleware-api)
   - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
-  - [Installation](#installation)
+  - [Installation](#installation-1)
   - [Usage](#usage)
   - [Examples](#examples)
   - [Configuration file](#configuration-file)
