@@ -7,6 +7,10 @@ xfwd = true
 method = "all"
 forward = "http://requestb.in"
 
+[/download]
+method = "all"
+balance = ["http://1.server.net", "http://2.server.net"]
+
 [/*]
 method = "all"
 replay = ["http://duckduckgo.com"]
