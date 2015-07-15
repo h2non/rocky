@@ -8,7 +8,7 @@ const exec = require('child_process').exec
 suite('command-line', function () {
   test('server', function (done) {
     var config = __dirname + '/fixtures/test.toml'
-    var cmd = __dirname + '/../bin/rocky --port 8098 --config "' + config + '"'
+    var cmd = __dirname + '/../bin/rocky -m --port 8098 --config "' + config + '"'
 
     var server = createServer(8099)
     var process = startProcess(cmd, assert)

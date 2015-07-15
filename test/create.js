@@ -32,6 +32,7 @@ suite('create', function () {
     const config = {
       forward: targetUrl,
       port: ports.proxy,
+      mute: true
     }
 
     config['/test'] = {

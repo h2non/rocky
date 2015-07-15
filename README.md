@@ -784,7 +784,8 @@ Useful to incercept the status or modify the options on-the-fly
 - **proxy:error** `err, req, res` - Fired when the proxy request fails
 - **route:error** `err, req, res` - Fired when cannot forward/replay the request or middleware error
 - **replay:start** `params, opts, req` - Fired before a replay request starts
-- **replay:error** `opts, err, req, res` - Fired when the replay request fails
+- **replay:error** `opts, err, req, res` - Fired when a replay request fails
+- **replay:end** `params, opts, req` - Fired when a replay request ends
 - **server:error** `err, req, res` - Fired on server middleware error. Only available if running as standalone HTTP server
 - **route:missing** `req, res` - Fired on missing route. Only available if running as standalone HTTP server
 
