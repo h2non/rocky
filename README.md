@@ -485,7 +485,6 @@ For more usage cases, take a look at the [examples](/examples)
 - **target** `string` - <url string to be parsed with the url module
 - **replay** `array<string|object>` - Optional replay server URLs. You can use the `replay()` method to configure it
 - **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
-- **replayAfterForward** `boolean` - Replay the request only after the forward request ends successfully. Default `false`
 - **timeout** `number` - Timeout for request socket
 - **proxyTimeout** `number` - Timeout for proxy request socket
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
@@ -506,6 +505,8 @@ For more usage cases, take a look at the [examples](/examples)
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
 - **forwardOriginalBody** `boolean` - Only valid for **forward** request. Forward the original body instead of the transformed one.
 - **replayOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one.
+- **replayAfterForward** `boolean` - Replay the request only after the forward request ends successfully. Default `false`
+- **replaySequentially** `boolean` - Replay request sequentially. Default: `false`
 - **router** `object` - Specific router params
   - **strict** `boolean` - When `false` trailing slashes are optional (default: `false`)
   - **caseSensitive** `boolean` - When `true` the routing will be case sensitive. (default: `false`)
@@ -688,12 +689,26 @@ Overwrite the `Host` header value when forward the request.
 
 Redirect the incoming request for the current route.
 
+#### route#replayAfterForward([ filter ])
+Alias: `sequential`
+
+Dispatch the replay phase after the forward request ends (either with success or fail status).
+
+Note: this will buffer all the body data. Avoid using it with large payloads
+
+#### route#sequentialReplay([ filter ])
+
+Enable sequential replay process executed in FIFO order: if some replay request fails, the queue is empty and the process will stop
+
+Note: this will buffer all the body data. Avoid using it with large payloads
+
 #### route#bufferBody([ filter ])
+Alias: `interceptBody`
 
 Intercept and cache in a buffer the request payload data.
 Body will be exposed in `req.body`.
 
-Note: use it only for small payloads
+Note: use it only for small payloads, since the whole body will be buffered in memory
 
 #### route#transformRequest(middleware, [ filter ])
 Alias: `transformRequestBody()`

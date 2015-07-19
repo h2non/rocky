@@ -714,6 +714,81 @@ suite('rocky', function () {
     }
   })
 
+  test('replay after forward with large body', function (done) {
+    var spy = sinon.spy()
+    proxy = rocky()
+    server = createTestServer(spy, 100)
+    replay = createReplayServer(assertReplay)
+
+    proxy.post('/test')
+      .replayAfterForward()
+      .forward(targetUrl)
+      .replay(replayUrl)
+    proxy.listen(ports.proxy)
+
+    var start = Date.now()
+    var body = longString(1024 * 1024)
+
+    supertest(proxyUrl)
+      .post('/test')
+      .send(body)
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(function (err) {
+        if (err) done(err)
+      })
+
+    function assertReplay(req, res) {
+      expect(spy.calledOnce).to.be.true
+      expect(req.body.length).to.be.equal(body.length)
+      expect((Date.now() - start) >= 100).to.be.true
+      done()
+    }
+  })
+
+  test('sequential replay', function (done) {
+    var spy = sinon.spy()
+    var spyReplay = sinon.spy()
+    proxy = rocky()
+    server = createTestServer(spy, 100)
+    replay = createReplayServer(assertReplay, 100)
+
+    proxy.post('/test')
+      .replayAfterForward()
+      .sequentialReplay()
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .replay(replayUrl)
+      .replay(replayUrl)
+    proxy.listen(ports.proxy)
+
+    var start = Date.now()
+    var startReplay = Date.now()
+    var body = longString(1024 * 1024)
+
+    supertest(proxyUrl)
+      .post('/test')
+      .send(body)
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(function (err) {
+        if (err) done(err)
+      })
+
+    function assertReplay(req, res) {
+      spyReplay(req, res)
+      expect(spy.calledOnce).to.be.true
+      expect(req.body.length).to.be.equal(body.length)
+      expect((Date.now() - start) >= 100).to.be.true
+      if (spyReplay.calledThrice) {
+        expect((Date.now() - startReplay) >= 175).to.be.true
+        done()
+      }
+    }
+  })
+
   test('do not replay if forward fails', function (done) {
     var spy = sinon.spy()
     proxy = rocky()
