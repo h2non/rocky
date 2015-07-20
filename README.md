@@ -487,6 +487,8 @@ For more usage cases, take a look at the [examples](/examples)
 - **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
 - **timeout** `number` - Timeout for request socket
 - **proxyTimeout** `number` - Timeout for proxy request socket
+- **retry** `object` - Enable retry logic for forward traffic with custom options. Default: `null`
+- **replayRetry** `object` - Enable retry logic for replay traffic with custom options. Default: `null`
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - **ssl** `object` - object to be passed to https.createServer()
   - **cert** `string` - Path to SSL certificate file
