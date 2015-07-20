@@ -505,8 +505,6 @@ For more usage cases, take a look at the [examples](/examples)
 - **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
 - **forwardOriginalBody** `boolean` - Only valid for **forward** request. Forward the original body instead of the transformed one.
 - **replayOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one.
-- **replayAfterForward** `boolean` - Replay the request only after the forward request ends successfully. Default `false`
-- **replaySequentially** `boolean` - Replay request sequentially. Default: `false`
 - **router** `object` - Specific router params
   - **strict** `boolean` - When `false` trailing slashes are optional (default: `false`)
   - **caseSensitive** `boolean` - When `true` the routing will be case sensitive. (default: `false`)
@@ -696,7 +694,7 @@ Dispatch the replay phase after the forward request ends (either with success or
 
 Note: this will buffer all the body data. Avoid using it with large payloads
 
-#### route#sequentialReplay([ filter ])
+#### route#replaySequentially([ filter ])
 
 Enable sequential replay process executed in FIFO order: if some replay request fails, the queue is empty and the process will stop
 

@@ -756,7 +756,7 @@ suite('rocky', function () {
 
     proxy.post('/test')
       .replayAfterForward()
-      .sequentialReplay()
+      .replaySequentially()
       .forward(targetUrl)
       .replay(replayUrl)
       .replay(replayUrl)

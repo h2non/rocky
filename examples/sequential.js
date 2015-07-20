@@ -3,13 +3,12 @@ var rocky = require('..')
 
 var proxy = rocky()
 
-// Enable replay sequentially
+// Enable replay after forward mode
 proxy
-  .replaySequentially()
+  .replayAfterForward()
 
 proxy
   .forward('http://localhost:3001')
-  .replay('http://localhost:3002')
   .replay('http://localhost:3002')
   .replay('http://localhost:3002')
 
@@ -20,19 +19,17 @@ proxy.listen(3000)
 
 // Target servers
 http.createServer(function (req, res) {
+  console.log('1) Forward server reached')
   setTimeout(function () {
-    console.log('1) Forward server reached')
     res.writeHead(200)
     res.end()
-  }, 100)
+  }, 1000)
 }).listen(3001)
 
 http.createServer(function (req, res) {
-  setTimeout(function () {
-    console.log('3) Then the replay server is reached')
-    res.writeHead(204)
-    res.end()
-  }, 1000)
+  console.log('3) Then the replay server is reached')
+  res.writeHead(204)
+  res.end()
 }).listen(3002)
 
 // Test requests
