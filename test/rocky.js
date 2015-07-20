@@ -349,6 +349,35 @@ suite('rocky', function () {
     }
   })
 
+  test('response middleware', function (done) {
+    proxy = rocky().forward(targetUrl)
+    server = createTestServer()
+
+    proxy.get('/test')
+      .useResponse(middlewareFn)
+
+    function middlewareFn(req, res, next) {
+      assert(req, res)
+      next()
+    }
+
+    proxy.listen(ports.proxy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .expect({ 'hello': 'world' })
+      .end(function () {})
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      expect(res.body.toString()).to.be.equal('{"hello":"world"}')
+      done()
+    }
+  })
+
   test('overwrite forward options via middleware', function (done) {
     var spy = sinon.spy()
     proxy = rocky().forward('http://invalid')
@@ -533,7 +562,9 @@ suite('rocky', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ salutation: 'hello world' })
-      .end(function () {})
+      .end(function (err) {
+        if (err) done(err)
+      })
 
     var calls = 0
     function assert(req, res) {

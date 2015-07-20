@@ -50,8 +50,9 @@ Requires node.js +0.12 or io.js +1.6
 - Easily integrable with connect/express via middleware
 - Full-featured built-in router with params matching
 - Built-in load balancer
+- Built-in support for HTTP traffic retry/backoff
 - Nested configuration per global/route and forward/replay phases
-- Hierarchial middleware layer (based on connect-style middleware)
+- Hierarchial middleware layer supporting different phases
 - Able to run as standalone HTTP/S server
 - Compatible with most of the existing connect/express middleware
 - Versatible programmatic control for dynamic configurations with zero-downtime
@@ -112,7 +113,8 @@ This version is focused on stability and production use, however it's only recom
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
-- [**0.2.x**](https://github.com/h2non/rocky/tree/master) - Released at `07.07.2015`. Production-focused version.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`. Pre-production version.
+- [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Production-focused version.
 
 ### How does it work?
 
