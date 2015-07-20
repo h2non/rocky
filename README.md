@@ -702,6 +702,18 @@ Enable sequential replay process executed in FIFO order: if some replay request 
 
 Note: this will buffer all the body data. Avoid using it with large payloads
 
+#### route#retry([ opts, filter ])
+
+Enable retry logic for forward traffic.
+
+Note: this will buffer all the body data. Avoid using it with large payloads
+
+#### route#replayRetry([ opts, filter ])
+
+Enable retry logic for replay traffic.
+
+Note: this will buffer all the body data. Avoid using it with large payloads
+
 #### route#bufferBody([ filter ])
 Alias: `interceptBody`
 
