@@ -186,6 +186,12 @@ The goal is to allowing you to handle them accordingly, acting in the middle of 
 - **Description**: Dispached before starting each replay request.
 - **Notation**: `.useReplay(function (req, res, next))`
 
+##### response
+
+- **Scope**: `global`, `route`
+- **Description**: Dispached on server response, buffering the response body. Only valid for `forward`
+- **Notation**: `.useResponse(function (req, res, next))`
+
 ##### param
 
 - **Scope**: `global`
@@ -539,6 +545,7 @@ Define/overwrite rocky server [options](#configuration).
 You can pass any of the [supported options](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50) by `http-proxy`.
 
 #### rocky#use([ path ], ...middleware)
+Alias: `useIncoming`
 
 Use the given middleware to handle **all http methods** on the given path, defaulting to the root path.
 
@@ -556,7 +563,15 @@ This middleware stack can be useful to differ between forward/replay traffic, ap
 #### rocky#useForward(...middleware)
 
 Use a middleware for all the incoming traffic only for the HTTP request forward phase.
+
 For most cases you will only use `.use()`, but for particular modifications only for the forwarded traffic, this middleware can be useful.
+
+#### rocky#useResponse(...middleware)
+Alias: `useOutgoing`
+
+Use a middleware for the outgoing response traffic of the forwarded request.
+
+This middleware stack is useful to handle intercept and modify server responses before sending it to the end client in the other side of the proxy.
 
 #### rocky#useFor(name, ...middleware)
 

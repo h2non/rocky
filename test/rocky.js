@@ -357,6 +357,7 @@ suite('rocky', function () {
       .useResponse(middlewareFn)
 
     function middlewareFn(req, res, next) {
+      res.setHeader('x-custom', '1.0')
       assert(req, res)
       next()
     }
@@ -372,6 +373,7 @@ suite('rocky', function () {
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
+      expect(res.getHeader('x-custom')).to.be.equal('1.0')
       expect(res.statusCode).to.be.equal(200)
       expect(res.body.toString()).to.be.equal('{"hello":"world"}')
       done()
