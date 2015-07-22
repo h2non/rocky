@@ -7,6 +7,9 @@ function rocky(opts) {
 }
 
 rocky.Rocky      = Rocky
-rocky.httpProxy  = require('http-proxy')
+rocky.Base       = require('./lib/base')
+rocky.Route      = require('./lib/route')
+rocky.Dispatcher = require('./lib/dispatcher')
 rocky.middleware = require('./lib/middleware')
+rocky.httpProxy  = require('http-proxy')
 rocky.VERSION    = require('./package.json').version

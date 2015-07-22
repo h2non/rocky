@@ -47,6 +47,35 @@ suite('rocky', function () {
     }
   })
 
+  test('proxy retry', function (done) {
+    var spy = sinon.spy()
+
+    proxy = rocky()
+      .forward('http://invalid')
+      .retry({
+        retries: 3,
+        factor: 2,
+        minTimeout: 100,
+        maxTimeout: 30 * 1000,
+        randomize: true
+      })
+      .on('proxy:retry', spy)
+      .listen(ports.proxy)
+
+    proxy.all('/test')
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect('Content-Type', 'application/json')
+      .end(assert)
+
+    function assert(err, res) {
+      expect(res.statusCode).to.be.equal(502)
+      expect(spy.args.length).to.be.equal(3)
+      done()
+    }
+  })
+
   test('forward and replay', function (done) {
     proxy = rocky()
       .forward(targetUrl)
