@@ -855,7 +855,7 @@ Useful to incercept the status or modify the options on-the-fly
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
 - **proxy:response** `req, res` - Fired when the proxy receives the response from the server
 - **proxy:error** `err, req, res` - Fired when the proxy request fails
-- **route:retry** `err, req, res` - Fired before perform a retry request attempt
+- **proxy:retry** `err, req, res` - Fired before perform a retry request attempt
 - **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when a replay request fails
 - **replay:end** `params, opts, req` - Fired when a replay request ends
