@@ -47,7 +47,7 @@ suite('rocky', function () {
     }
   })
 
-  test('proxy forward retry', function (done) {
+  test('proxy forward with retry', function (done) {
     var spy = sinon.spy()
 
     proxy = rocky()
@@ -76,7 +76,7 @@ suite('rocky', function () {
     }
   })
 
-  test('proxy replay retry', function (done) {
+  test('proxy replay with retry', function (done) {
     var spy = sinon.spy()
     server = createTestServer()
 

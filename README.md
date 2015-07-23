@@ -586,6 +586,11 @@ for dynamic middleware configurations instead of using the shortcut methods such
 
 Define a set of URLs to balance between with a simple round-robin like scheduler.
 
+#### rocky#retry([ opts, filter ])
+
+Enable and define a custom retry logic as global configuration.
+See [`Route#retry`](#routeretry-opts-filter-) for details.
+
 #### rocky#on(event, handler)
 
 Subscribe to a proxy event.
@@ -729,20 +734,21 @@ You can also define additional retry validations passing an array of function vi
 Note: enabling retry logic will forces buffering all the body payload. Be careful when using it with large payloads
 
 ```js
-var customRetrytrategies = [
+var customRetryStrategies = [
   function invalidCodes(err, res) {
     return !err && [404, 406].indexOf(res.statusCode) !== -1
   }
 ]
 
 rocky()
+  .get('/download/:id')
   .retry({
     retries: 3,
     factor: 2,
     minTimeout: 100,
     maxTimeout: 30 * 1000,
     randomize: true,
-    strategies: customRetrytrategies
+    strategies: customRetryStrategies
   })
 
 rocky.forward('http://inconsistent-server')
