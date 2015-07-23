@@ -4,8 +4,8 @@ var rocky = require('..')
 var proxy = rocky()
 
 var customRetrytrategies = [
-  function (err, res) {
-    return !err && [404, 406].res.statusCode !== -1
+  function invalidCodes(err, res) {
+    return !err && [404, 406].indexOf(res.statusCode) !== -1
   }
 ]
 

@@ -723,15 +723,30 @@ Note: this will buffer all the body data. Avoid using it with large payloads
 
 #### route#retry([ opts, filter ])
 
-Enable retry logic for forward traffic.
+Enable retry logic for forward traffic. See allowed options [here](https://github.com/tim-kos/node-retry#retrytimeoutsoptions).
+You can also define additional retry validations passing an array of function via `strategies` field in `opts` object argument.
 
 Note: this will buffer all the body data. Avoid using it with large payloads
 
-#### route#replayRetry([ opts, filter ])
+```js
+var customRetrytrategies = [
+  function invalidCodes(err, res) {
+    return !err && [404, 406].indexOf(res.statusCode) !== -1
+  }
+]
 
-Enable retry logic for replay traffic.
+rocky()
+  .retry({
+    retries: 3,
+    factor: 2,
+    minTimeout: 100,
+    maxTimeout: 30 * 1000,
+    randomize: true,
+    strategies: customRetrytrategies
+  })
 
-Note: this will buffer all the body data. Avoid using it with large payloads
+rocky.forward('http://inconsistent-server')
+```
 
 #### route#bufferBody([ filter ])
 Alias: `interceptBody`
