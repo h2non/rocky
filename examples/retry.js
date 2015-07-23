@@ -12,7 +12,7 @@ var customRetrytrategies = [
 // Enable retry logic: will be applicated for both forward/replay failed requests
 proxy
   .retry({
-    retries: 3,
+    retries: 3, // or use Infinity
     factor: 2,
     minTimeout: 100,
     maxTimeout: 30 * 1000,
