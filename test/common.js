@@ -7,8 +7,7 @@ suite('common', function () {
   test('cloneRequest', function () {
     var req = new http.IncomingMessage
     req.headers = { foo: 'bar' }
-    req.rocky = {}
-    req.rocky.options = { foo: { bar: true }}
+    req.rocky = { options: { foo: { bar: true }} }
 
     var newReq = common.cloneRequest(req)
     expect(newReq).to.not.be.equal(req)
