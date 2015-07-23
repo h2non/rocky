@@ -1,8 +1,24 @@
 const sinon = require('sinon')
+const http = require('http')
 const expect = require('chai').expect
 const common = require('../lib/common')
 
 suite('common', function () {
+  test('cloneRequest', function () {
+    var req = new http.IncomingMessage
+    req.headers = { foo: 'bar' }
+    req.rocky = {}
+    req.rocky.options = { foo: { bar: true }}
+
+    var newReq = common.cloneRequest(req)
+    expect(newReq).to.not.be.equal(req)
+    expect(newReq.rocky).to.not.be.equal(req.rocky)
+    expect(newReq.headers).to.not.be.equal(req.headers)
+    expect(newReq.rocky.options).to.not.be.equal(req.rocky.options)
+    expect(newReq.rocky.options.foo).to.not.be.equal(req.rocky.options.foo)
+    expect(newReq.__proto__).to.be.equal(req.__proto__)
+  })
+
   test('eachSeries', function (done) {
     var spy = sinon.spy()
     var arr = [ 1, 2, 3 ]

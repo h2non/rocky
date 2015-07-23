@@ -50,7 +50,7 @@ Requires node.js +0.12 or io.js +1.6
 - Easily integrable with connect/express via middleware
 - Full-featured built-in router with params matching
 - Built-in load balancer
-- Built-in HTTP traffic retry/backoff on error
+- Built-in HTTP traffic retry/backoff
 - Nested configuration per global/route and forward/replay phases
 - Hierarchial middleware layer supporting the different HTTP traffic flow phases
 - Able to run as standalone HTTP/S server (without connect/express)

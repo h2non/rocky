@@ -9,7 +9,7 @@ var customRetrytrategies = [
   }
 ]
 
-// Enable retry logic (will be applicated for both forward/replay failed requests)
+// Enable retry logic: will be applicated for both forward/replay failed requests
 proxy
   .retry({
     retries: 3,
