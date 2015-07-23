@@ -179,6 +179,7 @@ suite('rocky', function () {
     proxy = rocky()
       .forward(targetUrl)
       .replay(replayUrl)
+      .bufferBody()
       .listen(ports.proxy)
 
     proxy.post('/test')
@@ -192,7 +193,7 @@ suite('rocky', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end()
+      .end(function () {})
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
