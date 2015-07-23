@@ -106,16 +106,17 @@ This approach allows you to plug in intermediate jobs with custom logic beetwen 
 
 ### Stability
 
-rocky is relative young but production focused package.
-Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it could be considered in `beta` stage.
+rocky is relative young, but production focused project actively maintained and improved.
+Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it can be considered in `beta` stage.
 
 Version `0.2.x` introduced significant improvements such as a more consistent API and a new hierarchical middleware layer.
-This version is focused on stability and production use, however it's only recommended to use it in non-hostile environments for now.
+
+`0.3.x` and higher versions are production-focused. API consistency is guaranteed between patch releases.
 
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
-- [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`. Pre-production version.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`.
 - [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Production-focused version.
 
 ### How does it work?
