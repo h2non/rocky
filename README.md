@@ -726,7 +726,7 @@ Note: this will buffer all the body data. Avoid using it with large payloads
 Enable retry logic for forward traffic. See allowed options [here](https://github.com/tim-kos/node-retry#retrytimeoutsoptions).
 You can also define additional retry validations passing an array of function via `strategies` field in `opts` object argument.
 
-Note: this will buffer all the body data. Avoid using it with large payloads
+Note: enabling retry logic will forces buffering all the body payload. Be careful when using it with large payloads
 
 ```js
 var customRetrytrategies = [
