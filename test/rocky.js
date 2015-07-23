@@ -47,11 +47,11 @@ suite('rocky', function () {
     }
   })
 
-  test('proxy retry', function (done) {
+  test('proxy forward retry', function (done) {
     var spy = sinon.spy()
 
     proxy = rocky()
-      .forward('http://invalid')
+      .forward('http://127.0.0.1:9999')
       .retry({
         retries: 3,
         factor: 2,
@@ -71,6 +71,42 @@ suite('rocky', function () {
 
     function assert(err, res) {
       expect(res.statusCode).to.be.equal(502)
+      expect(spy.args.length).to.be.equal(3)
+      done()
+    }
+  })
+
+  test('proxy replay retry', function (done) {
+    var spy = sinon.spy()
+    server = createTestServer()
+
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay('http://127.0.0.1:9999')
+      .retry({
+        retries: 3,
+        factor: 2,
+        minTimeout: 100,
+        maxTimeout: 30 * 1000,
+        randomize: true
+      })
+      .on('replay:retry', assert)
+      .listen(ports.proxy)
+
+    proxy.all('/test')
+
+    supertest(proxyUrl)
+      .post('/test')
+      .send({ hello: 'world' })
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .end(function () {})
+
+    var calls = 0
+    function assert(err, res) {
+      spy(err, res); calls += 1
+      if (calls < 3) return
+      expect(err.code).to.be.equal('ECONNREFUSED')
       expect(spy.args.length).to.be.equal(3)
       done()
     }

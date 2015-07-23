@@ -46,18 +46,20 @@ Requires node.js +0.12 or io.js +1.6
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
 - Replay traffic to multiple backends (concurrently or sequentially)
-- Intercept HTTP requests and responses and modify them on the fly
+- Able to intercept HTTP requests and responses and modify them on the fly
 - Easily integrable with connect/express via middleware
 - Full-featured built-in router with params matching
 - Built-in load balancer
-- Built-in support for HTTP traffic retry/backoff
+- Built-in HTTP traffic retry/backoff on error
 - Nested configuration per global/route and forward/replay phases
-- Hierarchial middleware layer supporting different phases
-- Able to run as standalone HTTP/S server
+- Hierarchial middleware layer supporting the different HTTP traffic flow phases
+- Able to run as standalone HTTP/S server (without connect/express)
 - Compatible with most of the existing connect/express middleware
 - Versatible programmatic control for dynamic configurations with zero-downtime
+- Supports both concurrent and sequential HTTP traffic flow modes
+- Small hackable core designed for extensibility
 - Fluent, elegant and evented programmatic API
-- Simple command-line interface with declarative configuration file
+- Simple [command-line interface](https://github.com/h2non/rocky-cli) with declarative configuration file
 
 ## When `rocky` could be useful?
 
@@ -90,7 +92,7 @@ npm install rocky --save
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was initially created to become an useful tool for assisting during a backend migration strategy, however it could be useful for many other [scenarios](#when-rocky-could-be-useful).
+`rocky` was initially created to become an useful tool to assist during a backend migration strategy, later it was improved to cover so many other [scenarios](#when-rocky-could-be-useful).
 
 ### Design
 
@@ -155,7 +157,7 @@ The middleware layer provides a simple and consistent way to augment the proxy f
 `rocky` supports multiple middleware hierarchies:
 
 - **global** - Dispached on every incoming request matched by the router
-- **route** - Dispached only per route scope
+- **route** - Dispached only at route scope
 
 ### Types of middleware
 
@@ -189,7 +191,7 @@ The goal is to allowing you to handle them accordingly, acting in the middle of 
 ##### response
 
 - **Scope**: `global`, `route`
-- **Description**: Dispached on server response, buffering the response body. Only valid for `forward`
+- **Description**: Dispached on server response. Only applicable in `forward` traffic.
 - **Notation**: `.useResponse(function (req, res, next))`
 
 ##### param
@@ -390,7 +392,7 @@ replayAfterForward = true
 
 ### Usage
 
-Example using [Express](http://expressjs.com/)
+Example using [Express](http://expressjs.com)
 ```js
 var rocky = require('rocky')
 var express = require('express')
@@ -495,7 +497,7 @@ For more usage cases, take a look at the [examples](/examples)
 - **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
 - **timeout** `number` - Timeout for request socket
 - **proxyTimeout** `number` - Timeout for proxy request socket
-- **retry** `object` - Enable retry logic for forward traffic with custom options. Default: `null`
+- **retry** `object` - Enable retry/backoff logic for forward/replay traffic. See [allowed params](https://github.com/tim-kos/node-retry#retrytimeoutsoptions). Default: `null`
 - **replayRetry** `object` - Enable retry logic for replay traffic with custom options. Default: `null`
 - **agent** `object` - object to be passed to http(s).request. See node.js [`https`](https://nodejs.org/api/https.html#https_class_https_agent) docs
 - **ssl** `object` - object to be passed to https.createServer()
@@ -838,11 +840,12 @@ Useful to incercept the status or modify the options on-the-fly
 - **proxyRes** `opts, proxyRes, req, res` - Fired when the target server respond
 - **proxy:response** `req, res` - Fired when the proxy receives the response from the server
 - **proxy:error** `err, req, res` - Fired when the proxy request fails
-- **route:error** `err, req, res` - Fired when cannot forward/replay the request or middleware error
+- **route:retry** `err, req, res` - Fired before perform a retry request attempt
 - **replay:start** `params, opts, req` - Fired before a replay request starts
 - **replay:error** `opts, err, req, res` - Fired when a replay request fails
 - **replay:end** `params, opts, req` - Fired when a replay request ends
 - **replay:stop** `params, opts, req` - Fired when a replay request process is stopped
+- **replay:retry** `params, opts, req` - Fired before perform a retry request attempt for replay traffic
 - **server:error** `err, req, res` - Fired on server middleware error. Only available if running as standalone HTTP server
 - **route:missing** `req, res` - Fired on missing route. Only available if running as standalone HTTP server
 
@@ -901,6 +904,18 @@ Shortcut method to reply the intercepted request from the middleware, with optio
 #### rocky.middleware.redirect(url)
 
 Shortcut method to redirect the current request.
+
+### rocky.Route
+
+Accessor for the [Route](https://github.com/h2non/rocky/blob/master/lib/route.js) module
+
+### rocky.Base
+
+Accessor for the [Base](https://github.com/h2non/rocky/blob/master/lib/base.js) module
+
+### rocky.Dispatcher
+
+Accessor for the [Dispatcher](https://github.com/h2non/rocky/blob/master/lib/dispatcher.js) module
 
 ### rocky.httpProxy
 
