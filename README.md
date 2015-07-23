@@ -2,7 +2,7 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** which provides a versatile **routing** layer, **traffic interceptor and replay** to multiple backends, **built-in balancer**, **hierarchical configuration**, traffic **retry/backoff** logic and [more](#features).
+**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with a versatile **routing layer**, **traffic interceptor and replay** to multiple backends, **built-in balancer**, **hierarchical configuration**, traffic **retry/backoff** logic and [more](#features).
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
 Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
@@ -61,7 +61,7 @@ Requires node.js +0.12 or io.js +1.6
 - Fluent, elegant and evented programmatic API
 - Simple [command-line interface](https://github.com/h2non/rocky-cli) with declarative configuration file
 
-## When `rocky` could be useful?
+## When `rocky` can be useful?
 
 - As HTTP proxy for service migrations (e.g: APIs)
 - Replaying traffic to one or multiple backends
