@@ -52,14 +52,14 @@ Requires node.js +0.12 or io.js +1.6
 - Built-in load balancer
 - Built-in HTTP traffic retry/backoff
 - Nested configuration per global/route and forward/replay phases
-- Hierarchial middleware layer supporting the different HTTP traffic flow phases
+- Hierarchial middleware layer supporting different HTTP traffic flow phases
 - Able to run as standalone HTTP/S server (without connect/express)
-- Compatible with most of the existing connect/express middleware
-- Versatible programmatic control for dynamic configurations with zero-downtime
+- Compatible with most of the existent connect/express middleware
+- Powerful programmatic control supporting dynamic configurations and zero-downtime
 - Supports both concurrent and sequential HTTP traffic flow modes
 - Small hackable core designed for extensibility
-- Fluent, elegant and evented programmatic API
-- Simple [command-line interface](https://github.com/h2non/rocky-cli) with declarative configuration file
+- Fluent, elegant and evented [programmatic API](#programmatic-api)
+- Simple [command-line interface](https://github.com/h2non/rocky-cli) with declarative [configuration file](#configuration-file)
 
 ## When `rocky` can be useful?
 
@@ -73,7 +73,6 @@ Requires node.js +0.12 or io.js +1.6
 - As security proxy layer
 - As HTTP load balancer with full programmatic control
 - As embedded HTTP proxy in your node.js app
-- As static response HTTP server
 - As HTTP cache or log server
 - As SSL terminator proxy
 - For A/B testing
@@ -96,17 +95,19 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` design is driven by keeping versatility and extensibility in mind.
-The main goal is to remain it with a small core and codebase, hosting just the proper responsability and necessary built-in features, and making more efforts providing ways for extensibility.
-That level extensibility can be covered via its middleware layer, which is the core and more powerful feature of `rocky`.
+`rocky` design is driven by keeping versatility and extensibility in mind with small core.
+Extensibility feature is covered via the middleware layer, which is the core and more powerful feature of `rocky`.
 
-The relevant difference between the middleware layer and a common event bus (which is very common in asynchronous programming) is the control flow capability.
-Via the middleware you can completely rely on a consistent control flow when performing some actiong with the HTTP traffic flow, continuing or stoping it accordingly.
-This approach allows you to plug in intermediate jobs with custom logic beetwen different stages of the HTTP flow live cycle.
+The significant difference between the middleware layer and a common event bus is the control flow capability.
+Via the middleware you can completely rely on a consistent control flow to perform actions with the HTTP traffic flow, modifying, continuing or stopping it accordingly, for both incoming/outgoing flows.
+This allows you to plug in intermediate jobs with custom logic beetwen different phases of the HTTP flow live cycle.
+
+`rocky` middleware layer is based on `connect` middleware, and it's mostly compatible with existent middleware for `connect`/`express`.
 
 ### Stability
 
 rocky is relative young, but production focused project actively maintained and improved.
+
 Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it can be considered in `beta` stage.
 
 Version `0.2.x` introduced significant improvements such as a more consistent API and a new hierarchical middleware layer.
@@ -125,7 +126,7 @@ Version `0.2.x` introduced significant improvements such as a more consistent AP
 
 ```
          |==============|
-         | The Internet |
+         | HTTP clients |
          |==============|
                ||||
          |==============|
@@ -697,6 +698,10 @@ Define a set of URLs to balance between with a simple round-robin like scheduler
 
 Shortcut method to intercept and reply the incoming request.
 If used, `body` param must be a `string` or `buffer`
+
+#### route#timeout(miliseconds)
+
+Define a custom timeout for forward/replay traffic in miliseconds.
 
 #### route#toPath(url, [ params ])
 
