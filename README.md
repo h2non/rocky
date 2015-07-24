@@ -944,6 +944,12 @@ Accessor for the [Base](https://github.com/h2non/rocky/blob/master/lib/base.js) 
 
 Accessor for the [Dispatcher](https://github.com/h2non/rocky/blob/master/lib/dispatcher.js) module
 
+### rocky.passthrough
+
+Accessor for the [passthrough](https://github.com/h2non/rocky/blob/master/lib/passthrough.js) module
+
+For hacking purposes, you can add additional HTTP traffic passthrough phases pushing the pass `function` via `passthrough.passes.push()`
+
 ### rocky.httpProxy
 
 Accessor for the [http-proxy](https://github.com/nodejitsu/node-http-proxy) API

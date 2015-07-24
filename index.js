@@ -6,10 +6,11 @@ function rocky(opts) {
   return new Rocky(opts)
 }
 
-rocky.Rocky      = Rocky
-rocky.Base       = require('./lib/base')
-rocky.Route      = require('./lib/route')
-rocky.Dispatcher = require('./lib/dispatcher')
-rocky.middleware = require('./lib/middleware')
-rocky.httpProxy  = require('http-proxy')
-rocky.VERSION    = require('./package.json').version
+rocky.Rocky       = Rocky
+rocky.Base        = require('./lib/base')
+rocky.Route       = require('./lib/route')
+rocky.Dispatcher  = require('./lib/dispatcher')
+rocky.middleware  = require('./lib/middleware')
+rocky.passthrough = require('./lib/passthrough')
+rocky.httpProxy   = require('http-proxy')
+rocky.VERSION     = require('./package.json').version
