@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Featured, middleware-oriented HTTP/S proxy with traffic replay and intercept",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
