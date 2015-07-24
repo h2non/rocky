@@ -147,8 +147,7 @@ Version `0.2.x` introduced significant improvements such as a more consistent AP
 
 ## Middleware layer
 
-One of the more powerful features in `rocky` is its build-in middleware layer.
-`rocky` was designed with a main core idea: augment by default.
+One of the more powerful features in `rocky` is its build-in middleware Doaim specific layer. One of the main core ideas of rocky is the edtensibility to augment the functionality easily.
 
 The middleware layer provides a simple and consistent way to augment the proxy functionality very easily, allowing you to attach third-party middleware (also known as plugins) to cover specific tasks which acts between different phases of the proxy, for instance handling incoming/outgoing traffic.
 
