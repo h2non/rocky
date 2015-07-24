@@ -960,3 +960,5 @@ Current rocky package semver
 ## License
 
 MIT - Tomas Aparicio
+
+[![views](https://sourcegraph.com/api/repos/github.com/h2non/rocky/.counters/views.svg)](https://sourcegraph.com/github.com/h2non/rocky)
