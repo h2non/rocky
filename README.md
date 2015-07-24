@@ -117,8 +117,8 @@ Version `0.2.x` introduced significant improvements such as a more consistent AP
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
-- [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`.
-- [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Production-focused version.
+- [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`. Major features and stability improvements.
+- [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Released at `24.07.2015`. Production-focused version.
 
 ### How does it work?
 
