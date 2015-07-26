@@ -106,11 +106,11 @@ This allows you to plug in intermediate jobs with custom logic beetwen different
 
 ### Stability
 
-rocky is relative young, but production focused project actively maintained and improved.
+rocky is relative young, but production focused project actively maintained and constantly improved.
 
 Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it can be considered in `beta` stage.
 
-Version `0.2.x` introduced significant improvements such as a more consistent API and a new hierarchical middleware layer.
+Version `0.2.x` introduced significant improvements, including a consistent API and new hierarchical middleware layer.
 
 `0.3.x` and higher versions are production-focused. API consistency is guaranteed between patch releases.
 
@@ -121,8 +121,8 @@ Version `0.2.x` introduced significant improvements such as a more consistent AP
 - [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Released at `24.07.2015`. Production-focused version.
 
 ### How does it work?
-
-`rocky` can be useful in [multiple scenarios](#when-rocky-could-be-useful), but a common and representative use case scenario could be the following:
+`rocky` can be useful in [multiple scenarios](#when-rocky-could-be-useful). 
+A common and representative scenario can be the following:
 
 ```
          |==============|
@@ -147,7 +147,7 @@ Version `0.2.x` introduced significant improvements such as a more consistent AP
 
 ## Middleware layer
 
-One of the more powerful features in `rocky` is its build-in middleware Doaim specific layer. One of the main core ideas of rocky is the edtensibility to augment the functionality easily.
+One of the more powerful features in `rocky` is its build-in domain specific middleware.
 
 The middleware layer provides a simple and consistent way to augment the proxy functionality very easily, allowing you to attach third-party middleware (also known as plugins) to cover specific tasks which acts between different phases of the proxy, for instance handling incoming/outgoing traffic.
 
