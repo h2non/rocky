@@ -1,4 +1,6 @@
 const rocky = require('..')
+const http = require('http')
+
 // See: https://github.com/h2non/rocky-consul
 const consul = require('rocky-consul')
 
