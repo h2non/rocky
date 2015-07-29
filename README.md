@@ -452,7 +452,7 @@ proxy
 proxy
   .get('/users/:id')
   // Overwrite the path
-  .toPath('/profile/:id')
+  .toPath('/profile/:id', { id: '0123' })
   // Add custom headers
   .headers({
     'Authorization': 'Bearer 0123456789'
