@@ -485,7 +485,7 @@ proxy
 proxy.listen(3000)
 ```
 
-For more usage cases, take a look at the [examples](/examples)
+For more usage cases, take a look to the [examples](/examples)
 
 ### Configuration
 
