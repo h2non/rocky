@@ -665,6 +665,20 @@ Return: [`Route`](#routepath)
 
 Configure a new route the given path with `HEAD` method
 
+#### route#query([ params | parseFn ])
+
+Parse and expose the query params in `http.IncomingMessage` object via `req.query = Object`.
+
+Additionally you can pass an `object` with additional params to add or a middleware `function(req, res, next)` to work in details with query params.
+
+#### rocky#headers(headers)
+
+Add/extend custom headers to the incoming request before forward/replay it.
+
+#### rocky#timeout(miliseconds)
+
+Define a custom timeout for forward/replay traffic in miliseconds.
+
 #### rocky#router
 
 Internal [router](https://github.com/pillarjs/router#routeroptions) instance
@@ -709,6 +723,12 @@ Overwrite the request path, defining additional optional params.
 #### route#headers(headers)
 
 Define or overwrite request headers for the current route.
+
+#### route#query([ params | parseFn ])
+
+Parse and expose the query params in `http.IncomingMessage` object via `req.query = Object`.
+
+Additionally you can pass an `object` with additional params to add or a middleware `function(req, res, next)` to work in details with query params.
 
 #### route#host(host)
 
@@ -918,6 +938,10 @@ Overrites the request URL path of the incoming request before forward/replay it.
 #### rocky.middleware.headers(headers)
 
 Add/extend custom headers to the incoming request before forward/replay it.
+
+#### rocky.middleware.query([ query | parserFn ])
+
+Add/extend custom query string params to the incoming request.
 
 #### rocky.middleware.host(host)
 

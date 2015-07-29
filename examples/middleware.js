@@ -40,6 +40,9 @@ proxy
   .headers({
     'X-Custom': 'blablabla'
   })
+  .query({
+    'foo': 'bar'
+  })
 
 proxy.listen(3000)
 
