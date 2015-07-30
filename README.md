@@ -91,7 +91,7 @@ npm install rocky --save
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was initially created to become an useful tool to assist during a backend migration strategy, later it was improved to cover so many other [scenarios](#when-rocky-could-be-useful).
+`rocky` was initially created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-could-be-useful).
 
 ### Design
 
@@ -213,9 +213,9 @@ The following diagram represents the internal incoming request flow and how the 
 ↓      |    Router    |     ↓ --> Match a route, dispatching its middleware if required
 ↓      ----------------     ↓
 ↓            |||            ↓
-↓    ---------------------  ↓
-↓    | Global middleware |  ↓ --> Dispatch on every incoming request (Global)
-↓    ---------------------  ↓
+↓   ---------------------   ↓
+↓   | Global middleware |   ↓ --> Dispatch on every incoming request (Global)
+↓   ---------------------   ↓
 ↓            |||            ↓
 ↓           /   \           ↓
 ↓         /       \         ↓
@@ -688,6 +688,10 @@ Internal [router](https://github.com/pillarjs/router#routeroptions) instance
 [HTTP](https://nodejs.org/api/http.html)/[HTTPS](https://nodejs.org/api/https.html) server instance.
 Only present if `listen()` was called starting the built-in server.
 
+#### rocky#mw = MiddlewarePool
+
+Exposes the [MiddlewarePool](#rocky-middlewarepool) instance.
+
 ### Route(path)
 
 #### route#forward(url)
@@ -905,6 +909,10 @@ Subscribes to a specific event for the given route, and unsubscribes after dispa
 
 Remove an event by its handler function in the current route
 
+#### route#mw = MiddlewarePool
+
+Exposes the [MiddlewarePool](#rocky-middlewarepool) instance used for the route scope.
+
 ### rocky.middleware
 
 Expose the built-in internal middleware [functions](/lib/middleware).
@@ -976,6 +984,11 @@ For hacking purposes, you can add additional HTTP traffic passthrough phases pus
 ### rocky.httpProxy
 
 Accessor for the [http-proxy](https://github.com/nodejitsu/node-http-proxy) API
+
+### rocky.MiddlewarePool
+
+Middleware pool abstraction layer used internally by `rocky`.
+See the [code](https://github.com/h2non/rocky/blob/master/lib/mwpool.js) for API docs.
 
 ### rocky.VERSION
 

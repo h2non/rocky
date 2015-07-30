@@ -751,7 +751,7 @@ suite('rocky', function () {
 
     function assert(err, res) {
       var errorMsg = /missing target URL/i
-      expect(spy.calledOnce).to.be.true
+      expect(spy.calledTwice).to.be.true
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args[0][0].message).to.match(errorMsg)
       expect(spy.args[0][1].url).to.be.equal('/test')
@@ -957,13 +957,47 @@ suite('rocky', function () {
       .end(end)
 
     function end(err, res) {
-      expect(spy.calledOnce).to.be.true
+      expect(spy.calledTwice).to.be.true
       expect(spy.args[0][0].message).to.match(/Target URL/i)
     }
 
     function assertReplay(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
+      done()
+    }
+  })
+
+  test('next route', function (done) {
+    var spy = sinon.spy()
+
+    replay = createTestServer(assert)
+    proxy = rocky()
+      .forward(targetUrl)
+      .listen(ports.proxy)
+
+    proxy.get('/test')
+      .use(function (req, res, next) {
+        next('route')
+      })
+
+    proxy.get('/*')
+      .on('proxyReq', spy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .end(end)
+
+    function end(err, res) {
+      expect(err).to.be.null
+      expect(spy.calledOnce).to.be.true
+    }
+
+    function assert(req, res) {
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
       done()
     }
   })
