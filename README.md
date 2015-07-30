@@ -93,6 +93,8 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 `rocky` was initially created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-could-be-useful).
 
+`rocky` goal is to provide a full-featured and hackable programmatic HTTP proxy to build other services on it, like you can do with web services using express or connect.
+
 ### Design
 
 `rocky` design is driven by keeping versatility and extensibility in mind with small core.
@@ -231,10 +233,10 @@ The following diagram represents the internal incoming request flow and how the 
 
 ### Middleware API
 
-Middleware behavior and interface are the same like connect/express,
-so you can create middleware as you already know with the notation `function(req, res, next)`
+Middleware layer behavies and has the same interface as connect/express.
+In other words, you can create or use middleware as you already know with the typical notation `function(req, res, next)`
 
-`rocky` exposes as a sort of inversion of control in every `http.ClientRequest` object the following fields:
+As a kind of inversion of control, `rocky` exposes a tiny API in every `http.ClientRequest` passed via the middleware layer:
 
 - **req.rocky** `object`
   - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
@@ -242,8 +244,8 @@ so you can create middleware as you already know with the notation `function(req
   - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
 - **req.stopReplay** `boolean` - Optional field internally checked by `rocky` to stop the request replay process.
 
-This provides you way to extend or modify specific values from the middleware layer without having side-effects,
-for instance replacing the server target URL, like in the following example:
+This alllows you way to extend or modify specific values from the middleware layer with HTTP requeest flow accurancy level, and therefore without having side-effects with other routes.
+You can use it, for instance, to replace the server target URL:
 
 ```js
 rocky()
