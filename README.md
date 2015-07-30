@@ -15,7 +15,7 @@ Requires node.js +0.12 or io.js +1.6
 ## Contents
 
 - [Features](#features)
-- [When rocky could be useful?](#when-rocky-could-be-useful)
+- [When rocky could be useful?](#when-rocky-can-be-useful)
 - [Installation](#installation)
   - [Standalone binaries](#standalone-binaries)
 - [Introduction](#introduction)
