@@ -43,4 +43,52 @@ suite('middleware pool', function () {
       done()
     }
   })
+
+  test('remove middleware', function (done) {
+    var spy = sinon.spy()
+    var pool = new Pool
+
+    pool.use('x', [function error(next) {
+      spy()
+      next('err')
+    }])
+    pool.use('x', [function valid(next) {
+      spy()
+      next()
+    }])
+
+    pool.remove('x', 'error')
+    pool.run(2, 2, assert)
+
+    function assert(err) {
+      expect(err).to.be.undefined
+      expect(spy.calledOnce).to.be.false
+      done()
+    }
+  })
+
+  test('flush stack', function (done) {
+    var spy = sinon.spy()
+    var pool = new Pool
+
+    pool.use('x', [function error(next) {
+      spy()
+      next('err')
+    }])
+    pool.use('x', [function valid(next) {
+      spy()
+      next()
+    }])
+
+    expect(pool.stack('x')).to.have.length(2)
+    pool.flush('x')
+    pool.run(2, 2, assert)
+
+    function assert(err) {
+      expect(err).to.be.undefined
+      expect(pool.stack('x')).to.have.length(0)
+      expect(spy.args).to.have.length(0)
+      done()
+    }
+  })
 })
