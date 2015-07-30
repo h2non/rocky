@@ -692,7 +692,7 @@ Only present if `listen()` was called starting the built-in server.
 
 #### rocky#mw = MiddlewarePool
 
-Exposes the [MiddlewarePool](#rocky-middlewarepool) instance.
+Exposes the [MiddlewarePool](#rockymiddlewarepool) instance.
 
 ### Route(path)
 
@@ -913,7 +913,7 @@ Remove an event by its handler function in the current route
 
 #### route#mw = MiddlewarePool
 
-Exposes the [MiddlewarePool](#rocky-middlewarepool) instance used for the route scope.
+Exposes the [MiddlewarePool](#rockymiddlewarepool) instance used for the route scope.
 
 ### rocky.middleware
 
