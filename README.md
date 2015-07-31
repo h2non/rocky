@@ -123,6 +123,7 @@ Version `0.2.x` introduced significant improvements, including a consistent API 
 - [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Released at `24.07.2015`. Production-focused version.
 
 ### How does it work?
+
 `rocky` can be useful in [multiple scenarios](#when-rocky-could-be-useful).
 A common and representative scenario can be the following:
 
