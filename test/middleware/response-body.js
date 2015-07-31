@@ -1,4 +1,5 @@
 const expect = require('chai').expect
+const Emitter = require('events').EventEmitter
 const middleware = require('../../lib/middleware')
 const noop = function () {}
 
@@ -11,6 +12,10 @@ suite('middleware#responseBody', function () {
       end: noop,
       getHeader: function () { return 'application/json' }
     }
+  })
+
+  beforeEach(function () {
+    req = new Emitter
   })
 
   function middlewareFn(req, res, next) {
@@ -33,7 +38,7 @@ suite('middleware#responseBody', function () {
 
     middleware.responseBody
       (middlewareFn)
-        (null, res, noop)
+        (req, res, noop)
 
     writeData()
   })
@@ -50,7 +55,7 @@ suite('middleware#responseBody', function () {
 
     middleware.responseBody
       (middlewareFn, filter)
-        (null, res, noop)
+        (req, res, noop)
 
     writeData()
   })
