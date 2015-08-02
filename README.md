@@ -124,24 +124,20 @@ Version `0.2.x` introduced significant improvements, including a consistent API 
 
 ### How does it work?
 
-`rocky` can be useful in [multiple scenarios](#when-rocky-could-be-useful).
-A common and representative scenario can be the following:
-
 ```
          |==============|
          | HTTP clients |
          |==============|
                ||||
          |==============|
-         |  HTTP proxy  |
+         |  HTTP proxy  |   ->  Via the built-in HTTP server or via connect/express
          |~~~~~~~~~~~~~~|
-         | Rocky Router |
-         |~~~~~~~~~~~~~~|
-         |  Middleware  |
+         | Rocky Router |   ->  The built-in featured router matches the proper route
+         |~~~~~~~~~~~~~~| 
+         |  Middleware  |   ->  Dispatch the hierarchical middleware layer
          |==============|
             ||      |
   (duplex) //        \ (one-way)
-          //          \
          //            \
    /----------\   /----------\    /----------\
    |  target  |   | replay 1 | -> | replay 2 | (*N)
