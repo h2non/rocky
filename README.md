@@ -590,6 +590,10 @@ for dynamic middleware configurations instead of using the shortcut methods such
 
 Define a set of URLs to balance between with a simple round-robin like scheduler.
 
+#### rocky#stopReplay()
+
+Disable replay logic.
+
 #### rocky#retry([ opts, filter ])
 
 Enable and define a custom retry logic as global configuration.
@@ -713,6 +717,10 @@ Overwrite replay servers for the current route.
 
 Define a set of URLs to balance between with a simple round-robin like scheduler.
 `urls` param must be an array of strings.
+
+#### route#stopReplay()
+
+Disable replay logic with the current route.
 
 #### route#reply(status, [ headers, body ])
 
