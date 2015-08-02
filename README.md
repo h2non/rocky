@@ -17,7 +17,6 @@ Requires node.js +0.12 or io.js +1.6
 - [Features](#features)
 - [When rocky could be useful?](#when-rocky-can-be-useful)
 - [Installation](#installation)
-  - [Standalone binaries](#standalone-binaries)
 - [Introduction](#introduction)
   - [Motivation](#motivation)
   - [Design](#design)
@@ -32,6 +31,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
   - [Installation](#installation-1)
+  - [Standalone binaries](#standalone-binaries)
   - [Usage](#usage)
   - [Examples](#examples)
   - [Configuration file](#configuration-file)
@@ -287,7 +287,7 @@ npm install -g rocky-cli
 
 Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.7`
 
-##### Usage
+##### Binaries usage
 
 ```
 chmod +x rocky-cli-linux-x64.nar
@@ -296,6 +296,8 @@ chmod +x rocky-cli-linux-x64.nar
 ```
 ./rocky-cli-linux-x64.nar exec --port 3000 --config rocky.toml
 ```
+
+For more information about CLI, see [rocky-cli](https://github.com/h2non/rocky-cli) docs
 
 ### Usage
 
