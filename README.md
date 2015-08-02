@@ -722,7 +722,7 @@ Define a set of URLs to balance between with a simple round-robin like scheduler
 
 #### route#stopReplay()
 
-Disable replay logic with the current route.
+Disable replay logic for the current route.
 
 #### route#reply(status, [ headers, body ])
 
