@@ -36,7 +36,7 @@ suite('passthrough', function () {
     const args = [ 'hello' ]
     passthrough.passes = [ pass, pass, pass ]
     passthrough.concurrently(args, function (err) {
-      expect((Date.now() - start) <= 10).to.be.true
+      expect((Date.now() - start)).to.lower(12)
       restore()
       done(err)
     })
