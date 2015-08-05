@@ -133,7 +133,7 @@ Version `0.2.x` introduced significant improvements, including a consistent API 
          |  HTTP proxy  |   ->  Via the built-in HTTP server or via connect/express
          |~~~~~~~~~~~~~~|
          | Rocky Router |   ->  The built-in featured router matches the proper route
-         |~~~~~~~~~~~~~~| 
+         |~~~~~~~~~~~~~~|
          |  Middleware  |   ->  Dispatch the hierarchical middleware layer
          |==============|
             ||      |
