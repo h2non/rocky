@@ -13,9 +13,8 @@ suite('passthrough', function () {
     var delay = Date.now() - 10
 
     function pass(text, next) {
-      var now = Date.now()
       expect(text).to.be.equal('hello')
-      expect((now - delay) >= 10).to.be.true
+      expect(Date.now() - delay).to.be.at.least(9)
       delay = Date.now()
       setTimeout(next, 10)
     }
@@ -26,18 +25,19 @@ suite('passthrough', function () {
   })
 
   test('concurrently', function (done) {
+    var delay = 10
     var start = Date.now()
 
     function pass(text, next) {
       expect(text).to.be.equal('hello')
-      setTimeout(next, 5)
+      setTimeout(next, delay)
     }
 
     const args = [ 'hello' ]
     passthrough.passes = [ pass, pass, pass ]
     passthrough.concurrently(args, function (err) {
-      expect((Date.now() - start)).to.lower(12)
       restore()
+      expect(Date.now() - start).to.be.below(delay * 2)
       done(err)
     })
   })
