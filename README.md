@@ -100,7 +100,7 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 Extensibility is covered via the middleware layer, which is the core and more powerful feature of `rocky`.
 
 Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing flows.
-This allows you to plug in intermediate jobs with custom logic which interacts among different phases of the HTTP flow live cycle.
+This allows you to plug in intermediate jobs with custom logic which interact among different phases of the HTTP flow live cycle.
 
 `rocky` middleware layer is based on `connect` middleware, and it's mostly compatible with existent middleware for `connect`/`express`.
 
@@ -237,9 +237,9 @@ As a kind of inversion of control, `rocky` exposes a tiny API in every `http.Cli
   - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
 - **req.stopReplay** `boolean` - Optional field internally checked by `rocky` to stop the request replay process.
 
-This alllows you way to extend or modify specific values from the middleware layer with HTTP requeest flow accurancy level, and therefore without having side-effects with other routes.
-You can use it, for instance, to replace the server target URL:
+This allows you way to extend or modify specific values from the middleware layer with HTTP request flow accuracy level, and therefore without having side-effects with other routes.
 
+Example replacing the target server URL:
 ```js
 rocky()
   .get('/users/:name')
