@@ -3,19 +3,18 @@
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
 **Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with a versatile **routing layer**, **traffic interceptor and replay** to multiple backends, **built-in balancer**, **hierarchical configuration**, traffic **retry/backoff** logic and [more](#features).
-Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
-Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
+Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org), and compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-To get started, you can take a look to the [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
+To get started, you can take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
 Requires node.js +0.12 or io.js +1.6
 
 ## Contents
 
 - [Features](#features)
-- [When rocky could be useful?](#when-rocky-can-be-useful)
+- [When rocky can be useful?](#when-rocky-can-be-useful)
 - [Installation](#installation)
 - [Introduction](#introduction)
   - [Motivation](#motivation)
@@ -97,20 +96,17 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` design is driven by keeping versatility and extensibility in mind with small core.
-Extensibility feature is covered via the middleware layer, which is the core and more powerful feature of `rocky`.
+`rocky` design is driven by keeping versatility and extensibility in mind, with small core.
+Extensibility is covered via the middleware layer, which is the core and more powerful feature of `rocky`.
 
-The significant difference between the middleware layer and a common event bus is the control flow capability.
-Via the middleware you can completely rely on a consistent control flow to perform actions with the HTTP traffic flow, modifying, continuing or stopping it accordingly, for both incoming/outgoing flows.
-This allows you to plug in intermediate jobs with custom logic beetwen different phases of the HTTP flow live cycle.
+Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing flows.
+This allows you to plug in intermediate jobs with custom logic which interacts among different phases of the HTTP flow live cycle.
 
 `rocky` middleware layer is based on `connect` middleware, and it's mostly compatible with existent middleware for `connect`/`express`.
 
 ### Stability
 
-rocky is relative young, but production focused project actively maintained and constantly improved.
-
-Version `0.1.x` was wrote during my free time in less than 10 days (mostly at night during the weekend), therefore it can be considered in `beta` stage.
+Version `0.1.x` was designed and written during my free time in less than 10 days (mostly at night during the weekend), therefore it can be considered in `beta` stage.
 
 Version `0.2.x` introduced significant improvements, including a consistent API and new hierarchical middleware layer.
 
