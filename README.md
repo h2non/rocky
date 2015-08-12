@@ -90,19 +90,19 @@ npm install rocky --save
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was initially created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-could-be-useful).
+`rocky` was originally created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-could-be-useful).
 
 `rocky` goal is to provide a full-featured and hackable programmatic HTTP proxy to build other services on it, like you can do with web services using express or connect.
 
 ### Design
 
-`rocky` design is driven by keeping versatility and extensibility in mind, with small core.
+`rocky` design is driven by keeping versatility and extensibility in mind with a small core and code base.
 Extensibility is covered via the middleware layer, which is the core and more powerful feature of `rocky`.
 
 Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing flows.
-This allows you to plug in intermediate jobs with custom logic which interact among different phases of the HTTP flow live cycle.
+This allows you to plug in intermediate jobs with your own custom logic which will be executed among different phases of the HTTP flow live cycle inside `rocky`.
 
-`rocky` middleware layer is based on `connect` middleware, and it's mostly compatible with existent middleware for `connect`/`express`.
+`rocky` middleware layer is based on `connect` middleware.
 
 ### Stability
 
