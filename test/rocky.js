@@ -992,10 +992,45 @@ suite('rocky', function () {
 
     function end(err, res) {
       expect(err).to.be.null
-      expect(spy.calledOnce).to.be.true
     }
 
     function assert(req, res) {
+      expect(spy.calledOnce).to.be.true
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      done()
+    }
+  })
+
+  test('unregister route', function (done) {
+    var spy = sinon.spy()
+
+    replay = createTestServer(assert)
+    proxy = rocky()
+      .forward(targetUrl)
+      .listen(ports.proxy)
+
+    proxy.get('/test')
+      .use(function (req, res, next) {
+        throw new Error('Noo!')
+      })
+      .unregister()
+
+    proxy.get('/*')
+      .on('proxyReq', spy)
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .end(end)
+
+    function end(err, res) {
+      expect(err).to.be.null
+    }
+
+    function assert(req, res) {
+      expect(spy.calledOnce).to.be.true
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       done()

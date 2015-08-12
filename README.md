@@ -721,6 +721,11 @@ Disable replay logic for the current route.
 Shortcut method to intercept and reply the incoming request.
 If used, `body` param must be a `string` or `buffer`
 
+#### route#unregister()
+
+Unregister the current route.
+If the route if matched by the router, it will be ignored, continuing to the next route in the stack.
+
 #### route#timeout(miliseconds)
 
 Define a custom timeout for forward/replay traffic in miliseconds.
