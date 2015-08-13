@@ -779,7 +779,7 @@ suite('rocky', function () {
     function end(err, res) {
       expect(spy.calledOnce).to.be.true
       expect(res.statusCode).to.be.equal(502)
-      expect(res.body.message).to.be.equal('No route configured')
+      expect(res.body.message).to.be.equal('Route not configured')
       done()
     }
   })
