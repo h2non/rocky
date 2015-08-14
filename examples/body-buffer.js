@@ -31,3 +31,6 @@ var route = proxy
     // Set the new body
     req.body = newBody
   })
+
+proxy.listen(3000)
+console.log('Server listening on port:', 3000)

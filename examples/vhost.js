@@ -28,6 +28,7 @@ app.use(vhost('localhost', mailapp))
 app.use(vhost('127.0.0.1', usersapp))
 
 app.listen(3000)
+console.log('Server listening on port:', 3000)
 
 // Test target servers
 var target = connect()

@@ -12,6 +12,11 @@ proxy.use(function (req, res, next) {
   next()
 })
 
+proxy.useParam('id', function (req, res, next) {
+  console.log('Route with param "id":', req.url)
+  next()
+})
+
 // Configure the route
 proxy
   .get('/users/:id')
@@ -19,10 +24,6 @@ proxy
   // Add a route-level middleware
   .use(function (req, res, next) {
     console.log('Route middleware:', req.url)
-    next()
-  })
-  .useParam('id', function (req, res, next) {
-    console.log('Route with param "id":', req.url)
     next()
   })
   // Define a replay only middleware
