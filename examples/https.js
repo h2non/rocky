@@ -1,11 +1,12 @@
 var fs = require('fs')
 var http = require('http')
 var rocky = require('..')
+var certPath = __dirname + '/../test/fixtures'
 
 var opts = {
   ssl: {
-    key: fs.readFileSync('valid-ssl-key.pem', 'utf8'),
-    cert: fs.readFileSync('valid-ssl-cert.pem', 'utf8')
+    key: fs.readFileSync(certPath + '/key.pem', 'utf8'),
+    cert: fs.readFileSync(certPath + '/cert.pem', 'utf8')
   }
 }
 
@@ -16,9 +17,11 @@ proxy
   .all('/*')
 
 proxy.listen(3000)
+console.log('HTTPS server listening on port:', 3000)
 
 // Target server
 http.createServer(function (req, res) {
   res.writeHead(200)
+  res.write('Secure hello world!')
   res.end()
 }).listen(3001)

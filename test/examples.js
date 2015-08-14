@@ -7,7 +7,7 @@ const spawn = require('child_process').spawn
 const rootDir = path.join(__dirname, '..')
 const examplesDir = path.join(rootDir, 'examples')
 
-const ignore = [ 'README.md', 'https.js' ]
+const ignore = [ 'README.md' ]
 
 suite('examples', function () {
   test('run examples', function (done) {
