@@ -2,8 +2,8 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Pluggable**, **full featured** and **middleware-oriented** **HTTP/S proxy** with a versatile **routing layer**, **traffic interceptor and replay** to multiple backends, **built-in balancer**, **hierarchical configuration**, traffic **retry/backoff** logic and [more](#features).
-Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org), and compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
+**Pluggable**, **full-featured** and **middleware-oriented** **HTTP/S proxy** with versatile **routing layer**, **traffic interceptor and replay** to multiple backends, **built-in balancer**, **hierarchical configuration**, optional traffic **retry/backoff** logic and [more](#features).
+Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
@@ -44,21 +44,21 @@ Requires node.js +0.12 or io.js +1.6
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
-- Replay traffic to multiple backends (concurrently or sequentially)
+- Able to replay traffic to multiple backends (concurrently or sequentially)
 - Able to intercept HTTP requests and responses and modify them on the fly
-- Easily integrable with connect/express via middleware
-- Full-featured built-in router with params matching
+- Featured built-in path based router with params matching
 - Built-in load balancer
 - Built-in HTTP traffic retry/backoff
-- Nested configuration per global/route and forward/replay phases
+- Nested configuration per global/route scopes and forward/replay phases
 - Hierarchial middleware layer supporting different HTTP traffic flow phases
+- Easily integrable with connect/express via middleware
 - Able to run as standalone HTTP/S server (without connect/express)
 - Compatible with most of the existent connect/express middleware
 - Powerful programmatic control supporting dynamic configurations and zero-downtime
 - Supports both concurrent and sequential HTTP traffic flow modes
 - Small hackable core designed for extensibility
 - Fluent, elegant and evented [programmatic API](#programmatic-api)
-- Simple [command-line interface](https://github.com/h2non/rocky-cli) with declarative [configuration file](#configuration-file)
+- Provides a [command-line interface](https://github.com/h2non/rocky-cli) with declarative [configuration file](#configuration-file)
 
 ## When `rocky` can be useful?
 
