@@ -31,7 +31,7 @@ suite('forward', function () {
       expect(spy.calledThrice).to.be.true
       expect(err).to.be.null
       expect(res).to.be.an('object')
-      done()
+      server.close(done)
     }
   })
 })
