@@ -22,6 +22,7 @@ Requires node.js +0.12 or io.js +1.6
   - [Stability](#stability)
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
+  - [Projects using rocky](#projects-using-rocky)
 - [Middleware layer](#middleware-layer)
   - [Hierarchies](#hierarchies)
   - [Types of middleware](#types-of-middleware)
@@ -139,6 +140,12 @@ Version `0.2.x` introduced significant improvements, including a consistent API 
    |  target  |   | replay 1 | -> | replay 2 | (*N)
    \----------/   \----------/    \----------/
 ```
+
+### Projects using rocky
+
+- [toxy](https://github.com/h2non/toxy) - Hackable HTTP proxy to simulare server failures and network conditions
+
+Are you using rocky in your project? Open an issue or send a PR!
 
 ## Middleware layer
 
