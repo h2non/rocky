@@ -30,6 +30,9 @@ var route = proxy
 
     // Set the new body
     req.body = newBody
+    
+    // Continue processing the request
+    next()
   })
 
 proxy.listen(3000)
