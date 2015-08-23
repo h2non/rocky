@@ -516,10 +516,10 @@ For more usage cases, take a look to the [examples](/examples)
 - **ignorePath** `boolean` - true/false, Default: false - specify whether you want to ignore the proxy path of the incoming request
 - **localAddress** `boolean` - <Local interface string to bind for outgoing connections
 - **changeOrigin** `boolean` - <true/false, Default: false - **changes** the origin of the host header to the target URL
-- **auth** `boolean` - Basic authentication i.e. 'user:password' to compute an Authorization header.
-- **hostRewrite** `boolean` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
+- **auth** `string` - Basic authentication i.e. 'user:password' to compute an Authorization header.
+- **hostRewrite** `string` - rewrites the location hostname on (301/302/307/308) redirects, Default: null.
 - **autoRewrite** `boolean` - rewrites the location host/port on (301/302/307/308) redirects based on requested host/port. Default: false.
-- **protocolRewrite** `boolean` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
+- **protocolRewrite** `string` - rewrites the location protocol on (301/302/307/308) redirects to 'http' or 'https'. Default: null.
 - **forwardOriginalBody** `boolean` - Only valid for **forward** request. Forward the original body instead of the transformed one.
 - **replayOriginalBody** `boolean` - Only valid for **replay** request. Forward the original body instead of the transformed one.
 - **router** `object` - Specific router params
