@@ -252,7 +252,7 @@ rocky()
   .get('/users/:name')
   .forward('http://old.server.net')
   .use(function (req, res, next) {
-    if (req.param.name === 'admin') {
+    if (req.params.name === 'admin') {
       // Overwrite the target URL only for this user
       req.rocky.options.target = 'http://new.server.net'
     }

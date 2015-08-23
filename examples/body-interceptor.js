@@ -18,6 +18,13 @@ var route = proxy
     req.headers['Authorization'] = 'Bearer 0123456789'
     next()
   })
+  .use(function (req, res, next) {
+    if (req.params.id.length < 2) {
+      console.log('Invalid ID param')
+    }
+    next()
+  })
+
   // Add middleware to transform the response
   .transformRequestBody(function transformer(req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
@@ -52,6 +59,8 @@ var route = proxy
     return /application\/json/i.test(res.getHeader('content-type'))
   })
 
+proxy.all('/*')
+
 proxy.listen(3000)
 
 // Target server
@@ -83,7 +92,7 @@ http.createServer(function (req, res) {
   }
 
   res.writeHead(204)
-  res.end()
+  res.end('Hello from replay server')
 }).listen(3002)
 
 // Client test request
