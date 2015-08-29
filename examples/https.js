@@ -12,12 +12,22 @@ var opts = {
 
 var proxy = rocky(opts)
 
+// Forward to HTTPS server
+proxy
+  .get('/image/*')
+  .options({ secure: false })
+  .host('httpbin.org')
+  .forward('https://httpbin.org')
+  .poison(toxy.poisons.bandwidth({ bps: 1024 }))
+
+// Forward to plain HTTP server
 proxy
   .forward('http://localhost:3001')
   .all('/*')
 
-proxy.listen(3000)
-console.log('HTTPS server listening on port:', 3000)
+proxy.listen(3443)
+console.log('HTTPS server listening on port:', 3443)
+console.log('Open: https://localhost:3443/image/jpeg')
 
 // Target server
 http.createServer(function (req, res) {
