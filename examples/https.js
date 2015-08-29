@@ -18,7 +18,6 @@ proxy
   .options({ secure: false })
   .host('httpbin.org')
   .forward('https://httpbin.org')
-  .poison(toxy.poisons.bandwidth({ bps: 1024 }))
 
 // Forward to plain HTTP server
 proxy
