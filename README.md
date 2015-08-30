@@ -97,7 +97,7 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` design is influenced by the [UNIX philosophy](http://www.catb.org/esr/writings/taoup/html/ch01s06.html), sspecially by the rules of composition, modularity and simplicity, resulting into a lightweight package with a  scall core but designed to be open for extensibility. Composition rule is mostly covered with the middleware layer, which is the core and most powerful feature.
+`rocky` design is influenced by the [UNIX philosophy](http://www.catb.org/esr/writings/taoup/html/ch01s06.html), especially by the rules of composition, modularity and simplicity, resulting into a lightweight package with a  scall core but designed to be open for extensibility. Composition rule is mostly covered with the middleware layer, which is the core and most powerful feature.
 
 Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing traffic flows.
 
