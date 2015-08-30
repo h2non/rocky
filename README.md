@@ -97,13 +97,11 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` design is driven by keeping versatility and extensibility in mind with a small core and code base.
-Extensibility is covered via the middleware layer, which is the core and more powerful feature of `rocky`.
+`rocky` design is influenced by the [UNIX philosophy](http://www.catb.org/esr/writings/taoup/html/ch01s06.html), sspecially by the rules of composition, modularity and simplicity, resulting into a lightweight package with a  scall core but designed to be open for extensibility. Composition rule is mostly covered with the middleware layer, which is the core and most powerful feature.
 
-Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing flows.
-This allows you to plug in intermediate jobs with your own custom logic which will be executed among different phases of the HTTP flow live cycle inside `rocky`.
+Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing traffic flows.
 
-`rocky` middleware layer is based on `connect` middleware.
+This allows you to plug in intermediate jobs with your custom logic which will be executed among different phases of the HTTP flow live cycle handled by `rocky`.
 
 ### Stability
 
@@ -149,7 +147,7 @@ Are you using rocky in your project? Open an issue or send a PR!
 
 ## Middleware layer
 
-One of the more powerful features in `rocky` is its build-in domain specific middleware.
+One of the more powerful features in `rocky` is its build-in domain specific middleware, based on `connect/express` middleware.
 
 The middleware layer provides a simple and consistent way to augment the proxy functionality very easily, allowing you to attach third-party middleware (also known as plugins) to cover specific tasks which acts between different phases of the proxy, for instance handling incoming/outgoing traffic.
 
