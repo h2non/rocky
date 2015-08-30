@@ -38,7 +38,6 @@
     "router": "^1.1.1"
   },
   "devDependencies": {
-    "async": "^1.4.2",
     "chai": "^3.0.0",
     "connect": "^3.4.0",
     "express": "^4.13.0",
