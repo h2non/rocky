@@ -71,11 +71,12 @@ Requires node.js +0.12 or io.js +1.6
 - As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
 - As standard reverse HTTP proxy with dynamic routing
 - As security proxy layer
-- As HTTP load balancer with full programmatic control
+- As dynamic HTTP load balancer with programmatic control
 - As embedded HTTP proxy in your node.js app
 - As HTTP cache or log server
 - As SSL terminator proxy
 - For A/B testing
+- For fuzz testing (see [toxy](https://github.com/h2non/toxy))
 - As intermediate test server intercepting and generating random/fake responses
 - And whatever a programmatic HTTP proxy can be useful to
 
