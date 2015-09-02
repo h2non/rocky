@@ -98,11 +98,11 @@ Migrating systems if not a trivial thing, and it's even more complex if we're ta
 
 ### Design
 
-`rocky` design is influenced by the [UNIX philosophy](http://www.catb.org/esr/writings/taoup/html/ch01s06.html), especially by the rules of composition, modularity and simplicity, resulting into a lightweight package with a  scall core but designed to be open for extensibility. Composition rule is mostly covered with the middleware layer, which is the core and most powerful feature.
+`rocky` design is influenced by the [UNIX philosophy](http://www.catb.org/esr/writings/taoup/html/ch01s06.html), especially by the rules of composition, modularity and simplicity. As result, `rocky` tend to be a lightweight package with small core designed for extensibility.
 
-Via the middleware you can completely rely on a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming/outgoing traffic flows.
+The most important feature in rocky is its nested multi phase middleware layer. Via the middleware layer you can rely in a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming and outgoing traffic flows.
 
-This allows you to plug in intermediate jobs with your custom logic which will be executed among different phases of the HTTP flow live cycle handled by `rocky`.
+This allows you to plug in intermediate jobs with your custom logic which will be executed among different phases of the HTTP flow live cycle.
 
 ### Stability
 
