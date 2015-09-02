@@ -1,15 +1,15 @@
 const sinon = require('sinon')
 const http = require('http')
 const expect = require('chai').expect
-const common = require('../lib/common')
+const helpers = require('../lib/helpers')
 
-suite('common', function () {
+suite('helpers', function () {
   test('cloneRequest', function () {
     var req = new http.IncomingMessage
     req.headers = { foo: 'bar' }
     req.rocky = { options: { foo: { bar: true }} }
 
-    var newReq = common.cloneRequest(req)
+    var newReq = helpers.cloneRequest(req)
     expect(newReq).to.not.be.equal(req)
     expect(newReq.rocky).to.not.be.equal(req.rocky)
     expect(newReq.headers).to.not.be.equal(req.headers)
@@ -27,7 +27,7 @@ suite('common', function () {
       next()
     }
 
-    common.eachSeries(arr, iterator, function (err) {
+    helpers.eachSeries(arr, iterator, function (err) {
       expect(err).to.be.undefined
       expect(spy.calledThrice).to.be.true
       expect(spy.args[0][0]).to.be.equal(1)

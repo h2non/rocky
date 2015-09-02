@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const eachSeries = require('../lib/common').eachSeries
+const eachSeries = require('../lib/helpers').eachSeries
 const expect = require('chai').expect
 const spawn = require('child_process').spawn
 

@@ -5,7 +5,7 @@ const Socket = require('net').Socket
 const Route = require('../../lib/route')
 const forward = require('../../lib/passes/replay')
 
-const port = 8088
+const port = 9098
 
 suite('replay', function () {
   test('concurrently', function (done) {
