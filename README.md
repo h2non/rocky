@@ -75,6 +75,9 @@ Requires node.js +0.12 or io.js +1.6
 - As embedded HTTP proxy in your node.js app
 - As HTTP cache or log server
 - As SSL terminator proxy
+- As HTTP proxy for performance testing
+- For HTTP session manipulation and debugging
+- For HTTP traffic recording and inspection
 - For A/B testing
 - For fuzz testing (see [toxy](https://github.com/h2non/toxy))
 - As intermediate test server intercepting and generating random/fake responses
@@ -92,7 +95,7 @@ npm install rocky --save
 
 Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
 
-`rocky` was originally created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-could-be-useful).
+`rocky` was originally created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-can-be-useful).
 
 `rocky` goal is to provide a full-featured and hackable programmatic HTTP proxy to build other services on it, like you can do with web services using express or connect.
 
