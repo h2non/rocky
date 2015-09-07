@@ -64,7 +64,7 @@ Requires node.js +0.12 or io.js +1.6
 ## When `rocky` can be useful?
 
 - As HTTP proxy for service migrations (e.g: APIs)
-- Replaying traffic to one or multiple backends
+- Replaying traffic to one or multiple backends (like using [hop-by-hop](https://en.wikipedia.org/wiki/Hop-by-hop_transport) mechanism)
 - As reverse proxy to forward traffic to a specified server.
 - As HTTP traffic interceptor transforming the request/response on the fly
 - As intermediate HTTP proxy adapter for external services integrations
