@@ -9,8 +9,8 @@ suite('handler', function () {
     const spy = sinon.spy()
     const rocky = new Emitter
     const route = new Emitter
-    route.useFor = function () {}
     const length = handler.events.length
+    route.useFor = function () {}
 
     handler(rocky, route)
 

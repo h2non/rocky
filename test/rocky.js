@@ -424,6 +424,7 @@ suite('rocky', function () {
 
     function middlewareFn(req, res, next) {
       res.setHeader('x-custom', '1.0')
+      res.removeHeader('content-type')
       assert(req, res)
       next()
     }
@@ -433,13 +434,15 @@ suite('rocky', function () {
     supertest(proxyUrl)
       .get('/test')
       .expect(200)
-      .expect('Content-Type', 'application/json')
-      .expect({ 'hello': 'world' })
-      .end(function () {})
+      .expect('{"hello":"world"}')
+      .end(function (err) {
+        if (err) done(err)
+      })
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.getHeader('x-custom')).to.be.equal('1.0')
+      expect(res.getHeader('content-type')).to.not.exist
       expect(res.statusCode).to.be.equal(200)
       expect(res.body.toString()).to.be.equal('{"hello":"world"}')
       done()
