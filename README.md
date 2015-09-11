@@ -31,7 +31,6 @@ Requires node.js +0.12 or io.js +1.6
   - [Third-party middleware](#third-party-middleware)
 - [Command-line](#command-line)
   - [Installation](#installation-1)
-  - [Standalone binaries](#standalone-binaries)
   - [Usage](#usage)
   - [Examples](#examples)
   - [Configuration file](#configuration-file)
@@ -280,25 +279,6 @@ For command-line usage, you must install [`rocky-cli`](https://github.com/h2non/
 ```
 npm install -g rocky-cli
 ```
-
-### Standalone binaries
-
-- [linux-x64](https://github.com/h2non/rocky-cli/releases/latest)
-- [darwin-x64](https://github.com/h2non/rocky-cli/releases/latest)
-
-Packaged using [nar](https://github.com/h2non/nar). Shipped with node.js `0.12.7`
-
-##### Binaries usage
-
-```
-chmod +x rocky-cli-linux-x64.nar
-```
-
-```
-./rocky-cli-linux-x64.nar exec --port 3000 --config rocky.toml
-```
-
-For more information about CLI, see [rocky-cli](https://github.com/h2non/rocky-cli) docs
 
 ### Usage
 
