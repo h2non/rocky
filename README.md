@@ -217,13 +217,13 @@ The following diagram represents the internal incoming request flow and how the 
 ↓      ----------------     ↓
 ↓            |||            ↓
 ↓   ---------------------   ↓
-↓   | Global middleware |   ↓ --> Dispatch on every incoming request (Global)
+↓   | Global middleware |   ↓ --> Dispatch on every incoming request (router, param)
 ↓   ---------------------   ↓
 ↓            |||            ↓
 ↓           /   \           ↓
 ↓         /       \         ↓
 ↓       /           \       ↓
-↓ [ Forward ]    [ Replay ] ↓ --> Dispatch both middleware in separated flows (Global, Route)
+↓ [ Forward ]    [ Replay ] ↓ --> Dispatch both middleware in separated flows (route forward and replay)
 ↓      \             /      ↓
 ↓       \           /       ↓
 ↓        \         /        ↓
