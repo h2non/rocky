@@ -2,12 +2,12 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Full-featured** and **middleware-oriented** **HTTP/S proxy** with versatile **routing layer**, **traffic interceptor and replay** to multiple backends, **built-in balancer** and **retry/backoff** logic, **hierarchical configuration** and [more](#features).
-Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
+**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S proxy** supporting a versatile **routing layer**, **traffic interceptor and replay** to multiple backends, **built-in balancer** and **retry/backoff** logic, **hierarchical configuration** and [more](#features).
+Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). Compatible [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
 `rocky` can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
-To get started, you can take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
+To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
 Requires node.js +0.12 or io.js +1.6
 
@@ -146,11 +146,11 @@ Version `0.2.x` introduced significant improvements, including a consistent API 
 
 - [toxy](https://github.com/h2non/toxy) - Hackable HTTP proxy to simulare server failures and network conditions
 
-Are you using rocky in your project? Open an issue or send a PR!
+Open an issue or send a PR to add your project!
 
 ## Middleware layer
 
-One of the more powerful features in `rocky` is its build-in domain specific middleware, based on `connect/express` middleware.
+One of the most powerful features in `rocky` is its build-in domain specific middleware, based on `connect/express` middleware.
 
 The middleware layer provides a simple and consistent way to augment the proxy functionality very easily, allowing you to attach third-party middleware (also known as plugins) to cover specific tasks which acts between different phases of the proxy, for instance handling incoming/outgoing traffic.
 
