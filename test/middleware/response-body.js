@@ -7,15 +7,18 @@ suite('middleware#responseBody', function () {
   var req, res
 
   beforeEach(function () {
-    res =  {
-      write: noop,
-      end: noop,
-      getHeader: function () { return 'application/json' }
+    res = {
+      __proto__: {
+        write: noop,
+        end: noop,
+        getHeader: function () { return 'application/json' }
+      }
     }
   })
 
   beforeEach(function () {
     req = new Emitter
+    req.socket = { destroyed: false }
   })
 
   function middlewareFn(req, res, next) {
@@ -31,7 +34,7 @@ suite('middleware#responseBody', function () {
   }
 
   test('transform', function (done) {
-    res.end = function () {
+    res.__proto__.end = function () {
       expect(res.body).to.be.equal('Pong Ping')
       done()
     }
@@ -44,7 +47,7 @@ suite('middleware#responseBody', function () {
   })
 
   test('filter', function (done) {
-    res.end = function () {
+    res.__proto__.end = function () {
       expect(res.body).to.be.equal('Pong Ping')
       done()
     }
