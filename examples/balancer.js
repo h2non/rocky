@@ -5,9 +5,9 @@ var proxy = rocky()
 
 proxy
   .balance([
-    'http://localhost:3001',
-    'http://localhost:3002',
-    'http://localhost:3003'
+    'http://localhost:3100',
+    'http://localhost:3101',
+    'http://localhost:3102'
   ])
 
 // Configure rocky
@@ -20,21 +20,21 @@ proxy.listen(3000)
 http.createServer(function (req, res) {
   res.writeHead(200, { 'Server': '1' })
   res.end()
-}).listen(3001)
+}).listen(3100)
 
 http.createServer(function (req, res) {
   res.writeHead(200, { 'Server': '2' })
   res.end()
-}).listen(3002)
+}).listen(3101)
 
 http.createServer(function (req, res) {
   res.writeHead(200, { 'Server': '3' })
   res.end()
-}).listen(3003)
+}).listen(3102)
 
 // Test request
 for (var i = 0; i < 10; i += 1) {
-  setTimeout(doRequest, Math.random() * 5)
+  setTimeout(doRequest, Math.random() * 100)
 }
 
 function doRequest() {
