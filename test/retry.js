@@ -13,7 +13,9 @@ suite('retry', function () {
     const task = function (done) {
       if (attempt === 3) return done()
       attempt += 1
-      setTimeout(function () { done({ code: 'ECONNRESET' }) }, Math.random() * 5)
+      setTimeout(function () {
+        done({ code: 'ECONNRESET' })
+      }, Math.random() * 5)
     }
 
     const next = function (err) {
@@ -34,7 +36,9 @@ suite('retry', function () {
     const task = function (done) {
       if (attempt === 3) return done()
       attempt += 1
-      setTimeout(function () { done(null, { statusCode: 503 }) }, Math.random() * 5)
+      setTimeout(function () {
+        done(null, { statusCode: 503 })
+      }, Math.random() * 5)
     }
 
     const next = function (err) {
