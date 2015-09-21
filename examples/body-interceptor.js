@@ -25,7 +25,7 @@ var route = proxy
     next()
   })
 
-  // Add middleware to transform the response
+  // Incercept and transform the request body
   .transformRequestBody(function transformer(req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(req.body.toString())
@@ -40,7 +40,7 @@ var route = proxy
     return /application\/json/i.test(req.headers['content-type'])
   })
 
-  // Subscribe to the server response to modify the body
+  // Intercept and transform the server response before send it to the client
   .transformResponseBody(function transformer(req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(res.body.toString())
@@ -65,7 +65,7 @@ proxy.listen(3000)
 
 // Target server
 http.createServer(function (req, res) {
-  // Check if we have a auth
+  // Check if the request is authorized
   if (req.headers['authorization'] !== 'Bearer 0123456789') {
     res.writeHead(401)
     return res.end()
