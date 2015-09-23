@@ -5,7 +5,7 @@ var supertest = require('supertest')
 var proxy = rocky()
 
 proxy
-  .forward('http://localhost:3001')
+  .forward('http://httpbin.org/gzip')
 
 // Configure the route
 var route = proxy
