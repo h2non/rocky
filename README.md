@@ -658,7 +658,15 @@ Return: [`Route`](#routepath)
 
 Configure a new route the given path with `HEAD` method
 
-#### route#query([ params | parseFn ])
+#### rocky#routeAll()
+Return: [`Route`](#routepath)
+
+Route all the incoming traffic to the default target.
+This is a shortcut to `rocky#all('/*')`.
+
+**Note**: you must call this method only when you already defined other routes.
+
+#### rocky#query([ params | parseFn ])
 
 Parse and expose the query params in `http.IncomingMessage` object via `req.query = Object`.
 
