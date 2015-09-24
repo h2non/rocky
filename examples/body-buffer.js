@@ -1,5 +1,4 @@
 var rocky = require('..')
-var supertest = require('supertest')
 
 // Creates the proxy
 var proxy = rocky()

@@ -35,7 +35,6 @@ suite('replay', function () {
 
 function createServer(port) {
   var server = http.createServer(function (req, res) {
-    res.setHeader('test', 'forward')
     res.end()
   })
   server.listen(port)

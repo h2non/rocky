@@ -506,12 +506,15 @@ suite('rocky', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(done)
+      .end(function (err) {
+        expect(spy.calledThrice).to.be.true
+        done(err)
+      })
 
     function assert(req, res) {
+      spy(req, res)
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
-      expect(spy.calledTwice).to.be.true
       expect(spy.args[0][0].url).to.be.equal('/test')
       expect(spy.args[0][0].rocky.options.target).to.be.deep.equal(replayUrl)
     }
@@ -1133,7 +1136,6 @@ suite('rocky', function () {
       expect(res.statusCode).to.be.equal(200)
     }
   })
-
 })
 
 function createTestServer(assert, timeout) {

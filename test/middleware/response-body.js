@@ -8,6 +8,7 @@ suite('middleware#responseBody', function () {
 
   beforeEach(function () {
     res = {
+      setHeader: function () {},
       __proto__: {
         write: noop,
         end: noop,

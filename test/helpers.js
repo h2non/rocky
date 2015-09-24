@@ -45,14 +45,33 @@ suite('helpers', function () {
 
     function iterator(value, next) {
       spy(value)
-      next()
+      setTimeout(next, Math.random() * 5)
     }
 
     helpers.eachSeries(arr, iterator, function (err) {
       expect(err).to.be.undefined
       expect(spy.calledThrice).to.be.true
       expect(spy.args[0][0]).to.be.equal(1)
+      expect(spy.args[1][0]).to.be.equal(2)
       expect(spy.args[2][0]).to.be.equal(3)
+      done(err)
+    })
+  })
+
+  test('eachConcurrently', function (done) {
+    var spy = sinon.spy()
+    var arr = [ 1, 2, 3 ]
+
+    function iterator(value, next) {
+      spy(value)
+      setTimeout(next, Math.random() * 5)
+    }
+
+    helpers.eachConcurrently(arr, iterator, function (err) {
+      expect(err).to.be.undefined
+      expect(spy.calledThrice).to.be.true
+      expect(spy.args[0][0]).to.be.within(1, 3)
+      expect(spy.args[2][0]).to.be.within(1, 3)
       done(err)
     })
   })

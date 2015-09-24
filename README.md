@@ -2,12 +2,12 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S proxy** with built-in features such as versatile **routing layer**, **traffic interceptor and replay** to multiple backends, dynamic **balancing**, traffic **retry/backoff**, **hierarchical configuration**, among [others](#features).
+**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S** and **WebSocket proxy** with powerful built-in features such as versatile **routing layer**, **traffic interceptor and replay** to multiple backends, traffic **balancer**, traffic **retry/backoff**, **hierarchical configuration**, among [other features](#features).
 
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
 Compatible [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
-**rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface. It has a modular pluggable design, making it pretty simple to extend through its featured middleware layer.
+**rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface. It has a modular pluggable design, making it pretty simple to extend and augment through its featured middleware layer.
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
@@ -61,6 +61,7 @@ Requires node.js +0.12 or io.js +1.6
 - Small hackable core designed for extensibility
 - Fluent, elegant and evented [programmatic API](#programmatic-api)
 - Provides a [command-line interface](https://github.com/h2non/rocky-cli) with declarative [configuration file](#configuration-file)
+- Handles properly gzip response, especially when intercepting payloads
 
 ## When `rocky` can be useful?
 
