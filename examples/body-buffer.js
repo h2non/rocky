@@ -7,7 +7,7 @@ proxy
   .forward('http://localhost:3001')
 
 // Configure the route
-var route = proxy
+proxy
   .post('/users/:id')
   // Cache all the payload data, if the content type matches
   .bufferBody(/application\/json/i)
