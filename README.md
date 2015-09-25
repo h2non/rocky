@@ -871,6 +871,7 @@ Overwrite default proxy [options](#configuration) for the current route.
 You can pass any supported option by [http-proxy](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50)
 
 #### route#use(...middleware)
+Alias: `useIncoming`
 
 Use a middleware for the incoming traffic for the current route for both replay/forward phases.
 
