@@ -1,8 +1,8 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
 const Emitter = require('events').EventEmitter
-const Base = require('../lib/base')
-const Dispatcher = require('../lib/dispatcher')
+const Base = require('../../../lib/base')
+const Dispatcher = require('../../../lib/protocols/http/dispatcher')
 
 suite('dispatcher', function () {
   test('dispatch', function (done) {

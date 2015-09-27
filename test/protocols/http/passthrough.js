@@ -1,6 +1,6 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
-const passthrough = require('../lib/passthrough')
+const passthrough = require('../../../lib/protocols/http/passthrough')
 
 suite('passthrough', function () {
   const passes = passthrough.passes

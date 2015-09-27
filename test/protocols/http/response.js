@@ -1,5 +1,5 @@
 const expect = require('chai').expect
-const StubResponse = require('../../lib/http/response')
+const StubResponse = require('../../../lib/protocols/http/response')
 
 suite('stub response', function () {
   var res = new StubResponse

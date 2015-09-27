@@ -3,8 +3,8 @@ const sinon = require('sinon')
 const expect = require('chai').expect
 const Socket = require('net').Socket
 const Route = require('../../lib/route')
-const ResponseStub = require('../../lib/http/response')
 const forward = require('../../lib/passes/forward')
+const ResponseStub = require('../../lib/protocols/http/response')
 
 const port = 8099
 

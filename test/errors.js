@@ -3,12 +3,12 @@ const expect = require('chai').expect
 const errors = require('../lib/errors')
 
 suite('errors', function () {
-  test('replyWithError', function (done) {
+  test('reply', function (done) {
     const spy = sinon.spy()
     const err = { status: 500, message: 'omg' }
     const res = { headersSent: false, end: spy, writeHead: spy }
 
-    errors.replyWithError(err, res)
+    errors.reply(err, res)
 
     expect(spy.calledTwice).to.be.true
     expect(spy.args[0][0]).to.be.equal(err.status)

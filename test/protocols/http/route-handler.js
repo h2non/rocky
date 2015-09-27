@@ -1,10 +1,10 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
 const Emitter = require('events').EventEmitter
-const Base = require('../lib/base')
-const handler = require('../lib/handler')
+const Base = require('../../../lib/base')
+const handler = require('../../../lib/protocols/http/route-handler')
 
-suite('handler', function () {
+suite('route handler', function () {
   test('propagate events', function (done) {
     const spy = sinon.spy()
     const rocky = new Emitter

@@ -1,10 +1,10 @@
 const fs = require('fs')
 const expect = require('chai').expect
 const supertest = require('supertest')
-const server = require('../../lib/http/server')
+const server = require('../lib/server')
 
 const port = 8099
-const fixtures = __dirname + '/../fixtures'
+const fixtures = __dirname + '/fixtures'
 
 suite('server', function () {
   var rockyStub = {
@@ -20,7 +20,8 @@ suite('server', function () {
   }
 
   test('listen', function (done) {
-    var s = server({ port: port }, rockyStub)
+    rockyStub.opts = { port: port }
+    var s = server(rockyStub)
 
     supertest('http://localhost:' + port)
       .get('/')
@@ -40,7 +41,8 @@ suite('server', function () {
       key: fs.readFileSync(fixtures + '/key.pem', 'utf8')
     }
 
-    var s = server({ port: port, ssl: ssl }, rockyStub)
+    rockyStub.opts = { port: port, ssl: ssl }
+    var s = server(rockyStub)
 
     require('https').request({
       host: '127.0.0.1',

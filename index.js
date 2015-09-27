@@ -17,10 +17,10 @@ function rocky(opts) {
 rocky.Rocky          = Rocky
 rocky.Base           = require('./lib/base')
 rocky.Route          = require('./lib/route')
-rocky.Dispatcher     = require('./lib/dispatcher')
 rocky.middleware     = require('./lib/middleware')
-rocky.passthrough    = require('./lib/passthrough')
 rocky.MiddlewarePool = require('./lib/mwpool')
+//rocky.Dispatcher     = require('./lib/dispatcher')
+//rocky.passthrough    = require('./lib/passthrough')
 
 /**
  * Expose http-proxy module (mostly for hacking purposes)

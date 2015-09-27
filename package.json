@@ -25,7 +25,7 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 10000 --reporter spec --ui tdd test/*"
+    "test": "./node_modules/.bin/mocha --timeout 10000 --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js"
   },
   "dependencies": {
     "http-proxy": "^1.11.1",
@@ -48,6 +48,7 @@
     "rocky-consul": "^0.1.0",
     "sinon": "^1.15.3",
     "supertest": "^1.0.1",
-    "vhost": "^3.0.0"
+    "vhost": "^3.0.0",
+    "ws": "^0.8.0"
   }
 }
