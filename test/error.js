@@ -1,6 +1,6 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
-const errors = require('../lib/errors')
+const errors = require('../lib/error')
 
 suite('errors', function () {
   test('reply', function (done) {

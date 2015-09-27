@@ -1,12 +1,19 @@
 {
   "name": "rocky",
-  "version": "0.3.15",
-  "description": "Full-featured, pluggable and middleware-oriented HTTP proxy supporting traffic replay and intercept",
+  "version": "0.4.0",
+  "description": "Full-featured, pluggable and middleware-oriented HTTP/WebSocket proxy supporting traffic replay and intercept",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
   "license": "MIT",
+  "engines": {
+    "node": ">= 0.12"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --timeout 10000 --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js"
+  },
   "keywords": [
     "http",
+    "websocket",
     "proxy",
     "http-proxy",
     "reverse",
@@ -19,14 +26,13 @@
     "gateway",
     "router",
     "middleware",
-    "intercept"
+    "intercept",
+    "capture",
+    "sniffer",
+    "mitm",
+    "balancer",
+    "load"
   ],
-  "engines": {
-    "node": ">= 0.12"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 10000 --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js"
-  },
   "dependencies": {
     "http-proxy": "^1.11.1",
     "is-fail": "^0.1.1",
