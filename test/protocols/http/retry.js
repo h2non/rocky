@@ -1,6 +1,6 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
-const retry = require('../lib/retry')
+const retry = require('../../../lib/protocols/http/retry')
 
 suite('retry', function () {
   test('error', function (done) {

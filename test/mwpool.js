@@ -67,7 +67,7 @@ suite('middleware pool', function () {
     }
   })
 
-  test('flush stack', function (done) {
+  test('empty stack', function (done) {
     var spy = sinon.spy()
     var pool = new Pool
 

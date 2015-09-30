@@ -2,7 +2,7 @@ const sinon = require('sinon')
 const expect = require('chai').expect
 const errors = require('../lib/error')
 
-suite('errors', function () {
+suite('error', function () {
   test('reply', function (done) {
     const spy = sinon.spy()
     const err = { status: 500, message: 'omg' }

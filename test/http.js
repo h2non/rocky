@@ -14,7 +14,7 @@ const targetUrl = baseUrl + ':' + ports.target
 const replayUrl = baseUrl + ':' + ports.replay
 const noop = function () {}
 
-suite('rocky', function () {
+suite('http', function () {
   var proxy, replay, server
 
   beforeEach(function () {

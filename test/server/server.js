@@ -1,17 +1,14 @@
 const fs = require('fs')
+const WebSocket = require('ws')
 const expect = require('chai').expect
 const supertest = require('supertest')
-const server = require('../lib/server')
+const server = require('../../lib/server')
 
 const port = 8099
-const fixtures = __dirname + '/fixtures'
+const fixtures = __dirname + '/../fixtures'
 
 suite('server', function () {
-  var rockyStub = {
-    middleware: function () {
-      return reply
-    }
-  }
+  var rockyStub = { router: reply }
 
   function reply(req, res) {
     res.statusCode = 201
@@ -55,5 +52,26 @@ suite('server', function () {
       s.close()
       done()
     }).end()
+  })
+
+  test('websocket', function (done) {
+    rockyStub.mw = { run: function (a, b, c, d, next) { next() }}
+    rockyStub.opts = { port: port, ws: true, target: 'http://localhost:' + (port+1) }
+
+    var s = server(rockyStub)
+
+    new WebSocket.Server({ port: port+1 })
+    .on('connection', function connection(ws) {
+      ws.on('message', function incoming(message) {
+        expect(message).to.be.equal('foo')
+        s.close()
+        done()
+      })
+    })
+
+    var ws = new WebSocket('ws://127.0.0.1:' + port)
+    ws.on('open', function () {
+      ws.send('foo')
+    })
   })
 })
