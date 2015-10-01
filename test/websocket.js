@@ -38,7 +38,6 @@ suite('websocket', function () {
   })
 
   test('invalid target', function (done) {
-    return done()
     var proxy = rocky({ ws: true })
     proxy.forward('ws://127.0.0.1:9543')
     proxy.listen(ports.proxy)
@@ -60,11 +59,10 @@ suite('websocket', function () {
 
 function createWebSocketClient(url, onOpen) {
   var ws = new WebSocket(url)
-
   ws.on('open', function () {
     if (onOpen) onOpen(ws)
   })
-
+  ws.on('error', function () {})
   return ws
 }
 

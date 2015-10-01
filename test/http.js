@@ -974,6 +974,36 @@ suite('http', function () {
     }
   })
 
+  test('streaming data', function (done) {
+    return done()
+    var spy = sinon.spy()
+
+    server = createTimeoutServer(assert)
+    replay = createReplayServer()
+
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay(replayUrl)
+      .listen(ports.proxy)
+
+    proxy.get('/*')
+      .on('proxyReq', spy)
+      .on('replay:start', spy)
+
+    http.get(targetUrl)
+
+    function end(err, res) {
+      expect(err).to.be.null
+    }
+
+    function assert(req, res) {
+      expect(spy.calledTwice).to.be.true
+      expect(req.url).to.be.equal('/test')
+      expect(res.statusCode).to.be.equal(200)
+      done()
+    }
+  })
+
   test('next route', function (done) {
     var spy = sinon.spy()
 

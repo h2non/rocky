@@ -54,7 +54,7 @@ suite('server', function () {
     }).end()
   })
 
-  test('websocket', function (done) {
+  test('web socket', function (done) {
     rockyStub.mw = { run: function (a, b, c, d, next) { next() }}
     rockyStub.opts = { port: port, ws: true, target: 'http://localhost:' + (port+1) }
 

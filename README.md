@@ -46,8 +46,9 @@ Requires node.js +0.12 or io.js +1.6
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
+- Supports WebSocket protocol proxy (replay not support yet)
 - Able to replay traffic to multiple backends (concurrently or sequentially)
-- Able to intercept HTTP requests and responses and modify them on the fly
+- Able to intercept HTTP requests and responses and modify them on-the-fly
 - Featured built-in path based router with params matching
 - Built-in load balancer
 - Built-in HTTP traffic retry/backoff
@@ -65,9 +66,9 @@ Requires node.js +0.12 or io.js +1.6
 
 ## When `rocky` can be useful?
 
-- As HTTP proxy for service migrations (e.g: APIs)
+- As intermediate proxy for service migrations (e.g: APIs)
 - Replaying traffic to one or multiple backends (like using [hop-by-hop](https://en.wikipedia.org/wiki/Hop-by-hop_transport) mechanism)
-- As reverse proxy to forward traffic to a specified server.
+- As reverse proxy to forward traffic to one o multiple servers.
 - As Man-in-the-Middle HTTP proxy interceptoring and transforming the request/response on-the-fly
 - As intermediate HTTP proxy adapter for external services integrations
 - As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
@@ -582,7 +583,6 @@ This middleware stack is useful to handle intercept and modify server responses 
 Note: this middleware is only valid for HTTP traffic.
 
 #### rocky#useWs(...middleware)
-Alias: `useWebsocket()`
 
 Use a WebSocket specific middleware. Middleware chain will be executed on every incoming WebSocket connection.
 
