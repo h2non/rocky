@@ -2,7 +2,7 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S** with powerful built-in features such as versatile **routing layer**, **traffic interceptor and replay** to multiple backends, traffic **balancer**, traffic **retry/backoff**, **hierarchical configuration**, among [other features](#features).
+**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S** and **WebSocket** proxy with powerful built-in features such as versatile **routing layer**, **traffic interceptor and replay** to multiple backends, traffic **balancer**, requests **retry/backoff**, **hierarchical configuration** and [more](#features).
 
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
 Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
@@ -12,8 +12,6 @@ Compatible with [connect](https://github.com/senchalabs/connect)/[express](http:
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
 Requires node.js +0.12 or io.js +1.6
-
-**UPDATE**: WebSockets will be available in the future `0.4` versión.
 
 ## Contents
 
@@ -486,6 +484,7 @@ For more usage cases, take a look to the [examples](/examples)
 - **debug** `boolean` - Enable debug mode. Default `false`
 - **target** `string` - <url string to be parsed with the url module
 - **replay** `array<string|object>` - Optional replay server URLs. You can use the `replay()` method to configure it
+- **ws** `boolean` - Enable WebSocket proxy mode.
 - **balance** `array<url>` - Define the URLs to balance. Via API you should use the `balance()` method
 - **timeout** `number` - Timeout for request socket
 - **proxyTimeout** `number` - Timeout for proxy request socket
@@ -533,10 +532,17 @@ Add a server URL to replay the incoming request
 
 `opts` param provide specific replay [options](#configuration), overwritting the parent options.
 
+Note: replay feature is only valid for HTTP traffic.
+
 #### rocky#options(options)
 
 Define/overwrite rocky server [options](#configuration).
 You can pass any of the [supported options](https://github.com/nodejitsu/node-http-proxy/blob/master/lib/http-proxy.js#L33-L50) by `http-proxy`.
+
+#### rocky#protocol(name)
+
+Define the proxy protocol operation mode.
+Supported options are: `http`, `ws`
 
 #### rocky#use([ path ], ...middleware)
 Alias: `useIncoming`
@@ -549,10 +555,14 @@ Alias: `param()`
 Maps the specified path parameter name to a specialized param-capturing middleware.
 The middleware stack is the same as `.use()`.
 
+Note: this middleware is only valid for HTTP traffic.
+
 #### rocky#useReplay(...middleware)
 
 Use a middleware for all the incoming traffic in the HTTP replay phase.
 This middleware stack can be useful to differ between forward/replay traffic, applying separated flows of middleware.
+
+Note: this middleware is only valid for HTTP traffic.
 
 #### rocky#useForward(...middleware)
 
@@ -560,12 +570,21 @@ Use a middleware for all the incoming traffic only for the HTTP request forward 
 
 For most cases you will only use `.use()`, but for particular modifications only for the forwarded traffic, this middleware can be useful.
 
+Note: this middleware is only valid for HTTP traffic.
+
 #### rocky#useResponse(...middleware)
 Alias: `useOutgoing`
 
 Use a middleware for the outgoing response traffic of the forwarded request.
 
 This middleware stack is useful to handle intercept and modify server responses before sending it to the end client in the other side of the proxy.
+
+Note: this middleware is only valid for HTTP traffic.
+
+#### rocky#useWs(...middleware)
+Alias: `useWebsocket()`
+
+Use a WebSocket specific middleware. Middleware chain will be executed on every incoming WebSocket connection.
 
 #### rocky#useFor(name, ...middleware)
 
@@ -708,6 +727,8 @@ Alias: `replyTo`
 Overwrite replay servers for the current route.
 
 `opts` param provide specific replay [options](#configuration), overwritting the parent options.
+
+Note: replay feature is only valid for HTTP traffic.
 
 #### route#balance(urls)
 

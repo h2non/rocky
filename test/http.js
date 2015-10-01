@@ -2,8 +2,8 @@ const fs = require('fs')
 const http = require('http')
 const connect = require('connect')
 const sinon = require('sinon')
-const supertest = require('supertest')
 const request = require('request')
+const supertest = require('supertest')
 const expect = require('chai').expect
 const rocky = require('..')
 
@@ -27,7 +27,7 @@ suite('http', function () {
     if (proxy && proxy.server) {
       proxy.server.close()
     }
-    setTimeout(done, 50)
+    setTimeout(done, 20)
   })
 
   test('simple forward', function (done) {

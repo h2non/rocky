@@ -39,6 +39,17 @@ suite('helpers', function () {
     expect(newReq.__proto__).to.be.equal(req.__proto__)
   })
 
+  test('permute', function () {
+    var arr = [ 1, 2, 3 ]
+    expect(arr).to.be.deep.equal([1,2,3])
+    helpers.permute(arr)
+    expect(arr).to.be.deep.equal([2,3,1])
+    helpers.permute(arr)
+    expect(arr).to.be.deep.equal([3,1,2])
+    helpers.permute(arr)
+    expect(arr).to.be.deep.equal([1,2,3])
+  })
+
   test('eachSeries', function (done) {
     var spy = sinon.spy()
     var arr = [ 1, 2, 3 ]

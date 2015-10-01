@@ -10,7 +10,6 @@ proxy
 
 proxy
   .forward('ws://localhost:8989')
-  //.replay('ws://localhost:8990')
 
 proxy
   .useWs(function (req, socket, head, next) {
@@ -29,15 +28,6 @@ wss.on('connection', function connection(ws) {
     console.log('server received: %s', message)
   })
   ws.send('something')
-})
-
-// Replay server
-var wss = new WebSocketServer({ port: 8990 })
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('replay server received: %s', message)
-  })
-  ws.send('replay')
 })
 
 var ws = new WebSocket('ws://localhost:3000')
