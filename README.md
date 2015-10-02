@@ -66,7 +66,7 @@ Requires node.js +0.12 or io.js +1.6
 - As intermediate proxy for service migrations (e.g: APIs)
 - Replaying traffic to one or multiple backends
 - As reverse proxy to forward traffic to one o multiple servers.
-- As Man-in-the-Middle HTTP proxy interceptoring and transforming the request/response on-the-fly
+- As Man-in-the-Middle proxy interceptoring and transforming the request/response on-the-fly
 - As intermediate HTTP proxy adapter for external services integrations
 - As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
 - As standard reverse HTTP proxy with dynamic routing
