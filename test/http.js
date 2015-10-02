@@ -975,32 +975,104 @@ suite('http', function () {
   })
 
   test('streaming data', function (done) {
-    return done()
     var spy = sinon.spy()
+    var endSpy = sinon.spy()
 
-    server = createTimeoutServer(assert)
-    replay = createReplayServer()
+    var assert = assertData()
+    var assertReplay = assertData()
+
+    server = createStreamingServer(ports.target, assert, assertEnd)
+    replay = createStreamingServer(ports.replay, assertReplay, assertEndReplay)
 
     proxy = rocky()
       .forward(targetUrl)
       .replay(replayUrl)
       .listen(ports.proxy)
 
-    proxy.get('/*')
+    proxy.all('/*')
       .on('proxyReq', spy)
       .on('replay:start', spy)
 
-    http.get(targetUrl)
+    var opts = { method: 'POST', host: '127.0.0.1', port: ports.proxy }
+    var req = http.request(opts, function (res) {
+      res.setEncoding('utf8')
+      res.on('data', assertData())
+      res.on('end', end)
+    })
+    req.on('error', done)
 
-    function end(err, res) {
-      expect(err).to.be.null
+    // Write body async
+    setTimeout(function () {
+      req.write('foo')
+    }, 100)
+    setTimeout(function () {
+      req.write('bar')
+    }, 200)
+    setTimeout(function () {
+      req.write('far')
+    }, 300)
+    setTimeout(function () {
+      req.end()
+    }, 400)
+
+    function assertData() {
+      var count = 0
+      spy()
+      return function (data) {
+        var e = expect(data)
+        switch (count) {
+          case 0: e.to.be.equal('foo'); break
+          case 1: e.to.be.equal('foobar'); break
+          case 2: e.to.be.equal('foobarfar'); break
+        }
+        count += 1
+      }
     }
 
-    function assert(req, res) {
-      expect(spy.calledTwice).to.be.true
-      expect(req.url).to.be.equal('/test')
-      expect(res.statusCode).to.be.equal(200)
-      done()
+    function end() {
+      endSpy()
+      if (endSpy.args.length === 3) return done()
+    }
+
+    function assertEnd(req, res) {
+      expect(req.body).to.be.equal('foobarfar')
+      end()
+    }
+
+    function assertEndReplay(req, res) {
+      expect(req.body).to.be.equal('foobarfar')
+      end()
+    }
+
+    function createStreamingServer(port, onData, onEnd) {
+      var server = http.createServer(function (req, res) {
+        process.nextTick(handler)
+
+        function handler() {
+          req.setEncoding('utf8')
+          res.writeHead(200, { 'Content-Type': 'text/plain' })
+
+          var body = ''
+          req.on('data', function (data) {
+            body += data
+            onData(body, req, res)
+            setTimeout(function () {
+              res.write(body)
+            }, 10)
+          })
+          req.on('end', function () {
+            req.body = body
+            end()
+          })
+        }
+
+        function end() {
+          onEnd(req, res)
+          res.end()
+        }
+      })
+      server.listen(port)
+      return server
     }
   })
 
