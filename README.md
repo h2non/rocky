@@ -2,7 +2,7 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S** and **WebSocket** proxy with powerful built-in features such as versatile **routing layer**, **traffic interceptor and replay** to multiple backends, traffic **balancer**, requests **retry/backoff**, **hierarchical configuration** and [more](#features).
+**Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S** and **WebSocket proxy** with powerful built-in features such as **versatile routing layer**, **traffic interceptor and replay** to multiple backends, built-in **balancer**, requests **retry/backoff**, **hierarchical configuration** and [more](#features).
 
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
 Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
@@ -18,10 +18,7 @@ Requires node.js +0.12 or io.js +1.6
 - [Features](#features)
 - [When rocky can be useful?](#when-rocky-can-be-useful)
 - [Installation](#installation)
-- [Introduction](#introduction)
-  - [Motivation](#motivation)
-  - [Design](#design)
-  - [Stability](#stability)
+- [About](#about)
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
   - [Projects using rocky](#projects-using-rocky)
@@ -92,38 +89,14 @@ Requires node.js +0.12 or io.js +1.6
 npm install rocky --save
 ```
 
-## Introduction
-
-### Motivation
-
-Migrating systems if not a trivial thing, and it's even more complex if we're talking about production systems that require high availability. Taking care of consistency and public interface contract should be a premise in most cases.
-
-`rocky` was originally created to become an useful tool to assist during a backend migration strategy, later on it was extended and improved to cover so many other [scenarios](#when-rocky-can-be-useful).
-
-`rocky` goal is to provide a full-featured and hackable programmatic HTTP proxy to build other services on it, like you can do with web services using express or connect.
-
-### Design
-
-`rocky` design is influenced by the [UNIX philosophy](http://www.catb.org/esr/writings/taoup/html/ch01s06.html), especially by the rules of composition, modularity and simplicity. As result, `rocky` tend to be a lightweight package with small core designed for extensibility.
-
-The most important feature in rocky is its nested multi phase middleware layer. Via the middleware layer you can rely in a consistent control flow when performing actions with the HTTP traffic flow, such as modifying, pausing or stopping it, even for both incoming and outgoing traffic flows.
-
-This allows you to plug in intermediate jobs with your custom logic which will be executed among different phases of the HTTP flow live cycle.
-
-### Stability
-
-Version `0.1.x` was designed and written during my free time in less than 10 days (mostly at night during the weekend), therefore it can be considered in `beta` stage.
-
-Version `0.2.x` introduced significant improvements, including a consistent API and new hierarchical middleware layer.
-
-`0.3.x` and higher versions are production-focused. API consistency is guaranteed between patch releases.
+## About
 
 ### Versions
 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
 - [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`. Major features and stability improvements.
 - [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Released at `24.07.2015`. Production-focused version.
-- [**0.4.x**](https://github.com/h2non/rocky/tree/master) - Released at `2.10.2015`. Introduce WebSocket support and other minor features.
+- [**0.4.x**](https://github.com/h2non/rocky/tree/master) - Released at `02.10.2015`. Introduces WebSocket support and other minor features.
 
 ### How does it work?
 
