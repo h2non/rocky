@@ -7,10 +7,6 @@ const proxy = rocky({ ws: true })
 // Or alternatively...
 // proxy.protocol('ws')
 
-// Enable replay after forward mode
-proxy
-  .replayAfterForward()
-
 // Note the URI protocol: 'ws://'
 proxy
   .forward('ws://localhost:8989')
