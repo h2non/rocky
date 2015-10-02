@@ -1,24 +1,28 @@
-var WebSocket = require('ws')
-var WebSocketServer = WebSocket.Server
-var rocky = require('..')
+const WebSocket = require('ws')
+const WebSocketServer = WebSocket.Server
+const rocky = require('..')
 
-var proxy = rocky({ ws: true })
+// Create a WebSocket proxy
+const proxy = rocky({ ws: true })
+// Or alternatively...
+// proxy.protocol('ws')
 
 // Enable replay after forward mode
 proxy
   .replayAfterForward()
 
+// Note the URI protocol: 'ws://'
 proxy
   .forward('ws://localhost:8989')
 
+// Use a WebSocket traffic middleware
 proxy
   .useWs(function (req, socket, head, next) {
+    // Do whatever you need here...
     next()
   })
 
-proxy
-  .get('/*')
-
+// Finally, listen on network
 proxy.listen(3000)
 
 // Target server
@@ -30,20 +34,19 @@ wss.on('connection', function connection(ws) {
   ws.send('something')
 })
 
+// Test client
 var ws = new WebSocket('ws://localhost:3000')
-
 ws.on('open', function () {
   ws.send('foo')
 
   setTimeout(function () {
-    ws.send('boo')
+    ws.send('bar')
   }, 250)
 
   setTimeout(function () {
-    ws.send('bob')
+    ws.send('far')
   }, 500)
 })
-
 ws.on('message', function (data, flags) {
   console.log('client received: %s', data)
 })

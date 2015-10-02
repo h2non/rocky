@@ -1001,7 +1001,7 @@ suite('http', function () {
     })
     req.on('error', done)
 
-    // Write body async
+    // Write body asynchronously
     setTimeout(function () {
       req.write('foo')
     }, 100)
