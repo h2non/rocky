@@ -123,6 +123,7 @@ Version `0.2.x` introduced significant improvements, including a consistent API 
 - [**0.1.x**](https://github.com/h2non/rocky/tree/v0.1.x) - First version. Initially released at `25.06.2015`. Beta
 - [**0.2.x**](https://github.com/h2non/rocky/tree/v0.2.x) - Released at `07.07.2015`. Major features and stability improvements.
 - [**0.3.x**](https://github.com/h2non/rocky/tree/master) - Released at `24.07.2015`. Production-focused version.
+- [**0.4.x**](https://github.com/h2non/rocky/tree/master) - Released at `2.10.2015`. Introduce WebSocket support and other minor features.
 
 ### How does it work?
 
@@ -1005,15 +1006,9 @@ Accessor for the [Route](https://github.com/h2non/rocky/blob/master/lib/route.js
 
 Accessor for the [Base](https://github.com/h2non/rocky/blob/master/lib/base.js) module
 
-### rocky.Dispatcher
+### rocky.protocols
 
-Accessor for the [Dispatcher](https://github.com/h2non/rocky/blob/master/lib/dispatcher.js) module
-
-### rocky.passthrough
-
-Accessor for the [passthrough](https://github.com/h2non/rocky/blob/master/lib/passthrough.js) module
-
-For hacking purposes, you can add additional HTTP traffic passthrough phases pushing the pass `function` via `passthrough.passes.push()`
+Expose protocol-specific [modules](https://github.com/h2non/rocky/tree/master/lib/protocols).
 
 ### rocky.httpProxy
 

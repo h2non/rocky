@@ -11,7 +11,7 @@ function rocky(opts) {
 }
 
 /**
- * Expose internal modules as static members
+ * Internal modules
  */
 
 rocky.Rocky          = Rocky
@@ -22,13 +22,13 @@ rocky.middleware     = require('./lib/middleware')
 rocky.MiddlewarePool = require('./lib/mwpool')
 
 /**
- * Expose http-proxy module (mostly for hacking purposes)
+ * http-proxy module
  */
 
 rocky.httpProxy = require('http-proxy')
 
 /**
- * Expose current version
+ * Current version
  */
 
 rocky.VERSION = require('./package.json').version
