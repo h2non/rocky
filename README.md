@@ -13,8 +13,6 @@ To get started, take a look to [how does it work](#how-does-it-work), [basic usa
 
 Requires node.js +0.12 or io.js +1.6
 
-**UPDATE**: WebSockets will be available in the future `0.4` versión.
-
 ## Contents
 
 - [Features](#features)
