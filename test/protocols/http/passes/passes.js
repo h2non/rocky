@@ -1,12 +1,12 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
-const passthrough = require('../../../lib/protocols/http/passthrough')
+const passes = require('../../../lib/protocols/http/passes')
 
-suite('passthrough', function () {
-  const passes = passthrough.passes
+suite('passes', function () {
+  const passes = passes.passes
 
   function restore() {
-    passthrough.passes = passes
+    passes.passes = passes
   }
 
   test('sequentially', function (done) {
@@ -20,8 +20,8 @@ suite('passthrough', function () {
     }
 
     const args = [ 'hello' ]
-    passthrough.passes = [ pass, pass, pass ]
-    passthrough.sequentially(args, done)
+    passes.passes = [ pass, pass, pass ]
+    passes.sequentially(args, done)
   })
 
   test('concurrently', function (done) {
@@ -34,8 +34,8 @@ suite('passthrough', function () {
     }
 
     const args = [ 'hello' ]
-    passthrough.passes = [ pass, pass, pass ]
-    passthrough.concurrently(args, function (err) {
+    passes.passes = [ pass, pass, pass ]
+    passes.concurrently(args, function (err) {
       restore()
       expect(Date.now() - start).to.be.below(delay * 2)
       done(err)
