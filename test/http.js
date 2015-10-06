@@ -507,8 +507,10 @@ suite('http', function () {
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
       .end(function (err) {
-        expect(spy.calledThrice).to.be.true
-        done(err)
+        setTimeout(function () {
+          expect(spy.calledThrice).to.be.true
+          done(err)
+        }, 10)
       })
 
     function assert(req, res) {
