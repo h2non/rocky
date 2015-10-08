@@ -7,7 +7,7 @@
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
 Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
 
-**rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface. It has a modular pluggable design, making it pretty simple to extend and augment through its featured middleware layer.
+**rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
