@@ -1,7 +1,7 @@
 {
   "name": "rocky",
-  "version": "0.4.0",
-  "description": "Full-featured, pluggable and middleware-oriented HTTP and WebSocket proxy supporting traffic replay and intercept",
+  "version": "0.4.1",
+  "description": "Full-featured, middleware-oriented HTTP and WebSocket proxy supporting traffic replay and intercept",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
   "license": "MIT",
