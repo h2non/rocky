@@ -23,7 +23,7 @@ bash benchmark/run.sh http://rocky.server:8080 200 15s
 
 ## Results
 
-Using a Macbook Pro i7 2.7 Ghz 16 GB OSX Yosemite and `node.js@0.12.6`
+Using a Macbook Pro i7 2.7 Ghz 16 GB OSX Yosemite and `node.js@4.1.2`
 
 ##### Simple forward (100 req/sec)
 ```
