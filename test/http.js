@@ -847,10 +847,12 @@ suite('http', function () {
       })
 
     function assertReplay(req, res) {
-      expect(spy.args.length > 0).to.be.true
-      expect(req.body.length).to.be.equal(body.length)
-      expect((Date.now() - start) >= 100).to.be.true
-      done()
+      setTimeout(function () {
+          expect(spy.args.length > 0).to.be.true
+        expect(req.body.length).to.be.equal(body.length)
+        expect((Date.now() - start) >= 100).to.be.true
+        done()
+      }, 1000)
     }
   })
 
