@@ -63,7 +63,7 @@ Error Set:
 502 Bad Gateway
 ```
 
-#### Replay with payload (~2KB) (50 res/sec)
+##### Replay with payload (~2KB) (50 res/sec)
 ```
 # Running benchmark suite: replay with payload
 Requests  [total]       500
@@ -75,7 +75,7 @@ Success   [ratio]       100.00%
 Status Codes  [code:count]      200:500
 ```
 
-#### Replay with payload to multiple backends (~2KB) (50 res/sec)
+##### Replay with payload to multiple backends (~2KB) (50 res/sec)
 ```
 # Running benchmark suite: replay with payload
 Requests  [total]       500
@@ -99,7 +99,7 @@ Success   [ratio]       100.00%
 Status Codes  [code:count]      200:500
 ```
 
-#### Replay with large payload (~250KB) (50 res/sec)
+##### Replay with large payload (~250KB) (50 res/sec)
 ```
 # Running benchmark suite: replay-with-payload
 Requests  [total]       500
@@ -113,7 +113,7 @@ Error Set:
 502 Bad Gateway
 ```
 
-#### Replay with large payload to multiple backends (~250KB) (50 res/sec)
+##### Replay with large payload to multiple backends (~250KB) (50 res/sec)
 ```
 # Running benchmark suite: binary-replay-with-payload
 Requests  [total]       500
