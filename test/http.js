@@ -825,7 +825,7 @@ suite('http', function () {
     var spy = sinon.spy()
     proxy = rocky()
     server = createTestServer(spy, 100)
-    replay = createReplayServer(assertReplay)
+    replay = createReplayServer(assertReplay, 100)
 
     proxy.post('/test')
       .replayAfterForward()
@@ -847,12 +847,10 @@ suite('http', function () {
       })
 
     function assertReplay(req, res) {
-      setTimeout(function () {
-          expect(spy.args.length > 0).to.be.true
-        expect(req.body.length).to.be.equal(body.length)
-        expect((Date.now() - start) >= 100).to.be.true
-        done()
-      }, 1000)
+      expect(spy.calledOnce).to.be.true
+      expect(req.body.length).to.be.equal(body.length)
+      expect((Date.now() - start) >= 100).to.be.true
+      done()
     }
   })
 
@@ -1292,4 +1290,10 @@ function longString(x) {
     s+= r < 0.1 ? Math.floor(r*100): String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65))
   }
   return s
+}
+
+function defer(fn, ms) {
+  setTimeout(function () {
+    fn.apply(null, arguments)
+  }, +ms || 10)
 }

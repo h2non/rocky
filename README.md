@@ -4,10 +4,9 @@
 
 **Full-featured**, **pluggable** and **middleware-oriented** **HTTP/S** and **WebSocket proxy** with powerful built-in features such as **versatile routing layer**, **traffic interceptor and replay** to multiple backends, built-in **balancer**, requests **retry/backoff**, **hierarchical configuration** and [more](#features).
 
+**rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
 Compatible with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com).
-
-**rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
