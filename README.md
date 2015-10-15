@@ -18,6 +18,7 @@ Requires node.js +0.12 or io.js +1.6
 - [Features](#features)
 - [When rocky can be useful?](#when-rocky-can-be-useful)
 - [Installation](#installation)
+- [Benchmark](#benchmark)
 - [About](#about)
   - [Versions](#versions)
   - [How does it work?](#how-does-it-work)
@@ -88,6 +89,10 @@ Requires node.js +0.12 or io.js +1.6
 ```bash
 npm install rocky --save
 ```
+
+## Benchmark
+
+See [benchmark/README.md](https://github.com/h2non/rocky/tree/master/benchmark) for detailed benchmark results.
 
 ## About
 

@@ -27,7 +27,7 @@ bash benchmark/run.sh http://rocky.server:8080 200 60s
 
 Using a Macbook Pro i7 2.7 Ghz 16 GB OSX Yosemite and `node.js@0.12.6`
 
-##### Simple forward (200 req/sec)
+##### Simple forward (100 req/sec)
 ```
 # Running benchmark suite: forward
 Requests  [total]       1000
@@ -39,28 +39,92 @@ Success   [ratio]       100.00%
 Status Codes  [code:count]      200:1000
 ```
 
-##### Forward + replay to 2 backends (200 req/sec)
+##### Forward and replay to multiple backends (100 req/sec)
 ```
 # Running benchmark suite: replay
 Requests  [total]       1000
-Duration  [total, attack, wait]   9.995610711s, 9.992172904s, 3.437807ms
-Latencies [mean, 50, 95, 99, max]   4.825458ms, 4.321398ms, 7.390831ms, 44.316375ms, 44.316375ms
+Duration  [total, attack, wait]   9.994925269s, 9.990668119s, 4.25715ms
+Latencies [mean, 50, 95, 99, max]   4.979603ms, 4.198974ms, 14.343016ms, 48.186129ms, 48.186129ms
 Bytes In  [total, mean]     12000, 12.00
 Bytes Out [total, mean]     0, 0.00
 Success   [ratio]       100.00%
 Status Codes  [code:count]      200:1000
 ```
 
-##### Forward with POST payload (~250KB) (50 req/sec)
+##### Forward with payload (~2KB) (50 req/sec)
 ```
-# Running benchmark suite: forward-payload
+# Running benchmark suite: forward-with-payload
 Requests  [total]       500
-Duration  [total, attack, wait]   1m0.401897863s, 9.984355502s, 50.417542361s
-Latencies [mean, 50, 95, 99, max]   125.460034ms, 4.99145ms, 10.086713ms, 1m0.001088277s, 1m0.001088277s
-Bytes In  [total, mean]     6131, 12.26
+Duration  [total, attack, wait]   30.315355131s, 9.977039119s, 20.338316012s
+Latencies [mean, 50, 95, 99, max]   65.426632ms, 4.833072ms, 14.526289ms, 29.996591075s, 29.996591075s
+Bytes In  [total, mean]     6586, 13.17
 Bytes Out [total, mean]     116857317, 233714.63
-Success   [ratio]       97.60%
-Status Codes  [code:count]      200:486  502:6
+Success   [ratio]       90.60%
+Status Codes  [code:count]      200:453  502:47
+Error Set:
+502 Bad Gateway
+```
+
+#### Replay with payload (~2KB) (50 res/sec)
+```
+# Running benchmark suite: replay with payload
+Requests  [total]       500
+Duration  [total, attack, wait]   9.985169685s, 9.980843808s, 4.325877ms
+Latencies [mean, 50, 95, 99, max]   4.933694ms, 4.611819ms, 8.604071ms, 41.105633ms, 41.105633ms
+Bytes In  [total, mean]     6000, 12.00
+Bytes Out [total, mean]     861500, 1723.00
+Success   [ratio]       100.00%
+Status Codes  [code:count]      200:500
+```
+
+#### Replay with payload to multiple backends (~2KB) (50 res/sec)
+```
+# Running benchmark suite: replay with payload
+Requests  [total]       500
+Duration  [total, attack, wait]   9.987592135s, 9.982661448s, 4.930687ms
+Latencies [mean, 50, 95, 99, max]   7.131198ms, 5.255614ms, 29.921801ms, 118.176607ms, 118.176607ms
+Bytes In  [total, mean]     6000, 12.00
+Bytes Out [total, mean]     861500, 1723.00
+Success   [ratio]       100.00%
+Status Codes  [code:count]      200:500
+```
+
+##### Forward with large payload (~250KB) (50 req/sec)
+```
+# Running benchmark suite: replay with payload to multiple backends
+Requests  [total]       500
+Duration  [total, attack, wait]   9.982329219s, 9.978939543s, 3.389676ms
+Latencies [mean, 50, 95, 99, max]   8.205879ms, 5.552973ms, 30.474587ms, 188.612597ms, 188.612597ms
+Bytes In  [total, mean]     6000, 12.00
+Bytes Out [total, mean]     861500, 1723.00
+Success   [ratio]       100.00%
+Status Codes  [code:count]      200:500
+```
+
+#### Replay with large payload (~250KB) (50 res/sec)
+```
+# Running benchmark suite: replay-with-payload
+Requests  [total]       500
+Duration  [total, attack, wait]   9.978721886s, 9.975644048s, 3.077838ms
+Latencies [mean, 50, 95, 99, max]   4.595263ms, 4.008649ms, 11.35459ms, 45.080501ms, 45.080501ms
+Bytes In  [total, mean]     6962, 13.92
+Bytes Out [total, mean]     117091500, 234183.00
+Success   [ratio]       85.20%
+Status Codes  [code:count]      200:426  502:74
+Error Set:
+502 Bad Gateway
+```
+
+#### Replay with large payload to multiple backends (~250KB) (50 res/sec)
+```
+# Running benchmark suite: binary-replay-with-payload
+Requests  [total]       500
+Duration  [total, attack, wait]   9.983661865s, 9.979603656s, 4.058209ms
+Latencies [mean, 50, 95, 99, max]   5.341988ms, 4.662403ms, 14.595361ms, 46.528611ms, 46.528611ms
+Bytes In  [total, mean]     6143, 12.29
+Bytes Out [total, mean]     117091500, 234183.00
+Success   [ratio]       97.80%
+Status Codes  [code:count]      200:489  502:11
 Error Set:
 502 Bad Gateway
 ```

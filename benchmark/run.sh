@@ -34,19 +34,19 @@ fi
 
 cd `dirname $0`
 
-targetServer() {
+target_server() {
   node servers & > /dev/null
   serverPid=$!
 }
 
-proxyServer() {
+proxy_server() {
   node suites/$1 & > /dev/null
   proxyPid=$!
 }
 
 before() {
-  proxyServer $1
-  targetServer
+  proxy_server $1
+  target_server
   sleep 1
 }
 
@@ -57,7 +57,7 @@ after() {
   kill -9 $proxyPid
 }
 
-getBenchmark() {
+get_benchmark() {
   echo "GET $url" \
   | vegeta attack \
     -duration=$duration \
@@ -65,21 +65,29 @@ getBenchmark() {
   | vegeta report
 }
 
-postBenchmark() {
+post_benchmark() {
   echo "POST $url" \
   | vegeta attack \
     -duration=$duration \
     -rate=50 \
     -timeout=60s \
-    -body="../test/fixtures/data.json" \
+    -body="../test/fixtures/$1.json" \
   | vegeta report
 }
 
+post_payload_benchmark() {
+  post_benchmark "sample"
+}
+
+post_large_payload_benchmark() {
+  post_benchmark "data"
+}
+
 test() {
-  before $1
+  before $2
 
   echo "# Running benchmark suite: $1"
-  $2 # run test function!
+  $3 # run test function!
   echo
 
   after
@@ -88,8 +96,13 @@ test() {
 #
 # Run suites
 #
-test "forward" getBenchmark
-test "replay" getBenchmark
-test "forward-payload" postBenchmark
+test "forward" "forward" get_benchmark
+test "replay" "replay" get_benchmark
+test "forward with payload" "forward-with-payload" post_payload_benchmark
+test "replay with payload" "replay-with-payload" post_payload_benchmark
+test "replay with payload to multiple backends" "binary-replay-with-payload" post_payload_benchmark
+test "forward with large payload" "forward-with-payload" post_large_payload_benchmark
+test "replay with payload" "replay-with-payload" post_large_payload_benchmark
+test "replay with payload to multiple backends" "binary-replay-with-payload" post_large_payload_benchmark
 
 exit $?
