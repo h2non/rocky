@@ -92,7 +92,7 @@ npm install rocky --save
 
 ## Benchmark
 
-See [benchmark/README.md](https://github.com/h2non/rocky/tree/master/benchmark) for detailed benchmark results.
+See [benchmark/README.md](https://github.com/h2non/rocky/tree/master/benchmark#results) for detailed benchmark results.
 
 ## About
 

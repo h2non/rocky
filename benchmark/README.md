@@ -1,6 +1,4 @@
-# Rocky Benchmark
-
-Simple benchmark suite for `rocky`
+# Benchmarking `rocky`
 
 ## Requirements
 
@@ -20,10 +18,10 @@ bash benchmark/run.sh [rocky url] [rate] [duration]
 
 Example:
 ```
-bash benchmark/run.sh http://rocky.server:8080 200 60s
+bash benchmark/run.sh http://rocky.server:8080 200 15s
 ```
 
-## Suite results
+## Results
 
 Using a Macbook Pro i7 2.7 Ghz 16 GB OSX Yosemite and `node.js@0.12.6`
 
