@@ -19,7 +19,7 @@ rocky.Base           = require('./lib/base')
 rocky.Route          = require('./lib/route')
 rocky.protocols      = require('./lib/protocols')
 rocky.middleware     = require('./lib/middleware')
-rocky.MiddlewarePool = require('./lib/mwpool')
+rocky.MiddlewarePool = require('midware-pool').Pool
 
 /**
  * http-proxy module

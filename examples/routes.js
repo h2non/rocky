@@ -1,7 +1,7 @@
 var http = require('http')
 var rocky = require('..')
 
-var proxy = rocky({ })
+var proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')

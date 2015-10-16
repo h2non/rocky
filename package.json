@@ -9,7 +9,7 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 10000 --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
+    "test": "./node_modules/.bin/mocha --timeout 10000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
     "bench": "bash benchmark/run.sh"
   },
   "keywords": [
@@ -39,7 +39,7 @@
     "is-fail": "^0.1.1",
     "lodash": "^3.9.3",
     "media-typer": "^0.3.0",
-    "midware": "^0.1.1",
+    "midware-pool": "^0.1.1",
     "raw-body": "^2.1.2",
     "retry": "^0.6.1",
     "router": "^1.1.1"

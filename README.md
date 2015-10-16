@@ -994,7 +994,7 @@ Accessor for the [http-proxy](https://github.com/nodejitsu/node-http-proxy) API
 ### rocky.MiddlewarePool
 
 Middleware pool abstraction layer used internally by `rocky`.
-See the [code](https://github.com/h2non/rocky/blob/master/lib/mwpool.js) for API docs.
+See the [midware-pool](https://github.com/h2non/midware-pool) package for details.
 
 ### rocky.VERSION
 
