@@ -100,7 +100,7 @@ suite('http', function () {
       .send({ hello: 'world' })
       .expect(200)
       .expect('Content-Type', 'application/json')
-      .end(function () {})
+      .end(noop)
 
     var calls = 0
     function assert(err, res) {
@@ -193,7 +193,7 @@ suite('http', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(function () {})
+      .end(noop)
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
@@ -598,7 +598,7 @@ suite('http', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ salutation: 'hello world' })
-      .end(function () {})
+      .end(noop)
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/payload')
