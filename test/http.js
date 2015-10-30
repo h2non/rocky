@@ -1,5 +1,6 @@
 const fs = require('fs')
 const http = require('http')
+const crypto = require('crypto')
 const connect = require('connect')
 const sinon = require('sinon')
 const request = require('request')
@@ -12,7 +13,6 @@ const baseUrl = 'http://127.0.0.1'
 const proxyUrl = baseUrl + ':' + ports.proxy
 const targetUrl = baseUrl + ':' + ports.target
 const replayUrl = baseUrl + ':' + ports.replay
-const noop = function () {}
 
 suite('http', function () {
   var proxy, replay, server
@@ -221,7 +221,8 @@ suite('http', function () {
     replay = createReplayServer(assertReplay)
     server = createTestServer(assert)
 
-    var body = longString()
+    var replays = 0
+    var body = fs.readFileSync('test/fixtures/data.json').toString()
     supertest(proxyUrl)
       .post('/test')
       .type('text/plain')
@@ -229,7 +230,7 @@ suite('http', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(done)
+      .end(noop)
 
     function assert(req, res) {
       expect(req.url).to.be.equal('/test')
@@ -238,9 +239,11 @@ suite('http', function () {
     }
 
     function assertReplay(req, res) {
+      replays += 1
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.be.equal(body)
+      if (replays == 2) done()
     }
   })
 
@@ -821,10 +824,10 @@ suite('http', function () {
     }
   })
 
-  test('replay after forward with large body', function (done) {
+  test('replay after forward with large payload', function (done) {
     var spy = sinon.spy()
     proxy = rocky()
-    server = createTestServer(spy, 100)
+    server = createTestServer(assertForward, 100)
     replay = createReplayServer(assertReplay, 100)
 
     proxy.post('/test')
@@ -834,7 +837,7 @@ suite('http', function () {
     proxy.listen(ports.proxy)
 
     var start = Date.now()
-    var body = longString(1024 * 1024)
+    var body = longString()
 
     supertest(proxyUrl)
       .post('/test')
@@ -846,9 +849,14 @@ suite('http', function () {
         if (err) done(err)
       })
 
+    function assertForward(req, res) {
+      expect(req.body).to.be.equal(JSON.stringify(body))
+      spy()
+    }
+
     function assertReplay(req, res) {
       expect(spy.calledOnce).to.be.true
-      expect(req.body.length).to.be.equal(body.length)
+      expect(req.body).to.be.equal(JSON.stringify(body))
       expect((Date.now() - start) >= 100).to.be.true
       done()
     }
@@ -887,7 +895,7 @@ suite('http', function () {
     function assertReplay(req, res) {
       spyReplay(req, res)
       expect(spy.calledOnce).to.be.true
-      expect(req.body.length).to.be.equal(body.length)
+      expect(req.body).to.be.equal(JSON.stringify(body))
       expect((Date.now() - start) >= 100).to.be.true
       if (spyReplay.calledThrice) {
         expect((Date.now() - startReplay) >= 175).to.be.true
@@ -1283,13 +1291,7 @@ function createServer(port, code, assert, timeout) {
 }
 
 function longString(x) {
-  var s = ''
-  x = +x || 1024 * 1024 * 5
-  while (s.length < x && x > 0) {
-    var r = Math.random()
-    s+= r < 0.1 ? Math.floor(r*100): String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65))
-  }
-  return s
+  return crypto.randomBytes(+x || 1024 * 1024)
 }
 
 function defer(fn, ms) {
@@ -1297,3 +1299,5 @@ function defer(fn, ms) {
     fn.apply(null, arguments)
   }, +ms || 10)
 }
+
+function noop() {}

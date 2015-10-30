@@ -10,7 +10,7 @@ Compatible with [connect](https://github.com/senchalabs/connect)/[express](http:
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
-Requires node.js +0.12 or io.js +1.6
+Requires node.js +0.12 or io.js +1.6.
 
 ## Contents
 
