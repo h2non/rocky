@@ -127,7 +127,8 @@ See [benchmark/README.md](https://github.com/h2non/rocky/tree/master/benchmark#r
 
 ### Projects using rocky
 
-- [toxy](https://github.com/h2non/toxy) - Hackable HTTP proxy to simulare server failures and network conditions
+- [toxy](https://github.com/h2non/toxy) - Hackable HTTP proxy to simulare server failures and network conditions.
+- [balboa](https://github.com/h2non/balboa) - Simple, hackable HTTP forward proxy.
 
 Open an issue or send a PR to add your project!
 
