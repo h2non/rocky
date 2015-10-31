@@ -11,7 +11,7 @@ function rocky(opts) {
 }
 
 /**
- * Internal modules
+ * Export internal modules
  */
 
 rocky.Rocky          = Rocky
@@ -22,7 +22,7 @@ rocky.middleware     = require('./lib/middleware')
 rocky.MiddlewarePool = require('midware-pool').Pool
 
 /**
- * http-proxy module
+ * Export http-proxy module
  */
 
 rocky.httpProxy = require('http-proxy')
