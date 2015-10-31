@@ -76,6 +76,7 @@ Requires node.js +0.12 or io.js +1.6.
 - As HTTP cache or log server
 - As SSL terminator proxy
 - As HTTP proxy for performance testing
+- As traditional forward HTTP proxy (e.g: Squid)
 - For HTTP session manipulation and debugging
 - For HTTP traffic recording and inspection
 - For A/B testing
