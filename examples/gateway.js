@@ -1,14 +1,14 @@
-var rocky = require('..')
-var http = require('http')
-var request = require('supertest')
+const rocky = require('..')
+const http = require('http')
+const request = require('supertest')
 
-var proxyUrl = 'http://localhost:3000'
-var usersServiceUrl = 'http://localhost:3001'
-var securityServiceUrl = 'http://localhost:3002'
-var logServiceUrl = 'http://localhost:3003'
+const proxyUrl = 'http://localhost:3000'
+const usersServiceUrl = 'http://localhost:3001'
+const securityServiceUrl = 'http://localhost:3002'
+const logServiceUrl = 'http://localhost:3003'
 
 // Create the proxy
-var proxy = rocky().listen(3000)
+const proxy = rocky().listen(3000)
 
 // Configure the gateway
 proxy

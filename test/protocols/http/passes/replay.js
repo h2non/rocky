@@ -24,7 +24,7 @@ suite('replay', function () {
 
     forward(route, opts, req, null, assert)
 
-    function assert(err, res) {
+    function assert (err, res) {
       expect(spy.calledOnce).to.be.true
       expect(err).to.be.undefined
       expect(res).to.be.undefined
@@ -33,7 +33,7 @@ suite('replay', function () {
   })
 })
 
-function createServer(port) {
+function createServer (port) {
   var server = http.createServer(function (req, res) {
     res.end()
   })

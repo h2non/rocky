@@ -1,7 +1,7 @@
-var rocky = require('..')
+const rocky = require('..')
 
 // Creates the proxy with custom options
-var proxy = rocky({ forwardHost: true })
+const proxy = rocky({ forwardHost: true })
 
 // By default forward all the traffic to httpbin.org
 proxy

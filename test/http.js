@@ -40,7 +40,7 @@ suite('http', function () {
     proxy.get('/test')
     http.get(proxyUrl + '/test', noop)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       done()
@@ -69,7 +69,7 @@ suite('http', function () {
       .expect('Content-Type', 'application/json')
       .end(assert)
 
-    function assert(err, res) {
+    function assert (err, res) {
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args.length).to.be.equal(3)
       done()
@@ -103,7 +103,7 @@ suite('http', function () {
       .end(noop)
 
     var calls = 0
-    function assert(err, res) {
+    function assert (err, res) {
       spy(err, res); calls += 1
       if (calls < 3) return
       expect(err.code).to.be.equal('ECONNREFUSED')
@@ -130,12 +130,12 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
     }
@@ -161,13 +161,13 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(noop)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
     }
 
     var asserts = 0
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       asserts++
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
@@ -195,13 +195,13 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(noop)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(req.body).to.be.equal('{"hello":"world"}')
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.be.equal('{"hello":"world"}')
@@ -232,13 +232,13 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(noop)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(req.body).to.be.equal(body)
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       replays += 1
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
@@ -264,14 +264,14 @@ suite('http', function () {
     fs.createReadStream('test/fixtures/data.json')
       .pipe(request.post(proxyUrl + '/test'))
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(req.body).to.be.equal(body)
     }
 
     var replays = 0
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       replays += 1
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
@@ -306,7 +306,7 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(spy.calledOnce).to.be.true
@@ -327,7 +327,7 @@ suite('http', function () {
     proxy.get('/test')
       .useForward(middlewareFn)
 
-    function middlewareFn(req, res, next) {
+    function middlewareFn (req, res, next) {
       spy(req, res)
       next()
     }
@@ -341,7 +341,7 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(spy.calledTwice).to.be.true
@@ -364,7 +364,7 @@ suite('http', function () {
     proxy.get('/test')
       .useReplay(middlewareFn)
 
-    function middlewareFn(req, res, next) {
+    function middlewareFn (req, res, next) {
       spy(req, res)
       next()
     }
@@ -378,7 +378,7 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(spy.calledTwice).to.be.true
@@ -397,7 +397,7 @@ suite('http', function () {
     proxy.useParam('id', middlewareFn)
     proxy.get('/:id')
 
-    function middlewareFn(req, res, next) {
+    function middlewareFn (req, res, next) {
       spy(req, res)
       next()
     }
@@ -411,7 +411,7 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/1')
       expect(res.statusCode).to.be.equal(200)
       expect(spy.calledOnce).to.be.true
@@ -425,7 +425,7 @@ suite('http', function () {
     proxy.get('/test')
       .useResponse(middlewareFn)
 
-    function middlewareFn(req, res, next) {
+    function middlewareFn (req, res, next) {
       res.setHeader('x-custom', '1.0')
       res.removeHeader('content-type')
       assert(req, res)
@@ -442,7 +442,7 @@ suite('http', function () {
         if (err) done(err)
       })
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.getHeader('x-custom')).to.be.equal('1.0')
       expect(res.getHeader('content-type')).to.not.exist
@@ -460,7 +460,7 @@ suite('http', function () {
     proxy.get('/test')
       .use(middlewareFn)
 
-    function middlewareFn(req, res, next) {
+    function middlewareFn (req, res, next) {
       spy(req, res)
       req.rocky.options.target = targetUrl
       next()
@@ -475,7 +475,7 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(spy.calledOnce).to.be.true
@@ -496,7 +496,7 @@ suite('http', function () {
     proxy.get('/test')
       .useReplay(middlewareFn)
 
-    function middlewareFn(req, res, next) {
+    function middlewareFn (req, res, next) {
       spy(req, res)
       req.rocky.options.target = replayUrl
       next()
@@ -516,7 +516,7 @@ suite('http', function () {
         }, 10)
       })
 
-    function assert(req, res) {
+    function assert (req, res) {
       spy(req, res)
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
@@ -555,18 +555,18 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(end)
 
-    function end(err) {
+    function end (err) {
       expect(err).to.be.null
       expect(spy.args.length).to.be.equal(6)
       done()
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
     }
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
     }
@@ -600,14 +600,14 @@ suite('http', function () {
       .expect({ salutation: 'hello world' })
       .end(noop)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/payload')
       expect(req.body).to.be.equal('{"hello": "world"}')
       expect(res.statusCode).to.be.equal(200)
     }
 
     var calls = 0
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       calls++
       expect(req.url).to.be.equal('/payload')
       expect(req.body).to.be.equal('{"salutation":"hello world"}')
@@ -646,7 +646,7 @@ suite('http', function () {
       })
 
     var calls = 0
-    function assert(req, res) {
+    function assert (req, res) {
       calls++
       expect(req.url).to.be.equal('/payload')
       expect(res.statusCode).to.match(/200|204/)
@@ -681,17 +681,17 @@ suite('http', function () {
       .expect({'hello': 'world'})
       .end(end)
 
-    function end(err) {
+    function end (err) {
       setTimeout(function () { done(err) }, 50)
     }
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/payload')
       expect(res.statusCode).to.be.equal(200)
       expect(req.body).to.be.equal('{"salutation":"hello world"}')
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/payload')
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.be.equal('{"hello":"world"}')
@@ -725,18 +725,18 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(end)
 
-    function end() {
+    function end () {
       expect(spy.calledTwice).to.be.true
       done()
     }
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
       expect(req.headers['x-test']).to.be.equal('rocky')
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.headers['x-test']).to.be.equal('rocky')
@@ -760,7 +760,7 @@ suite('http', function () {
       .expect('Content-Type', 'application/json')
       .end(assert)
 
-    function assert(err, res) {
+    function assert (err, res) {
       var errorMsg = /missing target URL/i
       expect(spy.calledTwice).to.be.true
       expect(res.statusCode).to.be.equal(502)
@@ -787,7 +787,7 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(end)
 
-    function end(err, res) {
+    function end (err, res) {
       expect(spy.calledOnce).to.be.true
       expect(res.statusCode).to.be.equal(502)
       expect(res.body.message).to.match(/^Route not configured/i)
@@ -817,7 +817,7 @@ suite('http', function () {
         if (err) done(err)
       })
 
-    function assertReplay() {
+    function assertReplay () {
       expect(spy.calledOnce).to.be.true
       expect((Date.now() - start) >= 100).to.be.true
       done()
@@ -849,12 +849,12 @@ suite('http', function () {
         if (err) done(err)
       })
 
-    function assertForward(req, res) {
+    function assertForward (req, res) {
       expect(req.body).to.be.equal(JSON.stringify(body))
       spy()
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(spy.calledOnce).to.be.true
       expect(req.body).to.be.equal(JSON.stringify(body))
       expect((Date.now() - start) >= 100).to.be.true
@@ -892,7 +892,7 @@ suite('http', function () {
         if (err) done(err)
       })
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       spyReplay(req, res)
       expect(spy.calledOnce).to.be.true
       expect(req.body).to.be.equal(JSON.stringify(body))
@@ -946,7 +946,7 @@ suite('http', function () {
       .expect(/ENOTFOUND/)
       .end(end)
 
-    function end(err, res) {
+    function end (err, res) {
       expect(spy.calledTwice).to.be.true
       expect(spy.args[1][0].message).to.match(/ENOTFOUND/)
       done()
@@ -972,12 +972,12 @@ suite('http', function () {
       .expect(/Cannot forward/i)
       .end(end)
 
-    function end(err, res) {
+    function end (err, res) {
       expect(spy.calledTwice).to.be.true
       expect(spy.args[0][0].message).to.match(/Target URL/i)
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       done()
@@ -1025,40 +1025,43 @@ suite('http', function () {
       req.end()
     }, 400)
 
-    function assertData() {
+    function assertData () {
       var count = 0
       spy()
       return function (data) {
         var e = expect(data)
         switch (count) {
-          case 0: e.to.be.equal('foo'); break
-          case 1: e.to.be.equal('foobar'); break
-          case 2: e.to.be.equal('foobarfar'); break
+          case 0: e.to.be.equal('foo')
+            break
+          case 1: e.to.be.equal('foobar')
+            break
+          case 2: e.to.be.equal('foobarfar')
+            break
         }
         count += 1
       }
     }
 
-    function end() {
+    function end () {
       endSpy()
       if (endSpy.args.length === 3) return done()
     }
 
-    function assertEnd(req, res) {
+    function assertEnd (req, res) {
       expect(req.body).to.be.equal('foobarfar')
       end()
     }
 
-    function assertEndReplay(req, res) {
+    function assertEndReplay (req, res) {
       expect(req.body).to.be.equal('foobarfar')
       end()
     }
 
-    function createStreamingServer(port, onData, onEnd) {
+    function createStreamingServer (port, onData, onEnd) {
       var server = http.createServer(function (req, res) {
         process.nextTick(handler)
 
-        function handler() {
+        function handler () {
           req.setEncoding('utf8')
           res.writeHead(200, { 'Content-Type': 'text/plain' })
 
@@ -1076,7 +1079,7 @@ suite('http', function () {
           })
         }
 
-        function end() {
+        function end () {
           onEnd(req, res)
           res.end()
         }
@@ -1108,11 +1111,11 @@ suite('http', function () {
       .expect('Content-Type', 'application/json')
       .end(end)
 
-    function end(err, res) {
+    function end (err, res) {
       expect(err).to.be.null
     }
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(spy.calledOnce).to.be.true
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
@@ -1143,11 +1146,11 @@ suite('http', function () {
       .expect('Content-Type', 'application/json')
       .end(end)
 
-    function end(err, res) {
+    function end (err, res) {
       expect(err).to.be.null
     }
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(spy.calledOnce).to.be.true
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
@@ -1176,14 +1179,14 @@ suite('http', function () {
       .get('/test')
       .end(end)
 
-    function end(err, res) {
+    function end (err, res) {
       expect(spy.calledOnce).to.be.true
       expect(serverSpy.calledOnce).to.be.true
       expect(err.code).to.be.equal('ECONNRESET')
       done()
     }
 
-    function assertReplay(req, res) {
+    function assertReplay (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       serverSpy()
@@ -1211,7 +1214,7 @@ suite('http', function () {
     var count = 0
     request()
 
-    function request() {
+    function request () {
       count += 1
       supertest(proxyUrl)
         .get('/test')
@@ -1221,7 +1224,7 @@ suite('http', function () {
         .end(count === 3 ? assert : request)
     }
 
-    function assert() {
+    function assert () {
       expect(spy.calledThrice).to.be.true
       done()
     }
@@ -1243,30 +1246,30 @@ suite('http', function () {
       .expect({ 'hello': 'world' })
       .end(done)
 
-    function assert(req, res) {
+    function assert (req, res) {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(200)
     }
   })
 })
 
-function createTestServer(assert, timeout) {
+function createTestServer (assert, timeout) {
   return createServer(ports.target, 200, assert, timeout)
 }
 
-function createReplayServer(assert, timeout) {
+function createReplayServer (assert, timeout) {
   return createServer(ports.replay, 204, assert, timeout)
 }
 
-function createTimeoutServer(assert) {
+function createTimeoutServer (assert) {
   return createServer(ports.target, 503, assert, 30 * 1000)
 }
 
-function createServer(port, code, assert, timeout) {
+function createServer (port, code, assert, timeout) {
   var server = http.createServer(function (req, res) {
     setTimeout(handler, +timeout || 1)
 
-    function handler() {
+    function handler () {
       res.writeHead(code, { 'Content-Type': 'application/json' })
       res.write(JSON.stringify({ 'hello': 'world' }))
 
@@ -1280,7 +1283,7 @@ function createServer(port, code, assert, timeout) {
       })
     }
 
-    function end() {
+    function end () {
       if (assert) assert(req, res)
       res.end()
     }
@@ -1290,14 +1293,14 @@ function createServer(port, code, assert, timeout) {
   return server
 }
 
-function longString(x) {
+function longString (x) {
   return crypto.randomBytes(+x || 1024 * 1024)
 }
 
-function defer(fn, ms) {
+function defer (fn, ms) {
   setTimeout(function () {
     fn.apply(null, arguments)
-  }, +ms || 10)
+  }, +ms || 10)
 }
 
-function noop() {}
+function noop () {}

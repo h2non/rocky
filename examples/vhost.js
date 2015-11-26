@@ -1,27 +1,27 @@
-var connect = require('connect')
-var rocky = require('..')
-var vhost = require('vhost')
+const connect = require('connect')
+const rocky = require('..')
+const vhost = require('vhost')
 
 // Configure rocky proxies
-var mailproxy = rocky()
+const mailproxy = rocky()
 mailproxy.forward('http://localhost:3001')
 mailproxy.all('/*')
 
-var usersproxy = rocky()
+const usersproxy = rocky()
 usersproxy.forward('http://localhost:3002')
 usersproxy.all('/*')
 
 // Plug in the rocky middleware to connect
-var mailapp = connect()
+const mailapp = connect()
 mailapp.use(mailproxy.middleware())
 
-var usersapp = connect()
+const usersapp = connect()
 usersapp.use(function (req, res, next) {
   usersproxy.middleware()(req, res, next)
 })
 
 // create main app
-var app = connect()
+const app = connect()
 
 // configure vhosts
 app.use(vhost('localhost', mailapp))
@@ -31,14 +31,14 @@ app.listen(3000)
 console.log('Server listening on port:', 3000)
 
 // Test target servers
-var target = connect()
+const target = connect()
 target.listen(3001)
-target.use(function (res, res) {
+target.use(function (req, res) {
   res.end('Hello from target server 1')
 })
 
-var target2 = connect()
+const target2 = connect()
 target2.listen(3002)
-target2.use(function (res, res) {
+target2.use(function (req, res) {
   res.end('Hello from target server 2')
 })

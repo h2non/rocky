@@ -9,12 +9,12 @@ suite('middleware#reply', function () {
     var headers = { 'Content-Type': 'application/json' }
     var mw = middleware.reply(201, headers, body)
 
-    function writeHead(code, writeHeaders) {
+    function writeHead (code, writeHeaders) {
       expect(code).to.be.equal(201)
       expect(writeHeaders).to.be.deep.equal(headers)
     }
 
-    function end(buf) {
+    function end (buf) {
       expect(buf).to.be.equal(body)
       done()
     }

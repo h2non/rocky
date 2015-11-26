@@ -24,7 +24,7 @@ suite('route handler', function () {
       if ((i + 1) === length) assert()
     })
 
-    function assert() {
+    function assert () {
       expect(spy.args.length).to.be.equal(length)
       expect(spy.args[0][0]).to.be.equal(events[0])
       done()
@@ -48,7 +48,7 @@ suite('route handler', function () {
       if ((i + 1) === length) assert()
     })
 
-    function assert() {
+    function assert () {
       expect(spy.args.length).to.be.equal(length)
       expect(spy.args[0][0]).to.be.equal(handler.middleware[0])
       done()

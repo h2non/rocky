@@ -1,7 +1,7 @@
-var http = require('http')
-var rocky = require('..')
+const http = require('http')
+const rocky = require('..')
 
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')
@@ -50,7 +50,7 @@ http.get('http://localhost:3000/test', function (res) {
   console.log('Test status:', res.statusCode)
 })
 
-var req = http.request({
+const req = http.request({
   method: 'POST',
   hostname: 'localhost',
   path: '/users/pepe',

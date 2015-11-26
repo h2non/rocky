@@ -1,7 +1,7 @@
-var http = require('http')
-var rocky = require('..')
+const http = require('http')
+const rocky = require('..')
 
-var proxy = rocky()
+const proxy = rocky()
 
 // Forward to an invalid server
 proxy

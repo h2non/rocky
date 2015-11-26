@@ -55,20 +55,20 @@ suite('server', function () {
   })
 
   test('web socket', function (done) {
-    rockyStub.mw = { run: function (a, b, c, d, next) { next() }}
-    rockyStub.mw = { run: function (a, b, c, d, next) { next() }}
-    rockyStub.opts = { port: port, ws: true, target: 'http://localhost:' + (port+1) }
+    rockyStub.mw = { run: function (a, b, c, d, next) { next() } }
+    rockyStub.mw = { run: function (a, b, c, d, next) { next() } }
+    rockyStub.opts = { port: port, ws: true, target: 'http://localhost:' + (port + 1) }
 
     var s = server(rockyStub)
 
-    new WebSocket.Server({ port: port+1 })
-    .on('connection', function connection (ws) {
-      ws.on('message', function incoming (message) {
-        expect(message).to.be.equal('foo')
-        s.close()
-        done()
+    new WebSocket.Server({ port: port + 1 })
+      .on('connection', function connection (ws) {
+        ws.on('message', function incoming (message) {
+          expect(message).to.be.equal('foo')
+          s.close()
+          done()
+        })
       })
-    })
 
     var ws = new WebSocket('ws://127.0.0.1:' + port)
     ws.on('open', function () {

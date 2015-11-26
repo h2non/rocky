@@ -41,20 +41,20 @@ suite('helpers', function () {
 
   test('permute', function () {
     var arr = [ 1, 2, 3 ]
-    expect(arr).to.be.deep.equal([1,2,3])
+    expect(arr).to.be.deep.equal([1, 2, 3])
     helpers.permute(arr)
-    expect(arr).to.be.deep.equal([2,3,1])
+    expect(arr).to.be.deep.equal([2, 3, 1])
     helpers.permute(arr)
-    expect(arr).to.be.deep.equal([3,1,2])
+    expect(arr).to.be.deep.equal([3, 1, 2])
     helpers.permute(arr)
-    expect(arr).to.be.deep.equal([1,2,3])
+    expect(arr).to.be.deep.equal([1, 2, 3])
   })
 
   test('eachSeries', function (done) {
     var spy = sinon.spy()
     var arr = [ 1, 2, 3 ]
 
-    function iterator(value, next) {
+    function iterator (value, next) {
       spy(value)
       setTimeout(next, Math.random() * 5)
     }
@@ -73,7 +73,7 @@ suite('helpers', function () {
     var spy = sinon.spy()
     var arr = [ 1, 2, 3 ]
 
-    function iterator(value, next) {
+    function iterator (value, next) {
       spy(value)
       setTimeout(next, Math.random() * 5)
     }

@@ -6,7 +6,7 @@ suite('middleware#host', function () {
     var req = { headers: { host: 'localhost' } }
     var mw = middleware.host('server.net')
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.headers.host).to.be.equal('server.net')
       done()

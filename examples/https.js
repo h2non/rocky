@@ -1,16 +1,16 @@
-var fs = require('fs')
-var http = require('http')
-var rocky = require('..')
-var certPath = __dirname + '/../test/fixtures'
+const fs = require('fs')
+const http = require('http')
+const rocky = require('..')
+const certPath = __dirname + '/../test/fixtures'
 
-var opts = {
+const opts = {
   ssl: {
     key: fs.readFileSync(certPath + '/key.pem', 'utf8'),
     cert: fs.readFileSync(certPath + '/cert.pem', 'utf8')
   }
 }
 
-var proxy = rocky(opts)
+const proxy = rocky(opts)
 
 // Forward to HTTPS server
 proxy

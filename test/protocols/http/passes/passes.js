@@ -5,14 +5,14 @@ const passes = require('../../../lib/protocols/http/passes')
 suite('passes', function () {
   const passes = passes.passes
 
-  function restore() {
+  function restore () {
     passes.passes = passes
   }
 
   test('sequentially', function (done) {
     var delay = Date.now() - 10
 
-    function pass(text, next) {
+    function pass (text, next) {
       expect(text).to.be.equal('hello')
       expect(Date.now() - delay).to.be.at.least(9)
       delay = Date.now()
@@ -28,7 +28,7 @@ suite('passes', function () {
     var delay = 10
     var start = Date.now()
 
-    function pass(text, next) {
+    function pass (text, next) {
       expect(text).to.be.equal('hello')
       setTimeout(next, delay)
     }

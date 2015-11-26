@@ -27,7 +27,7 @@ suite('forward', function () {
 
     forward(route, opts, req, res, assert)
 
-    function assert(err, res) {
+    function assert (err, res) {
       expect(spy.calledThrice).to.be.true
       expect(err).to.be.null
       expect(res).to.be.an('object')
@@ -54,17 +54,17 @@ suite('forward', function () {
 
     forward(route, opts, req, res, assert)
 
-    function assertMiddleware(req, res, next) {
+    function assertMiddleware (req, res, next) {
       req.headers.host = host
       spy(); next()
     }
 
-    function assertServer(req, res) {
+    function assertServer (req, res) {
       spy()
       expect(req.headers.host).to.be.equal(host)
     }
 
-    function assert(err, res) {
+    function assert (err, res) {
       expect(spy.args).to.have.length(4)
       expect(err).to.be.null
       expect(res).to.be.an('object')
@@ -73,7 +73,7 @@ suite('forward', function () {
   })
 })
 
-function createServer(port, assert) {
+function createServer (port, assert) {
   var server = http.createServer(function (req, res) {
     res.setHeader('test', 'forward')
     if (assert) assert(req, res)

@@ -15,11 +15,11 @@ suite('forward', function () {
     var opts = { target: 'http://localhost:' + targetPort }
     var ws = createWebSocketClient('http://localhost:' + port)
 
-    function onUpgrade(req, socket, head) {
+    function onUpgrade (req, socket, head) {
       forward(opts, req, socket, head, assert)
     }
 
-    function assert(err) {
+    function assert (err) {
       expect(err).to.not.exists
       wss.close()
       server.close(done)
@@ -27,7 +27,7 @@ suite('forward', function () {
   })
 })
 
-function createWebSocketClient(url, onOpen) {
+function createWebSocketClient (url, onOpen) {
   var ws = new WebSocket(url)
   ws.on('open', function () {
     if (onOpen) onOpen(ws)
@@ -35,7 +35,7 @@ function createWebSocketClient(url, onOpen) {
   return ws
 }
 
-function createWebSocketServer(port, onMessage) {
+function createWebSocketServer (port, onMessage) {
   var wss = new WebSocket.Server({ port: port })
   wss.on('connection', function (ws) {
     ws.on('message', function (message) {
@@ -45,7 +45,7 @@ function createWebSocketServer(port, onMessage) {
   return wss
 }
 
-function createServer(port, wsHandler) {
+function createServer (port, wsHandler) {
   const server = http.createServer(function (req, res) {
     res.end()
   })

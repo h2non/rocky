@@ -1,9 +1,9 @@
-var http = require('http')
-var express = require('express')
-var rocky = require('..')
+const http = require('http')
+const express = require('express')
+const rocky = require('..')
 
-var app = express()
-var proxy = rocky()
+const app = express()
+const proxy = rocky()
 
 proxy
   .forward('http://httpbin.org')

@@ -7,7 +7,7 @@ suite('middleware#toPath', function () {
     var newPath = '/new/path'
     var mw = middleware.toPath(newPath)
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal(newPath)
       done()
@@ -19,7 +19,7 @@ suite('middleware#toPath', function () {
     var newPath = '/profile/:id'
     var mw = middleware.toPath(newPath, { id: 'chuck' })
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal('/profile/chuck')
       done()
@@ -31,7 +31,7 @@ suite('middleware#toPath', function () {
     var newPath = '/profile/:id/:action/photo/:code'
     var mw = middleware.toPath(newPath, { id: 'chuck', action: 'update', code: 100 })
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal('/profile/chuck/update/photo/100')
       done()
@@ -39,11 +39,11 @@ suite('middleware#toPath', function () {
   })
 
   test('default previous params', function (done) {
-    var req = { params: { id: 'chuck', action: 'update' }}
+    var req = { params: { id: 'chuck', action: 'update' } }
     var newPath = '/profile/:id/:action'
     var mw = middleware.toPath(newPath)
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal('/profile/chuck/update')
       done()
@@ -55,7 +55,7 @@ suite('middleware#toPath', function () {
     var newPath = '/profile/:id/:action'
     var mw = middleware.toPath(newPath, { id: 'chuck', action: null })
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal('/profile/chuck/')
       done()

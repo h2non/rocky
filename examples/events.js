@@ -1,7 +1,7 @@
-var http = require('http')
-var rocky = require('..')
+const http = require('http')
+const rocky = require('..')
 
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')
@@ -25,7 +25,7 @@ proxy.use(function (req, res, next) {
 })
 
 // Configure the route
-var route = proxy
+const route = proxy
   .get('/users/:id')
 
 // Subscribe to route-level events

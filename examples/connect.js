@@ -1,9 +1,9 @@
-var http = require('http')
-var connect = require('connect')
-var rocky = require('..')
+const http = require('http')
+const connect = require('connect')
+const rocky = require('..')
 
-var app = connect()
-var proxy = rocky()
+const app = connect()
+const proxy = rocky()
 
 // Configure the proxy and routes
 proxy

@@ -1,19 +1,19 @@
-var rocky = require('..')
-var http = require('http')
-var version = require('http-version')
-var request = require('supertest')
+const rocky = require('..')
+const http = require('http')
+const version = require('http-version')
+const request = require('supertest')
 
 // Configure rocky proxies
-var proxy1 = rocky()
+const proxy1 = rocky()
 proxy1.forward('http://localhost:3001')
 proxy1.all('/*')
 
-var proxy2 = rocky()
+const proxy2 = rocky()
 proxy2.forward('http://localhost:3002')
 proxy2.all('/*')
 
 // create the proxy
-var main = rocky()
+const main = rocky()
 
 // Configure the middlewares per specific version
 main.use(version('1.0', proxy1.middleware()))

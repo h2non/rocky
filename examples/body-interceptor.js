@@ -1,15 +1,15 @@
-var http = require('http')
-var rocky = require('..')
-var supertest = require('supertest')
+const http = require('http')
+const rocky = require('..')
+const supertest = require('supertest')
 
 // Creates the proxy
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')
 
 // Configure the route
-var route = proxy
+const route = proxy
   .post('/users/:id')
   // Replay traffic for the given route
   .replay('http://localhost:3002', { replayOriginalBody: true })
@@ -26,12 +26,12 @@ var route = proxy
   })
 
   // Incercept and transform the request body
-  .transformRequestBody(function transformer(req, res, next) {
+  .transformRequestBody(function transformer (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
-    var body = JSON.parse(req.body.toString())
+    const body = JSON.parse(req.body.toString())
 
     // Compose the new body
-    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+    const newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
 
     // Set the new body
     next(null, newBody, 'utf8')
@@ -41,19 +41,19 @@ var route = proxy
   })
 
   // Intercept and transform the server response before send it to the client
-  .transformResponseBody(function transformer(req, res, next) {
+  .transformResponseBody(function transformer (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
-    var body = JSON.parse(res.body.toString())
+    const body = JSON.parse(res.body.toString())
 
     // Compose the new body
-    var newBody = JSON.stringify({ greetings: body.salutation })
+    const newBody = JSON.stringify({ greetings: body.salutation })
 
     // Set the new body
     next(null, newBody, 'utf8')
 
-    // Or even you can use write() as well:
-    // res.write(newBody)
-    // next()
+  // Or even you can use write() as well:
+  // res.write(newBody)
+  // next()
   }, function (res) {
     // Custom filter
     return /application\/json/i.test(res.getHeader('content-type'))

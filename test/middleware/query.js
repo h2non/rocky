@@ -7,7 +7,7 @@ suite('middleware#query', function () {
     var mw = middleware.query()
     mw(req, null, next)
 
-    function next() {
+    function next () {
       expect(req.query).to.be.deep.equal({
         foo: '1', bar: '2'
       })
@@ -22,7 +22,7 @@ suite('middleware#query', function () {
     var mw = middleware.query(params)
     mw(req, null, next)
 
-    function next() {
+    function next () {
       expect(req.query).to.be.deep.equal({
         foo: '1', bar: 'foo', hello: 'world'
       })
@@ -37,12 +37,12 @@ suite('middleware#query', function () {
     var mw = middleware.query(parser)
     mw(req, null, next)
 
-    function parser(req, res, next) {
+    function parser (req, res, next) {
       req.query = params
       next()
     }
 
-    function next() {
+    function next () {
       expect(req.query).to.be.deep.equal({
         bar: 'foo', hello: 'world'
       })
@@ -57,12 +57,7 @@ suite('middleware#query', function () {
     var mw = middleware.query()
     mw(req, null, next)
 
-    function parser(req, res, next) {
-      req.query = params
-      next()
-    }
-
-    function next() {
+    function next () {
       expect(req.query).to.be.deep.equal({
         bar: 'foo', hello: 'world'
       })

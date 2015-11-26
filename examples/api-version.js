@@ -1,19 +1,19 @@
-var express = require('express')
-var rocky = require('..')
-var version = require('http-version')
-var request = require('supertest')
+const express = require('express')
+const rocky = require('..')
+const version = require('http-version')
+const request = require('supertest')
 
 // Configure rocky proxies
-var oldAPIProxy = rocky()
+const oldAPIProxy = rocky()
 oldAPIProxy.forward('http://localhost:3001')
 oldAPIProxy.all('/*')
 
-var newAPIProxy = rocky()
+const newAPIProxy = rocky()
 newAPIProxy.forward('http://localhost:3002')
 newAPIProxy.all('/*')
 
 // create main app
-var app = express()
+const app = express()
 
 // Configure the middlewares per specific version
 app.use(version('1.0', oldAPIProxy.middleware()))
@@ -23,13 +23,13 @@ app.use(version('2.0', newAPIProxy.middleware()))
 app.listen(3000)
 
 // Test target servers
-var oldAPIServer = express()
+const oldAPIServer = express()
 oldAPIServer.use(function (req, res) {
   res.end('Hello from old API')
 })
 oldAPIServer.listen(3001)
 
-var newAPIServer = express()
+const newAPIServer = express()
 newAPIServer.use(function (req, res) {
   res.end('Hello from new API')
 })

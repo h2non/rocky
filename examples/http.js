@@ -1,7 +1,7 @@
-var http = require('http')
-var rocky = require('..')
+const http = require('http')
+const rocky = require('..')
 
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')
@@ -11,8 +11,7 @@ proxy.get('/users/:id')
 // Create the forward server
 http.createServer(function (req, res) {
   proxy.requestHandler(req, res, function (err) {
-    var code = err ? 500 : 404
-    res.writeHead(code)
+    res.writeHead(err ? 500 : 404)
     res.end()
   })
 }).listen(3000)

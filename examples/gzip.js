@@ -1,13 +1,13 @@
-var rocky = require('..')
+const rocky = require('..')
 
 // Creates the proxy
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://httpbin.org')
 
 // Configure the route
-var route = proxy
+const route = proxy
   .get('/*')
   // Cache all the payload data, if the content type matches
   .bufferBody(/application\/json/i)
@@ -15,7 +15,7 @@ var route = proxy
   .transformResponse(function (req, res, next) {
     // The response body will be available uncompressed and as raw string
     // then you can just parse the body (assuming it's a JSON)
-    var body = JSON.parse(res.body)
+    const body = JSON.parse(res.body)
 
     // If you need to handle with the original gzipped buffer
     // you have it available in: res._originalBody

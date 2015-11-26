@@ -1,7 +1,7 @@
-var rocky = require('..')
+const rocky = require('..')
 
 // Creates the proxy
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')
@@ -21,10 +21,10 @@ proxy
   // Add middleware to transform the response
   .use(function transformer (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
-    var body = JSON.parse(req.body.toString())
+    const body = JSON.parse(req.body.toString())
 
     // Compose the new body
-    var newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+    const newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
 
     // Set the new body
     req.body = newBody

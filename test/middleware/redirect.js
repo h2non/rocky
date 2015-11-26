@@ -10,7 +10,7 @@ suite('middleware#redirect', function () {
 
     mw(null, res)
 
-    function writeHead(code, writeHeaders) {
+    function writeHead (code, writeHeaders) {
       expect(code).to.be.equal(301)
       expect(writeHeaders).to.be.deep.equal(headers)
     }

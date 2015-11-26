@@ -1,9 +1,9 @@
-var http = require('http')
-var rocky = require('..')
-var supertest = require('supertest')
+const http = require('http')
+const rocky = require('..')
+const supertest = require('supertest')
 
 // Creates the proxy
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .forward('http://localhost:3001')
@@ -15,14 +15,14 @@ proxy
   })
 
 // Configure the route
-var route = proxy
+const route = proxy
   .post('/foo')
   // Replay traffic for the given route
   .replay('http://localhost:3002', { replayOriginalBody: true })
   // Subscribe to the server response to modify the body
-  .useResponse(function transformer(req, res, next) {
+  .useResponse(function transformer (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
-    var body = JSON.parse(res.body.toString())
+    const body = JSON.parse(res.body.toString())
 
     // Compose the new body
     res.body = JSON.stringify({ greetings: 'hello ' + body.hello })

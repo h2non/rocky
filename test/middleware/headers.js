@@ -7,7 +7,7 @@ suite('middleware#headers', function () {
     var headers = { custom: 'hello' }
     var mw = middleware.headers(headers)
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.headers).to.be.deep.equal({
         host: 'localhost',
@@ -22,7 +22,7 @@ suite('middleware#headers', function () {
     var headers = { host: 'server.net' }
     var mw = middleware.headers(headers)
 
-    mw(req, null, function assert(err) {
+    mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.headers).to.be.deep.equal({ host: 'server.net' })
       done()

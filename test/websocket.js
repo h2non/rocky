@@ -31,7 +31,7 @@ suite('websocket', function () {
       close()
     })
 
-    function close() {
+    function close () {
       wss.close()
       proxy.close(done)
     }
@@ -57,7 +57,7 @@ suite('websocket', function () {
   })
 })
 
-function createWebSocketClient(url, onOpen) {
+function createWebSocketClient (url, onOpen) {
   var ws = new WebSocket(url)
   ws.on('open', function () {
     if (onOpen) onOpen(ws)
@@ -66,7 +66,7 @@ function createWebSocketClient(url, onOpen) {
   return ws
 }
 
-function createWebSocketServer(port, onMessage) {
+function createWebSocketServer (port, onMessage) {
   var wss = new WebSocket.Server({ port: port })
   wss.on('connection', function (ws) {
     ws.on('message', function (message) {
