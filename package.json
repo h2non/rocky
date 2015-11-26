@@ -9,7 +9,7 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 10000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
+    "test": "standard && ./node_modules/.bin/mocha --timeout 10000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
     "bench": "bash benchmark/run.sh"
   },
   "keywords": [
@@ -36,7 +36,8 @@
     "hackable"
   ],
   "dependencies": {
-    "http-proxy": "^1.11.1",
+    "http-proxy": "^1.12.0",
+    "indexport": "^0.1.1",
     "is-fail": "^0.1.1",
     "lodash": "^3.9.3",
     "media-typer": "^0.3.0",
@@ -55,6 +56,7 @@
     "request": "^2.64.0",
     "rocky-consul": "^0.1.0",
     "sinon": "^1.15.3",
+    "standard": "^5.4.1",
     "supertest": "^1.0.1",
     "vhost": "^3.0.0",
     "ws": "^0.8.0"

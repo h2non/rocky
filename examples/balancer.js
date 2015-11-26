@@ -1,7 +1,7 @@
-var http = require('http')
-var rocky = require('..')
+const http = require('http')
+const rocky = require('..')
 
-var proxy = rocky()
+const proxy = rocky()
 
 proxy
   .balance([
@@ -37,7 +37,7 @@ for (var i = 0; i < 10; i += 1) {
   setTimeout(doRequest, Math.random() * 100)
 }
 
-function doRequest() {
+function doRequest () {
   http.get('http://localhost:3000/users/pepe', function (res) {
     console.log('Status:', res.statusCode, 'from server:', res.headers.server)
   })

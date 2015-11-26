@@ -19,7 +19,7 @@ proxy
     next()
   })
   // Add middleware to transform the response
-  .use(function transformer(req, res, next) {
+  .use(function transformer (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
     var body = JSON.parse(req.body.toString())
 

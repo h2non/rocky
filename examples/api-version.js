@@ -24,13 +24,13 @@ app.listen(3000)
 
 // Test target servers
 var oldAPIServer = express()
-oldAPIServer.use(function (res, res) {
+oldAPIServer.use(function (req, res) {
   res.end('Hello from old API')
 })
 oldAPIServer.listen(3001)
 
 var newAPIServer = express()
-newAPIServer.use(function (res, res) {
+newAPIServer.use(function (req, res) {
   res.end('Hello from new API')
 })
 newAPIServer.listen(3002)

@@ -15,14 +15,14 @@ suite('helpers', function () {
   })
 
   test('isRegExp', function () {
-    expect(helpers.isRegExp(/0-9/)).to.be.true
-    expect(helpers.isRegExp(new RegExp)).to.be.true
-    expect(helpers.isRegExp(null)).to.be.false
-    expect(helpers.isRegExp([])).to.be.false
-    expect(helpers.isRegExp({})).to.be.false
-    expect(helpers.isRegExp('')).to.be.false
-    expect(helpers.isRegExp(123)).to.be.false
-    expect(helpers.isRegExp(void 0)).to.be.false
+    expect(helpers.isRegexp(/0-9/)).to.be.true
+    expect(helpers.isRegexp(new RegExp)).to.be.true
+    expect(helpers.isRegexp(null)).to.be.false
+    expect(helpers.isRegexp([])).to.be.false
+    expect(helpers.isRegexp({})).to.be.false
+    expect(helpers.isRegexp('')).to.be.false
+    expect(helpers.isRegexp(123)).to.be.false
+    expect(helpers.isRegexp(void 0)).to.be.false
   })
 
   test('cloneRequest', function () {
