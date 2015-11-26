@@ -1,7 +1,7 @@
 {
   "name": "rocky",
   "version": "0.4.5",
-  "description": "Full-featured, middleware-oriented HTTP and WebSocket proxy supporting traffic replay and intercept",
+  "description": "Full-featured, middleware-oriented, hackable HTTP and WebSocket proxy",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
   "license": "MIT",
@@ -32,7 +32,8 @@
     "sniffer",
     "mitm",
     "balancer",
-    "load"
+    "load",
+    "hackable"
   ],
   "dependencies": {
     "http-proxy": "^1.11.1",

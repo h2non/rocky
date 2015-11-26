@@ -10,7 +10,7 @@ const fixtures = __dirname + '/../fixtures'
 suite('server', function () {
   var rockyStub = { router: reply }
 
-  function reply(req, res) {
+  function reply (req, res) {
     res.statusCode = 201
     res.setHeader('foo', 'bar')
     res.end('foo')
@@ -56,13 +56,14 @@ suite('server', function () {
 
   test('web socket', function (done) {
     rockyStub.mw = { run: function (a, b, c, d, next) { next() }}
+    rockyStub.mw = { run: function (a, b, c, d, next) { next() }}
     rockyStub.opts = { port: port, ws: true, target: 'http://localhost:' + (port+1) }
 
     var s = server(rockyStub)
 
     new WebSocket.Server({ port: port+1 })
-    .on('connection', function connection(ws) {
-      ws.on('message', function incoming(message) {
+    .on('connection', function connection (ws) {
+      ws.on('message', function incoming (message) {
         expect(message).to.be.equal('foo')
         s.close()
         done()

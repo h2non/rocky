@@ -3,29 +3,30 @@ const expect = require('chai').expect
 const Emitter = require('events').EventEmitter
 const Base = require('../../../lib/base')
 const handler = require('../../../lib/protocols/http/route-handler')
+const events = require('../../../lib/protocols/http/events')
 
 suite('route handler', function () {
   test('propagate events', function (done) {
     const spy = sinon.spy()
     const rocky = new Emitter
     const route = new Emitter
-    const length = handler.events.length
+    const length = events.length
     route.useFor = function () {}
 
     handler(rocky, route)
 
-    handler.events.forEach(function (name) {
+    events.forEach(function (name) {
       rocky.on(name, spy)
     })
 
-    handler.events.forEach(function (name, i) {
+    events.forEach(function (name, i) {
       route.emit(name, name)
       if ((i + 1) === length) assert()
     })
 
     function assert() {
       expect(spy.args.length).to.be.equal(length)
-      expect(spy.args[0][0]).to.be.equal(handler.events[0])
+      expect(spy.args[0][0]).to.be.equal(events[0])
       done()
     }
   })

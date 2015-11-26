@@ -3,32 +3,76 @@ const Rocky = require('./lib/rocky')
 module.exports = rocky
 
 /**
- * API factory
+ * Rocky API factory
+ *
+ * @param {Object} opts
+ * @constructor
+ * @class rocky
  */
 
-function rocky(opts) {
+function rocky (opts) {
   return new Rocky(opts)
 }
 
 /**
- * Export internal modules
+ * Rocky class constructor
+ *
+ * @property {Function} Rocky
+ * @static
  */
 
-rocky.Rocky          = Rocky
-rocky.Base           = require('./lib/base')
-rocky.Route          = require('./lib/route')
-rocky.protocols      = require('./lib/protocols')
-rocky.middleware     = require('./lib/middleware')
-rocky.MiddlewarePool = require('midware-pool').Pool
+rocky.Rocky = Rocky
 
 /**
- * Export http-proxy module
+ * Base class constructor
+ *
+ * @property {Function} Base
+ * @static
+ */
+
+rocky.Base = require('./lib/base')
+
+/**
+ * Route class constructor
+ *
+ * @property {Function} Route
+ * @static
+ */
+
+rocky.Route = require('./lib/route')
+
+/**
+ * Expose protocol specific implementation
+ *
+ * @property {Object} protocols
+ * @static
+ */
+
+rocky.protocols = require('./lib/protocols')
+
+/**
+ * Expose built-in middleware functions
+ *
+ * @property {Object} middleware
+ * @static
+ */
+
+rocky.middleware = require('./lib/middleware')
+
+/**
+ * Export the http-proxy module
+ *
+ * @property {Object} httpProxy
+ * @static
  */
 
 rocky.httpProxy = require('http-proxy')
 
 /**
- * Current version
+ * Current rocky version
+ *
+ * @property {String} version
+ * @static
  */
 
 rocky.VERSION = require('./package.json').version
