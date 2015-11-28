@@ -572,7 +572,7 @@ suite('http', function () {
     }
   })
 
-  test('body buffer', function (done) {
+  test('body buffer forwaring original body', function (done) {
     proxy = rocky()
       .forward(targetUrl, { forwardOriginalBody: true })
       .replay(replayUrl)
@@ -593,8 +593,7 @@ suite('http', function () {
 
     supertest(proxyUrl)
       .post('/payload')
-      .type('application/json')
-      .send('{"hello": "world"}')
+      .send({ hello: 'world' })
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ salutation: 'hello world' })
@@ -602,7 +601,7 @@ suite('http', function () {
 
     function assert (req, res) {
       expect(req.url).to.be.equal('/payload')
-      expect(req.body).to.be.equal('{"hello": "world"}')
+      expect(req.body).to.be.equal('{"hello":"world"}')
       expect(res.statusCode).to.be.equal(200)
     }
 
@@ -612,7 +611,7 @@ suite('http', function () {
       expect(req.url).to.be.equal('/payload')
       expect(req.body).to.be.equal('{"salutation":"hello world"}')
       expect(res.statusCode).to.be.equal(204)
-      if (calls > 1) done()
+      if (calls == 2) done()
     }
   })
 
