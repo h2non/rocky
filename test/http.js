@@ -1193,13 +1193,15 @@ suite('http', function () {
   })
 
   test('balancer', function (done) {
-    var spy = sinon.spy()
+    var spy1 = sinon.spy()
+    var spy2 = sinon.spy()
+    var spy3 = sinon.spy()
+
+    var server1 = createServer(9893, 200, spy1)
+    var server2 = createServer(9894, 201, spy2)
+    var server3 = createServer(9895, 202, spy3)
+
     proxy = rocky()
-
-    var server1 = createServer(9893, 200, spy)
-    var server2 = createServer(9894, 201, spy)
-    var server3 = createServer(9895, 202, spy)
-
     proxy
       .get('/test')
       .balance([
@@ -1224,7 +1226,9 @@ suite('http', function () {
     }
 
     function assert () {
-      expect(spy.calledThrice).to.be.true
+      expect(spy1.calledOnce).to.be.true
+      expect(spy2.calledOnce).to.be.true
+      expect(spy3.calledOnce).to.be.true
       done()
     }
   })
