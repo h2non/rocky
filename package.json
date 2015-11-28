@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Full-featured, middleware-oriented, hackable HTTP and WebSocket proxy",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
@@ -28,6 +28,7 @@
     "router",
     "middleware",
     "intercept",
+    "interceptor",
     "capture",
     "sniffer",
     "mitm",
