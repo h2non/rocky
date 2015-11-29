@@ -1,7 +1,5 @@
 const Rocky = require('./lib/rocky')
 
-module.exports = rocky
-
 /**
  * Rocky API factory
  *
@@ -10,9 +8,7 @@ module.exports = rocky
  * @class rocky
  */
 
-function rocky (opts) {
-  return new Rocky(opts)
-}
+module.exports = Rocky
 
 /**
  * Rocky class constructor
@@ -21,7 +17,7 @@ function rocky (opts) {
  * @static
  */
 
-rocky.Rocky = Rocky
+Rocky.Rocky = Rocky
 
 /**
  * Base class constructor
@@ -30,7 +26,7 @@ rocky.Rocky = Rocky
  * @static
  */
 
-rocky.Base = require('./lib/base')
+Rocky.Base = require('./lib/base')
 
 /**
  * Route class constructor
@@ -39,7 +35,7 @@ rocky.Base = require('./lib/base')
  * @static
  */
 
-rocky.Route = require('./lib/route')
+Rocky.Route = require('./lib/route')
 
 /**
  * Expose protocol specific implementation
@@ -48,7 +44,7 @@ rocky.Route = require('./lib/route')
  * @static
  */
 
-rocky.protocols = require('./lib/protocols')
+Rocky.protocols = require('./lib/protocols')
 
 /**
  * Expose built-in middleware functions
@@ -57,7 +53,7 @@ rocky.protocols = require('./lib/protocols')
  * @static
  */
 
-rocky.middleware = require('./lib/middleware')
+Rocky.middleware = require('./lib/middleware')
 
 /**
  * Export the http-proxy module
@@ -66,7 +62,7 @@ rocky.middleware = require('./lib/middleware')
  * @static
  */
 
-rocky.httpProxy = require('http-proxy')
+Rocky.httpProxy = require('http-proxy')
 
 /**
  * Current rocky version
@@ -75,4 +71,4 @@ rocky.httpProxy = require('http-proxy')
  * @static
  */
 
-rocky.VERSION = require('./package.json').version
+Rocky.VERSION = require('./package.json').version
