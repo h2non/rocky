@@ -223,11 +223,20 @@ In other words, you can create or use middleware as you already know with the ty
 
 As a kind of inversion of control, `rocky` exposes a tiny API in every `http.ClientRequest` passed via the middleware layer:
 
+##### Request
+
 - **req.rocky** `object`
   - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
   - **.proxy** `Rocky` - Expose the rocky instance. Use only for hacking purposes!
   - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
 - **req.stopReplay** `boolean` - Optional field internally checked by `rocky` to stop the request replay process.
+
+##### Response
+
+- **res.rocky** `object`
+  - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
+  - **.proxy** `Rocky` - Expose the rocky instance. Use only for hacking purposes!
+  - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
 
 This allows you way to extend or modify specific values from the middleware layer with HTTP request flow accuracy level, and therefore without having side-effects with other routes.
 
