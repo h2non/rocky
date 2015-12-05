@@ -27,10 +27,10 @@ proxy
 
 // Subscribe to events
 proxy
-  .on('proxy:retry', function (err, res) {
+  .on('proxy:retry', function (err, req, res) {
     console.log('Retry forward request:', err.code)
   })
-  .on('replay:retry', function (err, res) {
+  .on('replay:retry', function (err, req, res) {
     console.log('Retry replay request:', err.code)
   })
 
