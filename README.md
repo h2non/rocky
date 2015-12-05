@@ -918,7 +918,7 @@ Useful to incercept the status or modify the options on-the-fly
 - **replay:error** `opts, err, req, res` - Fired when a replay request fails
 - **replay:end** `params, opts, req` - Fired when a replay request ends
 - **replay:stop** `params, opts, req` - Fired when a replay request process is stopped
-- **replay:retry** `params, opts, req` - Fired before perform a retry request attempt for replay traffic
+- **replay:retry** `err, req, res` - Fired before perform a retry request attempt for replay traffic
 - **server:error** `err, req, res` - Fired on server middleware error. Only available if running as standalone HTTP server
 - **route:missing** `req, res` - Fired on missing route. Only available if running as standalone HTTP server
 
