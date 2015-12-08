@@ -2,7 +2,7 @@
 
 <img align="right" height="160" src="http://s22.postimg.org/f0jmde7o1/rocky.jpg" />
 
-**Full-featured**, **pluggable** **middleware-oriented** **HTTP/S** and **WebSocket proxy** with powerful built-in features such as **versatile routing layer**, **traffic interceptor and replay** to multiple backends, built-in **balancer**, request **retry/backoff** logic, **hierarchical configuration** and [more](#features).
+A multipurpose, **full-featured**, **pluggable** and **hackable** **HTTP/S** and **WebSocket proxy** with powerful built-in features such as **versatile routing layer**, **traffic interceptor and replay** to multiple backends, built-in **balancer**, request **retry/backoff** logic, **hierarchical configuration** and [more](#features).
 
 **rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org).
