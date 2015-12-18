@@ -40,13 +40,18 @@ suite('middleware#toPath', function () {
 
   test('default previous params', function (done) {
     var req = { params: { id: 'chuck', action: 'update' } }
+    var req2 = { params: { id: 'chuck', action: 'delete' } }
     var newPath = '/profile/:id/:action'
     var mw = middleware.toPath(newPath)
 
     mw(req, null, function assert (err) {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal('/profile/chuck/update')
-      done()
+      mw(req2, null, function assert (err) {
+        expect(err).to.be.undefined
+        expect(req2.url).to.be.equal('/profile/chuck/delete')
+        done()
+      })
     })
   })
 
@@ -59,6 +64,29 @@ suite('middleware#toPath', function () {
       expect(err).to.be.undefined
       expect(req.url).to.be.equal('/profile/chuck/')
       done()
+    })
+  })
+
+  test('handling wildcard', function (done) {
+    var req = {
+      originalUrl: '/old-api/method-1',
+      route: { path: '/old-api/*' }
+    }
+    var req2 = {
+      originalUrl: '/old-api/method-2',
+      route: { path: '/old-api/*' }
+    }
+    var newPath = '/new-api/*'
+    var mw = middleware.toPath(newPath)
+
+    mw(req, null, function assert (err) {
+      expect(err).to.be.undefined
+      expect(req.url).to.be.equal('/new-api/method-1')
+      mw(req2, null, function assert (err) {
+        expect(err).to.be.undefined
+        expect(req2.url).to.be.equal('/new-api/method-2')
+        done()
+      })
     })
   })
 })
