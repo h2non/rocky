@@ -790,7 +790,7 @@ suite('http', function () {
       .end(end)
 
     function end (err, res) {
-      expect(err).to.not.be.empty
+      expect(err).to.not.be.null
       expect(spy.calledOnce).to.be.true
       expect(res.statusCode).to.be.equal(502)
       expect(res.body.message).to.match(/^Route not configured/i)
