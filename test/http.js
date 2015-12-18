@@ -47,72 +47,6 @@ suite('http', function () {
     }
   })
 
-  test('proxy forward with retry', function (done) {
-    var spy = sinon.spy()
-
-    proxy = rocky()
-      .forward('http://127.0.0.1:9999')
-      .retry({
-        retries: 3,
-        factor: 2,
-        minTimeout: 100,
-        maxTimeout: 30 * 1000,
-        randomize: true
-      })
-      .on('proxy:retry', spy)
-      .listen(ports.proxy)
-
-    proxy.all('/test')
-
-    supertest(proxyUrl)
-      .get('/test')
-      .expect('Content-Type', 'application/json')
-      .end(assert)
-
-    function assert (err, res) {
-      expect(err).to.not.be.empty
-      expect(res.statusCode).to.be.equal(502)
-      expect(spy.args.length).to.be.equal(3)
-      done()
-    }
-  })
-
-  test('proxy replay with retry', function (done) {
-    var spy = sinon.spy()
-    server = createTestServer()
-
-    proxy = rocky()
-      .forward(targetUrl)
-      .replay('http://127.0.0.1:9999')
-      .retry({
-        retries: 3,
-        factor: 2,
-        minTimeout: 100,
-        maxTimeout: 30 * 1000,
-        randomize: true
-      })
-      .on('replay:retry', assert)
-      .listen(ports.proxy)
-
-    proxy.all('/test')
-
-    supertest(proxyUrl)
-      .post('/test')
-      .send({ hello: 'world' })
-      .expect(200)
-      .expect('Content-Type', 'application/json')
-      .end(noop)
-
-    var calls = 0
-    function assert (err, res) {
-      spy(err, res); calls += 1
-      if (calls < 3) return
-      expect(err.code).to.be.equal('ECONNREFUSED')
-      expect(spy.args.length).to.be.equal(3)
-      done()
-    }
-  })
-
   test('forward and replay', function (done) {
     proxy = rocky()
       .forward(targetUrl)
@@ -278,6 +212,72 @@ suite('http', function () {
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.be.equal(body)
       if (replays > 1) done()
+    }
+  })
+
+  test('proxy forward with retry', function (done) {
+    var spy = sinon.spy()
+
+    proxy = rocky()
+      .forward('http://127.0.0.1:9123')
+      .retry({
+        retries: 3,
+        factor: 2,
+        minTimeout: 100,
+        maxTimeout: 1000,
+        randomize: true
+      })
+      .on('proxy:retry', spy)
+      .listen(ports.proxy)
+
+    proxy.all('/test')
+
+    supertest(proxyUrl)
+      .get('/test')
+      .expect('Content-Type', 'application/json')
+      .end(assert)
+
+    function assert (err, res) {
+      expect(err).to.not.be.null
+      expect(res.statusCode).to.be.equal(502)
+      expect(spy.args.length).to.be.equal(3)
+      done()
+    }
+  })
+
+  test('proxy replay with retry', function (done) {
+    var spy = sinon.spy()
+    server = createTestServer()
+
+    proxy = rocky()
+      .forward(targetUrl)
+      .replay('http://127.0.0.1:9999')
+      .retry({
+        retries: 3,
+        factor: 2,
+        minTimeout: 100,
+        maxTimeout: 30 * 1000,
+        randomize: true
+      })
+      .on('replay:retry', assert)
+      .listen(ports.proxy)
+
+    proxy.all('/test')
+
+    supertest(proxyUrl)
+      .post('/test')
+      .send({ hello: 'world' })
+      .expect(200)
+      .expect('Content-Type', 'application/json')
+      .end(noop)
+
+    var calls = 0
+    function assert (err, res) {
+      spy(err, res); calls += 1
+      if (calls < 3) return
+      expect(err.code).to.be.equal('ECONNREFUSED')
+      expect(spy.args.length).to.be.equal(3)
+      done()
     }
   })
 

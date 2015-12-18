@@ -9,7 +9,7 @@
     "node": ">= 0.12"
   },
   "scripts": {
-    "test": "standard lib/*.js lib/**/*.js test/*.js test/**/*.js --global suite --global test --global beforeEach --global afterEach && mocha --timeout 10000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
+    "test": "standard lib/*.js lib/**/*.js test/*.js test/**/*.js && mocha --timeout 10000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
     "bench": "bash benchmark/run.sh"
   },
   "keywords": [
@@ -61,5 +61,13 @@
     "supertest": "^1.0.1",
     "vhost": "^3.0.0",
     "ws": "^0.8.0"
+  },
+  "standard": {
+    "globals": [
+      "suite",
+      "test",
+      "beforeEach",
+      "afterEach"
+    ]
   }
 }
