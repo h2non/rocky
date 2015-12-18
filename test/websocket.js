@@ -1,8 +1,4 @@
-const fs = require('fs')
 const WebSocket = require('ws')
-const http = require('http')
-const sinon = require('sinon')
-const supertest = require('supertest')
 const expect = require('chai').expect
 const rocky = require('..')
 

@@ -70,6 +70,7 @@ suite('http', function () {
       .end(assert)
 
     function assert (err, res) {
+      expect(err).to.not.be.empty
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args.length).to.be.equal(3)
       done()
@@ -243,7 +244,7 @@ suite('http', function () {
       expect(req.url).to.be.equal('/test')
       expect(res.statusCode).to.be.equal(204)
       expect(req.body).to.be.equal(body)
-      if (replays == 2) done()
+      if (replays === 2) done()
     }
   })
 
@@ -611,7 +612,7 @@ suite('http', function () {
       expect(req.url).to.be.equal('/payload')
       expect(req.body).to.be.equal('{"salutation":"hello world"}')
       expect(res.statusCode).to.be.equal(204)
-      if (calls == 2) done()
+      if (calls === 2) done()
     }
   })
 
@@ -761,6 +762,7 @@ suite('http', function () {
 
     function assert (err, res) {
       var errorMsg = /missing target URL/i
+      expect(err).to.be.null
       expect(spy.calledTwice).to.be.true
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args[0][0].message).to.match(errorMsg)
@@ -787,6 +789,7 @@ suite('http', function () {
       .end(end)
 
     function end (err, res) {
+      expect(err).to.not.be.empty
       expect(spy.calledOnce).to.be.true
       expect(res.statusCode).to.be.equal(502)
       expect(res.body.message).to.match(/^Route not configured/i)
@@ -909,12 +912,12 @@ suite('http', function () {
     replay = createReplayServer(spy)
 
     proxy.options({ replayAfterForward: true })
-    proxy.get('/test')
+    proxy
+      .get('/test')
       .forward('http://invalid')
       .replay(replayUrl)
     proxy.listen(ports.proxy)
 
-    var start = Date.now()
     supertest(proxyUrl)
       .get('/test')
       .expect(502)
@@ -946,6 +949,7 @@ suite('http', function () {
       .end(end)
 
     function end (err, res) {
+      expect(err).to.be.null
       expect(spy.calledTwice).to.be.true
       expect(spy.args[1][0].message).to.match(/ENOTFOUND/)
       done()
@@ -966,12 +970,13 @@ suite('http', function () {
 
     supertest(proxyUrl)
       .get('/test')
-      .expect(404)
+      .expect(502)
       .expect('Content-Type', 'application/json')
       .expect(/Cannot forward/i)
       .end(end)
 
     function end (err, res) {
+      expect(err).to.be.null
       expect(spy.calledTwice).to.be.true
       expect(spy.args[0][0].message).to.match(/Target URL/i)
     }
@@ -1179,6 +1184,7 @@ suite('http', function () {
       .end(end)
 
     function end (err, res) {
+      expect(err).to.not.be.null
       expect(spy.calledOnce).to.be.true
       expect(serverSpy.calledOnce).to.be.true
       expect(err.code).to.be.equal('ECONNRESET')
@@ -1197,9 +1203,9 @@ suite('http', function () {
     var spy2 = sinon.spy()
     var spy3 = sinon.spy()
 
-    var server1 = createServer(9893, 200, spy1)
-    var server2 = createServer(9894, 201, spy2)
-    var server3 = createServer(9895, 202, spy3)
+    createServer(9893, 200, spy1)
+    createServer(9894, 201, spy2)
+    createServer(9895, 202, spy3)
 
     proxy = rocky()
     proxy
@@ -1238,7 +1244,7 @@ suite('http', function () {
     server = createTestServer(assert)
     proxy.get('/test')
 
-    var app = connect()
+    connect()
       .use(proxy.middleware())
       .listen(ports.proxy)
 
@@ -1298,12 +1304,6 @@ function createServer (port, code, assert, timeout) {
 
 function longString (x) {
   return crypto.randomBytes(+x || 1024 * 1024)
-}
-
-function defer (fn, ms) {
-  setTimeout(function () {
-    fn.apply(null, arguments)
-  }, +ms || 10)
 }
 
 function noop () {}

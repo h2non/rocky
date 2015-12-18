@@ -16,7 +16,7 @@ suite('helpers', function () {
 
   test('isRegExp', function () {
     expect(helpers.isRegexp(/0-9/)).to.be.true
-    expect(helpers.isRegexp(new RegExp)).to.be.true
+    expect(helpers.isRegexp(new RegExp())).to.be.true
     expect(helpers.isRegexp(null)).to.be.false
     expect(helpers.isRegexp([])).to.be.false
     expect(helpers.isRegexp({})).to.be.false
@@ -26,9 +26,9 @@ suite('helpers', function () {
   })
 
   test('cloneRequest', function () {
-    var req = new http.IncomingMessage
+    var req = new http.IncomingMessage()
     req.headers = { foo: 'bar' }
-    req.rocky = { options: { foo: { bar: true }} }
+    req.rocky = { options: { foo: { bar: true } } }
 
     var newReq = helpers.cloneRequest(req)
     expect(newReq).to.not.be.equal(req)
@@ -36,7 +36,7 @@ suite('helpers', function () {
     expect(newReq.headers).to.not.be.equal(req.headers)
     expect(newReq.rocky.options).to.not.be.equal(req.rocky.options)
     expect(newReq.rocky.options.foo).to.not.be.equal(req.rocky.options.foo)
-    expect(newReq.__proto__).to.be.equal(req.__proto__)
+    expect(Object.getPrototypeOf(newReq)).to.be.equal(Object.getPrototypeOf(req))
   })
 
   test('permute', function () {
