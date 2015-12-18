@@ -215,7 +215,7 @@ suite('http', function () {
     }
   })
 
-  test.only('proxy forward with retry', function (done) {
+  test('proxy forward with retry', function (done) {
     var spy = sinon.spy()
 
     proxy = rocky()
@@ -230,17 +230,16 @@ suite('http', function () {
       .on('proxy:retry', spy)
       .listen(ports.proxy)
 
-    proxy.all('/test')
+    proxy.get('/test')
 
     supertest(proxyUrl)
       .get('/test')
+      .expect(502)
       .expect('Content-Type', 'application/json')
       .end(assert)
 
     function assert (err, res) {
-      console.log(err)
-      console.log(res)
-      expect(err).to.not.be.null
+      expect(err).to.be.null
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args.length).to.be.equal(3)
       done()
