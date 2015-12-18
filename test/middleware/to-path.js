@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const middleware = require('../../lib/middleware')
 
-suite.only('middleware#toPath', function () {
+suite('middleware#toPath', function () {
   test('overwrite path', function () {
     const req = {}
     const newPath = '/new/path'
