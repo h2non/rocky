@@ -61,4 +61,19 @@ suite('middleware#toPath', function () {
       done()
     })
   })
+
+  test('handling wildcard', function (done) {
+    var req = {
+      originalUrl: '/old-api/method-1',
+      route: { path: '/old-api/*' }
+    }
+    var newPath = '/new-api/*'
+    var mw = middleware.toPath(newPath)
+
+    mw(req, null, function assert (err) {
+      expect(err).to.be.undefined
+      expect(req.url).to.be.equal('/new-api/method-1')
+      done()
+    })
+  })
 })
