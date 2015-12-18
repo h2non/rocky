@@ -215,7 +215,7 @@ suite('http', function () {
     }
   })
 
-  test('proxy forward with retry', function (done) {
+  test.only('proxy forward with retry', function (done) {
     var spy = sinon.spy()
 
     proxy = rocky()
@@ -238,6 +238,8 @@ suite('http', function () {
       .end(assert)
 
     function assert (err, res) {
+      console.log(err)
+      console.log(res)
       expect(err).to.not.be.null
       expect(res.statusCode).to.be.equal(502)
       expect(spy.args.length).to.be.equal(3)
