@@ -219,7 +219,7 @@ suite('http', function () {
     var spy = sinon.spy()
 
     proxy = rocky()
-      .forward('http://127.0.0.1:9123')
+      .forward('http://foobar')
       .retry({
         retries: 3,
         factor: 2,
