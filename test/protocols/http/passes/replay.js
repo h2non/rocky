@@ -15,7 +15,7 @@ suite('replay', function () {
     route.replays = [ 'http://localhost:' + port ]
 
     var opts = {}
-    var req = new http.IncomingMessage(new Socket)
+    var req = new http.IncomingMessage(new Socket())
     req.rocky = {}
     req.push('foo')
     req.push(null)

@@ -2,15 +2,15 @@ const expect = require('chai').expect
 const StubResponse = require('../../../lib/protocols/http/response')
 
 suite('stub response', function () {
-  var res = new StubResponse
-
   test('emitter api', function () {
+    const res = new StubResponse()
     expect(res.on).to.be.a('function')
     expect(res.emit).to.be.a('function')
     expect(res.removeListener).to.be.a('function')
   })
 
   test('headers', function () {
+    const res = new StubResponse()
     res.setHeader('foo', 'bar')
     expect(res.getHeader('foo')).to.be.equal('bar')
     res.removeHeader('foo')
@@ -18,6 +18,7 @@ suite('stub response', function () {
   })
 
   test('write', function () {
+    const res = new StubResponse()
     res.write('foo')
     res.write('bar')
     expect(res._body).to.be.equal('foobar')
@@ -25,28 +26,40 @@ suite('stub response', function () {
   })
 
   test('writeHead', function () {
+    const res = new StubResponse()
     res.writeHead(200)
     expect(res._status).to.be.equal(200)
     expect(res.headerSent).to.be.true
   })
 
   test('cannot write head again', function () {
+    const res = new StubResponse()
+    res.writeHead(200)
+    expect(res._status).to.be.equal(200)
+    expect(res.headerSent).to.be.true
     expect(function () {
       res.writeHead(200)
     }).to.throw(Error)
   })
 
-  test('end', function () {
-    var ended = false
-    res.once('end', function () { ended = true })
+  test('end', function (done) {
+    const res = new StubResponse()
+    res.once('end', function () {
+      expect(res._body).to.be.equal('foo')
+      expect(res.headerSent).to.be.true
+      expect(res._bodySent).to.be.true
+      done()
+    })
+    res.writeHead(200)
     res.end('foo')
-    expect(ended).to.be.true
-    expect(res._body).to.be.equal('foobarfoo')
-    expect(res.headerSent).to.be.true
-    expect(res._bodySent).to.be.true
   })
 
   test('cannot write body again', function () {
+    const res = new StubResponse()
+    res.writeHead(200)
+    expect(res._status).to.be.equal(200)
+    expect(res.headerSent).to.be.true
+    res.end('foo')
     expect(function () {
       res.write('flo')
     }).to.throw(Error)

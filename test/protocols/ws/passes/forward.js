@@ -1,5 +1,4 @@
 const http = require('http')
-const sinon = require('sinon')
 const expect = require('chai').expect
 const WebSocket = require('ws')
 const forward = require('../../../../lib/protocols/ws/passes/forward')
@@ -9,11 +8,10 @@ const targetPort = 8090
 
 suite('forward', function () {
   test('valid', function (done) {
-    var spy = sinon.spy()
     var server = createServer(port, onUpgrade)
     var wss = createWebSocketServer(targetPort)
     var opts = { target: 'http://localhost:' + targetPort }
-    var ws = createWebSocketClient('http://localhost:' + port)
+    createWebSocketClient('http://localhost:' + port)
 
     function onUpgrade (req, socket, head) {
       forward(opts, req, socket, head, assert)

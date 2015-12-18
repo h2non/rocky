@@ -1,14 +1,13 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
-const Emitter = require('events').EventEmitter
 const Base = require('../../../lib/base')
 const Dispatcher = require('../../../lib/protocols/http/dispatcher')
 
 suite('dispatcher', function () {
   test('dispatch', function (done) {
     const spy = sinon.spy()
-    const rocky = new Base
-    const route = new Base
+    const rocky = new Base()
+    const route = new Base()
     const dispatcher = new Dispatcher(rocky, route)
     dispatcher.dispatchConcurrently = spy
 
@@ -33,8 +32,8 @@ suite('dispatcher', function () {
 
   test('dispatch sequentially', function (done) {
     const spy = sinon.spy()
-    const rocky = new Base
-    const route = new Base
+    const rocky = new Base()
+    const route = new Base()
     rocky.sequential()
     const dispatcher = new Dispatcher(rocky, route)
     dispatcher.dispatchSequentially = spy

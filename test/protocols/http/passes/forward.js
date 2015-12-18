@@ -16,7 +16,7 @@ suite('forward', function () {
     var res = new ResponseStub()
     var opts = { target: 'http://localhost:' + port }
 
-    var req = new http.IncomingMessage(new Socket)
+    var req = new http.IncomingMessage(new Socket())
     req.rocky = { options: {} }
     req.push('foo')
     req.push(null)
@@ -43,7 +43,7 @@ suite('forward', function () {
     var res = new ResponseStub()
     var opts = { forwardHost: true, target: 'http://127.0.0.1:' + port }
 
-    var req = new http.IncomingMessage(new Socket)
+    var req = new http.IncomingMessage(new Socket())
     req.rocky = { options: {} }
     req.push('foo')
     req.push(null)

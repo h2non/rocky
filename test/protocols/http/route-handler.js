@@ -8,8 +8,8 @@ const events = require('../../../lib/protocols/http/events')
 suite('route handler', function () {
   test('propagate events', function (done) {
     const spy = sinon.spy()
-    const rocky = new Emitter
-    const route = new Emitter
+    const rocky = new Emitter()
+    const route = new Emitter()
     const length = events.length
     route.useFor = function () {}
 
@@ -33,8 +33,8 @@ suite('route handler', function () {
 
   test('propagate middleware', function (done) {
     const spy = sinon.spy()
-    const rocky = new Base
-    const route = new Base
+    const rocky = new Base()
+    const route = new Base()
     const length = handler.middleware.length
 
     handler(rocky, route)

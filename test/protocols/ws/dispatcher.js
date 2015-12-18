@@ -1,13 +1,12 @@
 const sinon = require('sinon')
 const expect = require('chai').expect
-const Emitter = require('events').EventEmitter
 const Rocky = require('../../../lib/rocky')
 const Dispatcher = require('../../../lib/protocols/ws/dispatcher')
 
 suite('dispatcher', function () {
   test('simple dispatch', function (done) {
     const spy = sinon.spy()
-    const rocky = new Rocky
+    const rocky = new Rocky()
     const dispatcher = new Dispatcher(rocky)
     dispatcher.dispatchConcurrently = spy
 

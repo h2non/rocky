@@ -63,27 +63,30 @@ suite('middleware#toPath', function () {
     })
   })
 
-  test('handling wildcard', function () {
-    const req = {
-      url: '/old-api/method-1',
-      route: { path: '/old-api/*' }
-    }
-    const req2 = {
-      url: '/old-api/method-2',
-      route: { path: '/old-api/*' }
-    }
+  test('wildcard mapping', function () {
+    const tests = [
+      {
+        url: '/old-api/method-1',
+        expect: '/new-api/method-1',
+        route: { path: '/old-api/*' }
+      },
+      {
+        url: '/old-api/method-2',
+        expect: '/new-api/method-2',
+        route: { path: '/old-api/*' }
+      }
+    ]
 
     const newPath = '/new-api/*'
     const mw = middleware.toPath(newPath)
 
-    mw(req, null, function assert (err) {
-      expect(err).to.be.undefined
-      expect(req.url).to.be.equal('/new-api/method-1')
-    })
-
-    mw(req2, null, function assert (err) {
-      expect(err).to.be.undefined
-      expect(req2.url).to.be.equal('/new-api/method-2')
+    tests.forEach(function (req) {
+      const originalUrl = req.url
+      mw(req, null, function assert (err) {
+        expect(err).to.be.undefined
+        expect(req.url).to.be.equal(req.expect)
+        expect(req.originalUrl).to.be.equal(originalUrl)
+      })
     })
   })
 })
