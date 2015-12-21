@@ -25,12 +25,22 @@ suite('helpers', function () {
     expect(helpers.isRegexp(void 0)).to.be.false
   })
 
+  test('once', function () {
+    const spy = sinon.spy()
+    const fn = helpers.once(spy)
+    fn('foo')
+    fn('bar')
+    expect(spy.calledOnce).to.be.true
+    expect(spy.args[0]).to.have.length(1)
+    expect(spy.args[0][0]).to.be.equal('foo')
+  })
+
   test('cloneRequest', function () {
-    var req = new http.IncomingMessage()
+    const req = new http.IncomingMessage()
     req.headers = { foo: 'bar' }
     req.rocky = { options: { foo: { bar: true } } }
 
-    var newReq = helpers.cloneRequest(req)
+    const newReq = helpers.cloneRequest(req)
     expect(newReq).to.not.be.equal(req)
     expect(newReq.rocky).to.not.be.equal(req.rocky)
     expect(newReq.headers).to.not.be.equal(req.headers)
@@ -40,7 +50,7 @@ suite('helpers', function () {
   })
 
   test('permute', function () {
-    var arr = [ 1, 2, 3 ]
+    const arr = [ 1, 2, 3 ]
     expect(arr).to.be.deep.equal([1, 2, 3])
     helpers.permute(arr)
     expect(arr).to.be.deep.equal([2, 3, 1])
@@ -51,8 +61,8 @@ suite('helpers', function () {
   })
 
   test('eachSeries', function (done) {
-    var spy = sinon.spy()
-    var arr = [ 1, 2, 3 ]
+    const spy = sinon.spy()
+    const arr = [ 1, 2, 3 ]
 
     function iterator (value, next) {
       spy(value)
@@ -70,8 +80,8 @@ suite('helpers', function () {
   })
 
   test('eachConcurrently', function (done) {
-    var spy = sinon.spy()
-    var arr = [ 1, 2, 3 ]
+    const spy = sinon.spy()
+    const arr = [ 1, 2, 3 ]
 
     function iterator (value, next) {
       spy(value)

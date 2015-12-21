@@ -44,7 +44,7 @@
     "media-typer": "^0.3.0",
     "midware-pool": "^0.1.1",
     "raw-body": "^2.1.2",
-    "retry": "^0.6.1",
+    "retry": "^0.8.0",
     "router": "^1.1.1"
   },
   "devDependencies": {
