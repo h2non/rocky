@@ -59,7 +59,7 @@ Requires node.js +0.12 or io.js +1.6.
 - Small hackable core designed for extensibility
 - Fluent, elegant and evented [programmatic API](#programmatic-api)
 - Provides a [command-line interface](https://github.com/h2non/rocky-cli) with declarative [configuration file](#configuration-file)
-- Handles properly gzip response, especially when intercepting payloads
+- Handles properly `gzip` responses, especially while intercepting payloads
 
 ## When `rocky` can be useful?
 
