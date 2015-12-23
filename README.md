@@ -6,7 +6,7 @@ A multipurpose, **full-featured**, **pluggable** and **hackable** **HTTP/S** and
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). 
 
 **rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
-`rocky` is framework agnostic, but you can plug in with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com) apps.
+It's is framework agnostic, but you can plug in with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com) apps.
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
 
