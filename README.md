@@ -6,9 +6,9 @@ A multipurpose, **full-featured**, **pluggable** and **hackable** **HTTP/S** and
 Built for [node.js](http://nodejs.org)/[io.js](https://iojs.org). 
 
 **rocky** can be fluently used [programmatically](#programmatic-api) or via [command-line](#command-line) interface.
-It's is framework agnostic, but you can plug in with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com) apps.
+It's is framework agnostic, but you can optionally plug in with [connect](https://github.com/senchalabs/connect)/[express](http://expressjs.com) apps.
 
-To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples)
+To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples).
 
 Requires node.js +0.12 or io.js +1.6.
 
@@ -226,19 +226,17 @@ As a kind of inversion of control, `rocky` exposes a tiny API in every `http.Cli
 ##### Request
 
 - **req.rocky** `object`
-  - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
-  - **.proxy** `Rocky` - Expose the rocky instance. Use only for hacking purposes!
-  - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
+  - **.options** `object` - Exposes the [configuration](#configuration) options for the current request.
+  - **.proxy** `Rocky` - Exposes the rocky instance. Use only for hacking purposes!
+  - **.route** `Route` - Exposes the current running route. Only available in `route` type middleware
 - **req.stopReplay** `boolean` - Optional field internally checked by `rocky` to stop the request replay process.
 
 ##### Response
 
 - **res.rocky** `object`
-  - **.options** `object` - Expose the [configuration](#configuration) options for the current request.
-  - **.proxy** `Rocky` - Expose the rocky instance. Use only for hacking purposes!
-  - **.route** `Route` - Expose the current running route. Only available in `route` type middleware
-
-This allows you way to extend or modify specific values from the middleware layer with HTTP request flow accuracy level, and therefore without having side-effects with other routes.
+  - **.options** `object` - Exposes the [configuration](#configuration) options for the current request.
+  - **.proxy** `Rocky` - Exposes the rocky instance. Use only for hacking purposes!
+  - **.route** `Route` - Exposes the current running route. Only available in `route` type middleware
 
 Example replacing the target server URL:
 ```js
