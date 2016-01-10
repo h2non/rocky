@@ -51,16 +51,15 @@ Status Codes  [code:count]      200:1000
 
 ##### Forward with payload (~2KB) (50 req/sec)
 ```
-# Running benchmark suite: forward-with-payload
+# Running benchmark suite: forward with payload
 Requests  [total]       500
-Duration  [total, attack, wait]   30.315355131s, 9.977039119s, 20.338316012s
-Latencies [mean, 50, 95, 99, max]   65.426632ms, 4.833072ms, 14.526289ms, 29.996591075s, 29.996591075s
-Bytes In  [total, mean]     6586, 13.17
-Bytes Out [total, mean]     116857317, 233714.63
-Success   [ratio]       90.60%
-Status Codes  [code:count]      200:453  502:47
+Duration  [total, attack, wait]   9.993976759s, 9.980336329s, 13.64043ms
+Latencies [mean, 50, 95, 99, max]   24.192313ms, 16.084827ms, 95.600946ms, 145.897666ms, 145.897666ms
+Bytes In  [total, mean]     6000, 12.00
+Bytes Out [total, mean]     861500, 1723.00
+Success   [ratio]       100.00%
+Status Codes  [code:count]      200:500
 Error Set:
-502 Bad Gateway
 ```
 
 ##### Replay with payload (~2KB) (50 req/sec)
