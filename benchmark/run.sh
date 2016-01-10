@@ -69,7 +69,7 @@ post_benchmark() {
   echo "POST $url" \
   | vegeta attack \
     -duration=$duration \
-    -rate=40 \
+    -rate=50 \
     -timeout=60s \
     -body="../test/fixtures/$1.json" \
   | vegeta report
