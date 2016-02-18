@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "Full-featured, middleware-oriented, hackable HTTP and WebSocket proxy",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
@@ -58,7 +58,7 @@
     "rocky-consul": "^0.1.0",
     "sinon": "^1.15.3",
     "standard": "^5.4.1",
-    "supertest": "^1.0.1",
+    "supertest": "^1.2",
     "vhost": "^3.0.0",
     "ws": "^0.8.0"
   },

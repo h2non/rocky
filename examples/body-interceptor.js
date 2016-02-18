@@ -30,10 +30,13 @@ const route = proxy
     // Get the body buffer and parse it (assuming it's a JSON)
     const body = JSON.parse(req.body.toString())
 
+    // Or alternatively you can use the already parsed JSON
+    const json = req.json
+
     // Compose the new body
     const newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
 
-    // Set the new body
+    // Set the new body (must be a string or buffer)
     next(null, newBody, 'utf8')
   }, function (req) {
     // Custom filter
@@ -45,10 +48,13 @@ const route = proxy
     // Get the body buffer and parse it (assuming it's a JSON)
     const body = JSON.parse(res.body.toString())
 
+    // Or alternatively you can use the already parsed JSON
+    const json = res.json
+
     // Compose the new body
     const newBody = JSON.stringify({ greetings: body.salutation })
 
-    // Set the new body
+    // Set the new body (must be a string or buffer)
     next(null, newBody, 'utf8')
 
   // Or even you can use write() as well:

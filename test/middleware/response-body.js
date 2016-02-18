@@ -12,6 +12,7 @@ suite('middleware#responseBody', function () {
       setHeader: noop,
       write: noop,
       end: noop,
+      connection: { cork: function () {} },
       getHeader: function () { return 'application/json' }
     })
   })
@@ -40,7 +41,6 @@ suite('middleware#responseBody', function () {
     }
 
     middleware.responseBody(middlewareFn)(req, res, noop)
-
     writeData()
   })
 
@@ -55,7 +55,6 @@ suite('middleware#responseBody', function () {
     }
 
     middleware.responseBody(middlewareFn, filter)(req, res, noop)
-
     writeData()
   })
 })
