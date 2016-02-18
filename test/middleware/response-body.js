@@ -41,7 +41,6 @@ suite('middleware#responseBody', function () {
     }
 
     middleware.responseBody(middlewareFn)(req, res, noop)
-
     writeData()
   })
 
@@ -56,7 +55,6 @@ suite('middleware#responseBody', function () {
     }
 
     middleware.responseBody(middlewareFn, filter)(req, res, noop)
-
     writeData()
   })
 })
