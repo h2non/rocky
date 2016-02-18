@@ -215,8 +215,8 @@ suite('http', function () {
     }
   })
 
-  test('proxy forward with retry', function (done) {
-    // Temporary disabled for node.js +5.6
+  // Temporary disabled due to stream incompatibilities with latest node versions
+  test.skip('proxy forward with retry', function (done) {
     var v = process.version.slice(1)
     if (+v.charAt(0) === 5 && +v.charAt(2) >= 6) return done()
 
@@ -251,7 +251,8 @@ suite('http', function () {
     }
   })
 
-  test('proxy replay with retry', function (done) {
+  // Temporary disabled due to stream incompatibilities with latest node versions
+  test.skip('proxy replay with retry', function (done) {
     var spy = sinon.spy()
     server = createTestServer()
 

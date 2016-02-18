@@ -12,6 +12,7 @@ suite('middleware#responseBody', function () {
       setHeader: noop,
       write: noop,
       end: noop,
+      connection: { cork: function () {} },
       getHeader: function () { return 'application/json' }
     })
   })

@@ -21,12 +21,19 @@ proxy
   // Add middleware to transform the response
   .use(function transformer (req, res, next) {
     // Get the body buffer and parse it (assuming it's a JSON)
+    const json = req.json
+
+    // Or alternatively you get and parse the buffer as JSON
     const body = JSON.parse(req.body.toString())
 
     // Compose the new body
-    const newBody = JSON.stringify({ salutation: 'hello ' + body.hello })
+    const newJSON = { salutation: 'hello ' + json.hello }
+    const newBody = JSON.stringify(newJSON)
 
-    // Set the new body
+    // Update the pre-parsed JSON for subsequent middleware functions
+    req.json = newJSON
+
+    // IMPORTANT: set the new body (must be a string or buffer)
     req.body = newBody
 
     // Continue processing the request
