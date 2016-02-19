@@ -1,6 +1,6 @@
 {
   "name": "rocky",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "description": "Full-featured, middleware-oriented, hackable HTTP and WebSocket proxy",
   "repository": "h2non/rocky",
   "author": "Tomas Aparicio",
