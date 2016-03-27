@@ -60,7 +60,7 @@ Note that `retry` feature is temporary not supported in latest `node.js` version
 - Small hackable core designed for extensibility
 - Fluent, elegant and evented [programmatic API](#programmatic-api)
 - Provides a [command-line interface](https://github.com/h2non/rocky-cli) with declarative [configuration file](#configuration-file)
-- Handles properly `gzip` responses, especially while intercepting payloads
+- Handles properly `gzip` responses, especially when intercepting payloads
 
 ## When `rocky` can be useful?
 
