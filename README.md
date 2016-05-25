@@ -44,7 +44,7 @@ Note that `retry` feature is temporary not supported in latest `node.js` version
 ## Features
 
 - Full-featured HTTP/S proxy (backed by [http-proxy](https://github.com/nodejitsu/node-http-proxy))
-- Supports WebSocket protocol proxy (replay not support yet)
+- Supports WebSocket protocol proxy (replay not supported yet)
 - Able to replay traffic to multiple backends (concurrently or sequentially)
 - Able to intercept HTTP requests and responses and modify them on-the-fly
 - Featured built-in path based router with params matching
@@ -53,7 +53,7 @@ Note that `retry` feature is temporary not supported in latest `node.js` version
 - Nested configuration per global/route scopes and forward/replay phases
 - Hierarchial middleware layer supporting different HTTP traffic flow phases
 - Easily integrable with connect/express via middleware
-- Able to run as standalone HTTP/S server (without connect/express)
+- Able to run as standalone HTTP/S server (no connect/express, uses `http` module)
 - Compatible with most of the existent connect/express middleware
 - Powerful programmatic control supporting dynamic configurations and zero-downtime
 - Supports both concurrent and sequential HTTP traffic flow modes
