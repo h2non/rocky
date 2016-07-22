@@ -10,8 +10,7 @@ It's framework agnostic, but you can optionally plug in with [connect](https://g
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples).
 
-Requires node.js +0.12 or io.js +1.6. node.js +6 is currently not supported.
-Note that `retry` feature is temporary not supported in latest `node.js` versions.
+**Note**: Requires node.js +0.12 or io.js +1.6. node.js +6 is currently not supported. `retry` feature is temporary not supported in latest `node.js` versions.
 
 ## Contents
 
