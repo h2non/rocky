@@ -426,7 +426,7 @@ suite('http', function () {
     }
   })
 
-  test('response middleware', function (done) {
+  test.only('response middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer()
 
