@@ -636,6 +636,9 @@ Return: [`Route`](#routepath)
 
 Add a route handler for the given path for all HTTP methods
 
+#### rocky#route(method, path, [ ...middleware ])
+Return: [`Route`](#routepath)
+
 #### rocky#get(path, [ ...middleware ])
 Return: [`Route`](#routepath)
 
