@@ -11,7 +11,7 @@ const ignore = [ 'README.md' ]
 
 suite('examples', function () {
   test('run examples', function (done) {
-    this.timeout(30 * 1000)
+    this.timeout(60 * 1000)
 
     var files = fs.readdirSync(examplesDir)
     eachSeries(files, function (file, next) {
