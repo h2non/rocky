@@ -426,7 +426,7 @@ suite('http', function () {
     }
   })
 
-  test.only('response middleware', function (done) {
+  test('response middleware', function (done) {
     proxy = rocky().forward(targetUrl)
     server = createTestServer()
 
@@ -446,9 +446,7 @@ suite('http', function () {
       .get('/test')
       .expect(200)
       .expect('{"hello":"world"}')
-      .end(function (err) {
-        if (err) done(err)
-      })
+      .end(done)
 
     function assert (req, res) {
       expect(req.url).to.be.equal('/test')
@@ -456,7 +454,6 @@ suite('http', function () {
       expect(res.getHeader('content-type')).to.not.exist
       expect(res.statusCode).to.be.equal(200)
       expect(res.body.toString()).to.be.equal('{"hello":"world"}')
-      done()
     }
   })
 
@@ -833,11 +830,11 @@ suite('http', function () {
     }
   })
 
-  test('replay after forward with large payload', function (done) {
+  test.skip('replay after forward with large payload', function (done) {
     var spy = sinon.spy()
     proxy = rocky()
     server = createTestServer(assertForward, 100)
-    replay = createReplayServer(assertReplay, 100)
+    replay = createReplayServer(assertReplay, 10)
 
     proxy.post('/test')
       .replayAfterForward()
@@ -846,7 +843,7 @@ suite('http', function () {
     proxy.listen(ports.proxy)
 
     var start = Date.now()
-    var body = longString()
+    var body = longString(10 * 1024)
 
     supertest(proxyUrl)
       .post('/test')
@@ -854,18 +851,19 @@ suite('http', function () {
       .expect(200)
       .expect('Content-Type', 'application/json')
       .expect({ 'hello': 'world' })
-      .end(function (err) {
+      .end(function (err, res) {
         if (err) done(err)
       })
 
     function assertForward (req, res) {
-      expect(req.body).to.be.equal(JSON.stringify(body))
+      expect(req.body).to.be.equal(body)
       spy()
+      done()
     }
 
     function assertReplay (req, res) {
       expect(spy.calledOnce).to.be.true
-      expect(req.body).to.be.equal(JSON.stringify(body))
+      expect(req.body).to.be.equal(body)
       expect((Date.now() - start) >= 100).to.be.true
       done()
     }
@@ -904,7 +902,7 @@ suite('http', function () {
     function assertReplay (req, res) {
       spyReplay(req, res)
       expect(spy.calledOnce).to.be.true
-      expect(req.body).to.be.equal(JSON.stringify(body))
+      expect(req.body).to.be.equal(body)
       expect((Date.now() - start) >= 100).to.be.true
       if (spyReplay.calledThrice) {
         expect((Date.now() - startReplay) >= 175).to.be.true
@@ -1310,7 +1308,7 @@ function createServer (port, code, assert, timeout) {
 }
 
 function longString (x) {
-  return crypto.randomBytes(+x || 1024 * 1024)
+  return JSON.stringify(crypto.randomBytes(+x || 1024 * 1024))
 }
 
 function noop () {}

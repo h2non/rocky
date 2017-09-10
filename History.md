@@ -1,4 +1,10 @@
 
+v0.4.14 / 2017-09-10
+====================
+
+  * feat(version): bump version
+  * fix(response): fix response middleware
+
 v0.4.13 / 2017-02-21
 ====================
 

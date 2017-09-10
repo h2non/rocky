@@ -12,6 +12,7 @@ suite('middleware#responseBody', function () {
       setHeader: noop,
       write: noop,
       end: noop,
+      socket: { uncork: noop },
       connection: { cork: function () {} },
       getHeader: function () { return 'application/json' }
     })
@@ -19,7 +20,11 @@ suite('middleware#responseBody', function () {
 
   beforeEach(function () {
     req = new Emitter()
-    req.socket = { destroyed: false }
+    req.socket = {
+      destroyed: false,
+      once: noop,
+      removeListener: noop
+    }
   })
 
   function middlewareFn (req, res, next) {
