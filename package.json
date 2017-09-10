@@ -10,7 +10,7 @@
   },
   "scripts": {
     "lint": "standard 'lib/**/*.js' 'test/**/*.js'",
-    "test": "mocha --timeout 30000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
+    "test": "npm run lint && mocha --timeout 30000 --bail --reporter spec --ui tdd test/*.js test/*/*.js test/*/*/*.js",
     "bench": "bash benchmark/run.sh"
   },
   "keywords": [
