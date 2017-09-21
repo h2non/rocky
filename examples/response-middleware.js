@@ -30,6 +30,7 @@ const route = proxy
     next()
   })
   .useResponse(function (req, res, next) {
+    console.log('response:', res.statusCode)
     res.setHeader('Powered-By', 'rocky')
     console.log('Modified body:', res.body.toString())
     next()
