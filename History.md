@@ -1,4 +1,9 @@
 
+v0.4.15 / 2017-09-21
+====================
+
+  * fix(#113): explicitly define response status code in response middleware
+
 v0.4.14 / 2017-09-10
 ====================
 
