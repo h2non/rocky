@@ -10,7 +10,11 @@ It's framework agnostic, but you can optionally plug in with [connect](https://g
 
 To get started, take a look to [how does it work](#how-does-it-work), [basic usage](#usage), [middleware layer](#middleware-layer) and [examples](/examples).
 
-**Note**: `retry` feature is temporary not supported in latest `node.js` versions.
+**Note**: `retry` feature is temporary not available in latest `node.js` versions.
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/1MpD3pzt63uUeG43NP4tDHPY/h2non/rocky'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/1MpD3pzt63uUeG43NP4tDHPY/h2non/rocky.svg' />
+</a>
 
 ## Contents
 
