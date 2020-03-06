@@ -6,7 +6,7 @@
   "author": "Tomas Aparicio",
   "license": "MIT",
   "engines": {
-    "node": ">= 4"
+    "node": ">= 8"
   },
   "scripts": {
     "lint": "standard 'lib/**/*.js' 'test/**/*.js'",
