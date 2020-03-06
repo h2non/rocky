@@ -41,7 +41,7 @@
     "http-proxy": "^1.16.2",
     "indexport": "^0.1.1",
     "is-fail": "^0.1.1",
-    "lodash": "^3.9.3",
+    "lodash": "^4.17.15",
     "media-typer": "^0.3.0",
     "midware-pool": "^0.1.1",
     "raw-body": "^2.1.2",
