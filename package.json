@@ -61,7 +61,7 @@
     "standard": "^5.4.1",
     "supertest": "^3",
     "vhost": "^3.0.0",
-    "ws": "^0.8.0"
+    "ws": "^7.2.1"
   },
   "standard": {
     "globals": [
