@@ -50,7 +50,7 @@ To get started, take a look to [how does it work](#how-does-it-work), [basic usa
 - Built-in load balancer
 - Built-in HTTP traffic retry/backoff
 - Nested configuration per global/route scopes and forward/replay phases
-- Hierarchial middleware layer supporting different HTTP traffic flow phases
+- Hierarchical middleware layer supporting different HTTP traffic flow phases
 - Easily integrable with connect/express via middleware
 - Able to run as standalone HTTP/S server (no connect/express, uses `http` module)
 - Compatible with most of the existent connect/express middleware
@@ -66,7 +66,7 @@ To get started, take a look to [how does it work](#how-does-it-work), [basic usa
 - As intermediate proxy for service migrations (e.g: APIs)
 - Replaying traffic to one or multiple backends
 - As reverse proxy to forward traffic to one o multiple servers.
-- As Man-in-the-Middle proxy interceptoring and transforming the request/response on-the-fly
+- As Man-in-the-Middle proxy intercepting and transforming the request/response on-the-fly
 - As intermediate HTTP proxy adapter for external services integrations
 - As HTTP [API gateway](http://microservices.io/patterns/apigateway.html)
 - As standard reverse HTTP proxy with dynamic routing
@@ -144,8 +144,8 @@ The middleware layer provides a simple and consistent way to augment the proxy f
 
 `rocky` supports multiple middleware hierarchies:
 
-- **global** - Dispached on every incoming request matched by the router
-- **route** - Dispached only at route scope
+- **global** - Dispatched on every incoming request matched by the router
+- **route** - Dispatched only at route scope
 
 ### Types of middleware
 
@@ -153,7 +153,7 @@ The middleware layer provides a simple and consistent way to augment the proxy f
 This was introduced in order to achieve in a more responsive way multiple traffic flows in the specific scope
 and behavior nature of a programmatic HTTP proxy with traffic replay.
 
-Those flows are intrinsicly correlated but might be handled in a completely different way.
+Those flows are intrinsically correlated but might be handled in a completely different way.
 The goal is to allowing you to handle them accordingly, acting in the middle of those phases to augment some functionality or react to some event with better accuracy.
 
 **Supported types of middleware**:
@@ -167,25 +167,25 @@ The goal is to allowing you to handle them accordingly, acting in the middle of 
 ##### forward
 
 - **Scope**: `global`, `route`
-- **Description**: Dispached before forwarding an incoming request.
+- **Description**: Dispatched before forwarding an incoming request.
 - **Notation**: `.useForward(function (req, res, next))`
 
 ##### replay
 
 - **Scope**: `global`, `route`
-- **Description**: Dispached before starting each replay request.
+- **Description**: Dispatched before starting each replay request.
 - **Notation**: `.useReplay(function (req, res, next))`
 
 ##### response
 
 - **Scope**: `global`, `route`
-- **Description**: Dispached on server response. Only applicable in `forward` traffic.
+- **Description**: Dispatched on server response. Only applicable in `forward` traffic.
 - **Notation**: `.useResponse(function (req, res, next))`
 
 ##### param
 
 - **Scope**: `global`
-- **Description**: Dispached on every matched param on any route.
+- **Description**: Dispatched on every matched param on any route.
 - **Notation**: `.useParam(function (req, res, next))`
 
 ### Middleware flow
@@ -218,7 +218,7 @@ The following diagram represents the internal incoming request flow and how the 
 
 ### Middleware API
 
-Middleware layer behavies and has the same interface as connect/express.
+Middleware layer behaves and has the same interface as connect/express.
 In other words, you can create or use middleware as you already know with the typical notation `function(req, res, next)`
 
 As a kind of inversion of control, `rocky` exposes a tiny API in every `http.ClientRequest` passed via the middleware layer:
@@ -441,7 +441,7 @@ proxy
   .forward('http://another.server')
   // Use a custom middleware for validation purposes
   .use(function (req, res, next) {
-    if (req.headers['Autorization'] !== 'Bearer 012345678') {
+    if (req.headers['Authorization'] !== 'Bearer 012345678') {
       res.statusCode = 401
       return res.end()
     }
@@ -687,9 +687,9 @@ Additionally you can pass an `object` with additional params to add or a middlew
 
 Add/extend custom headers to the incoming request before forward/replay it.
 
-#### rocky#timeout(miliseconds)
+#### rocky#timeout(milliseconds)
 
-Define a custom timeout for forward/replay traffic in miliseconds.
+Define a custom timeout for forward/replay traffic in milliseconds.
 
 #### rocky#router
 
@@ -739,9 +739,9 @@ If used, `body` param must be a `string` or `buffer`
 Unregister the current route.
 If the route if matched by the router, it will be ignored, continuing to the next route in the stack.
 
-#### route#timeout(miliseconds)
+#### route#timeout(milliseconds)
 
-Define a custom timeout for forward/replay traffic in miliseconds.
+Define a custom timeout for forward/replay traffic in milliseconds.
 
 #### route#toPath(url, [ params ])
 
@@ -817,7 +817,7 @@ Note: use it only for small payloads, since the whole body will be buffered in m
 #### route#transformRequest(middleware, [ filter ])
 Alias: `transformRequestBody()`
 
-This method implements a non-instrusive native `http.IncommingMessage` stream wrapper that allow you to intercept and transform the request body received from the client before sending it to the target server.
+This method implements a non-instrusive native `http.IncomingMessage` stream wrapper that allow you to intercept and transform the request body received from the client before sending it to the target server.
 
 The `middleware` argument must a function which accepts the following arguments: `function(req, res, next)`
 The `filter` arguments is optional and it can be a `string`, `regexp` or `function(req)` which should return `boolean` if the `request` passes the filter. The default check value by `string` or `regexp` test is the `Content-Type` header.
@@ -906,7 +906,7 @@ for dynamic middleware configurations instead of using the shortcut methods such
 #### route#on(event, ...handler)
 
 Subscribes to a specific event for the given route.
-Useful to incercept the status or modify the options on-the-fly
+Useful to intercept the status or modify the options on-the-fly
 
 ##### Events
 
@@ -941,7 +941,7 @@ Exposes the [MiddlewarePool](#rockymiddlewarepool) instance used for the route s
 
 Expose the built-in internal middleware [functions](/lib/middleware).
 
-You can reuse them as standard middleware in diferent ways, like this:
+You can reuse them as standard middleware in different ways, like this:
 ```js
 rocky()
   .all('/*')
